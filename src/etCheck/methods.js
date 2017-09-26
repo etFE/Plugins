@@ -4,29 +4,23 @@
  */
 function Methods(check) {
     const obj = {
-        setCheck: function (fn) {
+        setCheck: (fn) => {
             check.iCheck('check', fn);
-            return this;
         },
-        setUncheck: function (fn) {
+        setUncheck: (fn) => {
             check.iCheck('uncheck', fn);
-            return this;
         },
-        setToggle: function (fn) {
+        setToggle: (fn) => {
             check.iCheck('toggle', fn);
-            return this;
         },
-        setDisable: function (fn) {
+        setDisable: (fn) => {
             check.iCheck('disable', fn);
-            return this;
         },
-        setEnable: function (fn) {
+        setEnable: (fn) => {
             check.iCheck('enable', fn);
-            return this;
         },
-        setUpdate: function (fn) {
+        setUpdate: (fn) => {
             check.iCheck('update', fn);
-            return this;
         }
     };
 
