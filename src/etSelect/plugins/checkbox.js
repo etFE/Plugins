@@ -1,7 +1,7 @@
 const plugins = function (thisRef, options) {
     const self = thisRef;
     const fieldLabel = self.settings.labelField;
-    const fieldOptGroup = self.settings.optgroupLabelField;
+    // const fieldOptGroup = self.settings.optgroupLabelField;
     self.settings.render = {
         option: (data, escape) => {
             const ret = `<div class="option option-checkbox" title="${escape(data[fieldLabel])}">
@@ -34,17 +34,9 @@ const plugins = function (thisRef, options) {
                 $checkboxs.attr('data-checked', !isChecked);
 
                 if (!isChecked) {
-                    for (let key in self.options) {
-                        if (self.options.hasOwnProperty(key)) {
-                            self.addItem(key);
-                        }
-                    }
+                    self.addItems(Object.keys(self.options));
                 } else {
-                    for (let key in self.options) {
-                        if (self.options.hasOwnProperty(key)) {
-                            self.removeItem(key);
-                        }
-                    }
+                    self.clear();
                 }
             });
             self.$dropdown.prepend(self.$dropdown_header);
@@ -76,7 +68,6 @@ const plugins = function (thisRef, options) {
     // 重置只是为了让input一直定位在前面。只改了i的赋值
     self.setCaret = function () {
         let i = 0;
-        let self = this;
 
         if (self.settings.mode === 'single') {
             i = self.items.length;
@@ -85,9 +76,9 @@ const plugins = function (thisRef, options) {
         }
 
         if (!self.isPending) {
-            var j, n, fn, $children, $child;
-            $children = self.$control.children(':not(input)');
-            for (j = 0, n = $children.length; j < n; j++) {
+            let $child;
+            const $children = self.$control.children(':not(input)');
+            for (let j = 0, n = $children.length; j < n; j++) {
                 $child = $($children[j]).detach();
                 if (j < i) {
                     self.$control_input.before($child);

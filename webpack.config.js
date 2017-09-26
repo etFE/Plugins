@@ -1,6 +1,11 @@
+const ProgressbarWebpack = require('progress-bar-webpack-plugin');
+const Webpack = require('webpack');
+
+const dateTime = new Date();
 const config = {
     entry: {
-        etSelect: `${__dirname}/src/etSelect`
+        etSelect: `${__dirname}/src/etSelect`,
+        etCheck: `${__dirname}/src/etCheck`
     },
     output: {
         path: `${__dirname}/public`,
@@ -22,8 +27,11 @@ const config = {
     // devtool: 'cheap-source-map',
     externals: {
         jquery: 'jQuery'
-    }
-
+    },
+    plugins: [
+        new ProgressbarWebpack(),
+        new Webpack.BannerPlugin(`[name]   ${dateTime}`)
+    ]
 };
 
 module.exports = config;
