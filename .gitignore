@@ -58,3 +58,4 @@ typings/
 .env
 
 public/*
+src/index.html
