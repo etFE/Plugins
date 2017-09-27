@@ -5,16 +5,23 @@ const dateTime = new Date();
 const config = {
     entry: {
         etSelect: `${__dirname}/src/etSelect`,
-        etCheck: `${__dirname}/src/etCheck`
+        etCheck: `${__dirname}/src/etCheck`,
+        etTab: `${__dirname}/src/etTab`
     },
     output: {
         path: `${__dirname}/public`,
         filename: '[name].min.js'
     },
+    devServer: {
+        contentBase: './src',
+        historyApiFallback: true,
+        inline: true
+    },
     module: {
         loaders: [
             { test: /\.css$/, loader: 'style-loader!css-loader' },
             { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
+            { test: /\.scss$/, loader: 'style-loader!css-loader!sass-loader' },
             { test: /\.(gif|jpg|png)\??.*$/, loader: 'url-loader?limit=25000' },
             { test: /\.svg/, loader: 'svg-url-loader' },
             {
