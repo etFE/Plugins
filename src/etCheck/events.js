@@ -14,8 +14,8 @@ function Events($self, opts) {
     checkObj.options = opts;
 
     $self.on('ifCreated', () => {
-        if (opts.created) {
-            opts.created();
+        if (typeof opts.onInit === 'function') {
+            opts.onInit();
         }
 
         // 设置状态
@@ -32,20 +32,20 @@ function Events($self, opts) {
     });
     // 被销毁时
     $self.on('ifDestroyed', () => {
-        if (opts.destroyed) {
-            opts.destroyed();
+        if (typeof opts.onDestroy === 'function') {
+            opts.onDestroy();
         }
     });
     // 选择时
     $self.on('ifChecked', () => {
-        if (opts.ifChecked) {
-            opts.ifChecked();
+        if (typeof opts.onCheck === 'function') {
+            opts.onCheck();
         }
     });
     // 取消选择时
     $self.on('ifUnchecked', () => {
-        if (opts.ifUnchecked) {
-            opts.ifUnchecked();
+        if (opts.onUnCheck === 'function') {
+            opts.onUnCheck();
         }
     });
     // 被禁用时
@@ -56,14 +56,14 @@ function Events($self, opts) {
     });
     // 被启用时
     $self.on('ifEnabled', () => {
-        if (opts.ifEnabled) {
-            opts.ifEnabled();
+        if (typeof opts.onEnable === 'function') {
+            opts.onEnable();
         }
     });
     // 点击时。
     $self.on('ifClicked', () => {
-        if (opts.ifClicked) {
-            opts.ifClicked();
+        if (typeof opts.onClick === 'function') {
+            opts.onClick();
         }
     });
     // 状态改变时
@@ -79,8 +79,8 @@ function Events($self, opts) {
             }
             checkObj.disabled = false;
         }
-        if (opts.ifChanged) {
-            opts.ifChanged(checkObj.status, checkObj.checked, checkObj.disabled);
+        if (typeof opts.onChange === 'function') {
+            opts.onChange(checkObj.status, checkObj.checked, checkObj.disabled);
         }
     });
     // toggle。因为click 》toggle 》change。在click时状态还未附上。所以状态判断放这里
@@ -92,8 +92,8 @@ function Events($self, opts) {
             checkObj.status = 'unchecked';
             checkObj.checked = false;
         }
-        if (opts.ifToggled) {
-            opts.ifToggled(checkObj.checked);
+        if (typeof opts.onToggle === 'function') {
+            opts.onToggle(checkObj.checked);
         }
     });
     return checkObj;

@@ -12,7 +12,8 @@ module.exports = {
         "eol-last": 0,
         "no-plusplus": 0,
         "prefer-rest-params": 0,
-        "object-shorthand": 0
+        "object-shorthand": 0,
+        "import/no-extraneous-dependencies": 0
     },
     "env": {
         "node": true,

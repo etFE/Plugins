@@ -14,14 +14,16 @@ import initEvent from './events';
         const methods = initMethod($self);
 
         /**
+         * 构造事件
+         */
+        const checkObj = initEvent($self, opts);
+
+        /**
          * 构造组件
          */
         const $check = $self.iCheck(opts);
 
-        /**
-         * 构造事件
-         */
-        const checkObj = initEvent($self, opts);
+
         checkObj.$el = $check;
 
         return $.extend(checkObj, methods);
