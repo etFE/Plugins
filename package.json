@@ -7,7 +7,8 @@
     "build": "webpack -p",
     "server": "webpack-dev-server --hot --inline --open",
     "watch": "webpack -p --watch",
-    "eslint": "eslint src/**/*.js"
+    "eslint": "eslint src/**/*.js",
+    "mock": "node api/server.js"
   },
   "keywords": [],
   "author": "",
@@ -23,8 +24,12 @@
     "html-webpack-plugin": "^2.30.1",
     "less": "^2.7.2",
     "less-loader": "^4.0.5",
+<<<<<<< Updated upstream
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
+=======
+    "mockjs": "^1.0.1-beta3",
+>>>>>>> Stashed changes
     "progress-bar-webpack-plugin": "^1.10.0",
     "style-loader": "^0.18.2",
     "svg-url-loader": "^2.1.1",
@@ -34,6 +39,7 @@
   },
   "dependencies": {
     "icheck": "^1.0.2",
+    "restify": "^6.0.1",
     "selectize": "^0.12.4"
   }
 }
