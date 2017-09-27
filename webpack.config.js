@@ -5,11 +5,17 @@ const dateTime = new Date();
 const config = {
     entry: {
         etSelect: `${__dirname}/src/etSelect`,
-        etCheck: `${__dirname}/src/etCheck`
+        etCheck: `${__dirname}/src/etCheck`,
+        etTab: `${__dirname}/src/etTab`
     },
     output: {
         path: `${__dirname}/public`,
         filename: '[name].min.js'
+    },
+    devServer: {
+        contentBase: './src',
+        historyApiFallback: true,
+        inline: true
     },
     module: {
         loaders: [
