@@ -6,10 +6,10 @@ import initMethods from './methods';
 
 !(function ($) {
     $.fn.etSelect = function (options) {
-        console.error(123);
         // 合并参数
         const opts = $.extend(true, {}, defaultOptions, options);
         const $self = this;
+
         // 复选框模式
         if (opts.checkboxMode) {
             opts.maxItems = 'null';
