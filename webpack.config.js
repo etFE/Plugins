@@ -15,6 +15,7 @@ const config = {
         loaders: [
             { test: /\.css$/, loader: 'style-loader!css-loader' },
             { test: /\.less$/, loader: 'style-loader!css-loader!less-loader' },
+            { test: /\.sass$/, loader: 'style-loader!css-loader!sass-loader' },
             { test: /\.(gif|jpg|png)\??.*$/, loader: 'url-loader?limit=25000' },
             { test: /\.svg/, loader: 'svg-url-loader' },
             {
