@@ -1,6 +1,6 @@
 const config = {
     entry: {
-        etSelect: `${__dirname}/src/etSelect`
+        etGrid: `${__dirname}/src/etGrid`
     },
     output: {
         path: `${__dirname}/public`,

@@ -12,7 +12,11 @@ module.exports = {
         "eol-last": 0,
         "no-plusplus": 0,
         "prefer-rest-params": 0,
-        "object-shorthand": 0
+        "object-shorthand": 0,
+        "no-underscore-dangle": 0,
+        "no-else-return": 0,
+        "consistent-return": 0,
+        "no-alert": 0
     },
     "env": {
         "node": true,
