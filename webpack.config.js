@@ -6,7 +6,8 @@ const config = {
     entry: {
         etSelect: `${__dirname}/src/etSelect`,
         etCheck: `${__dirname}/src/etCheck`,
-        etTab: `${__dirname}/src/etTab`
+        etTab: `${__dirname}/src/etTab`,
+        etDialog: `${__dirname}/src/etDialog`
     },
     output: {
         path: `${__dirname}/public`,
