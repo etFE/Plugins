@@ -1,0 +1,55 @@
+$navBg: #eaf2fe;
+$borderColor: #bed5f3;
+
+@mixin tabBg($start, $end) {
+    background: $end;
+    background: -webkit-linear-gradient($start, $end, $start);
+    background: -o-linear-gradient($start, $end, $start);
+    background: -moz-linear-gradient($start, $end, $start);
+    background: linear-gradient($start, $end, $start);
+}
+
+/*最外层*/
+.ettab-container {
+    border: 1px solid $borderColor;
+}
+
+/*导航标签*/
+.ettab-nav {
+    height: 28px;
+    list-style: none;
+    background: $navBg;
+    margin: 0;
+    padding: 2px 10px 0 10px;
+    font-size: 12px;
+    border-bottom: 1px solid $borderColor;
+
+    .ettab-tab {
+        display: inline-block;
+        border: 1px solid $borderColor;
+        border-bottom: none;
+        border-radius: 3px 3px 0 0;
+        height: 24px;
+        line-height: 24px;
+        margin-left: 5px;
+        padding: 0 30px 0 10px;
+        cursor: pointer;
+        border-bottom: 4px solid #bfddff;
+
+        @include tabBg(#e2eefe, #d6e6fb);
+    
+        &.ettab-active {
+            @include tabBg(#dfeffe, #9ecaf7);
+            border-bottom: 4px solid #2f6aaf;
+        }
+    }
+}
+
+/*内容块*/
+.ettab-panel {
+    display: none;
+
+    &.ettab-active {
+        display: block;
+    }
+}

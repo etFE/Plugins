@@ -1,7 +1,7 @@
 const plugins = function (thisRef, options) {
     const self = thisRef;
-    const fieldLabel = self.settings.labelField;
-    const fieldOptGroup = self.settings.optgroupLabelField;
+    // const fieldLabel = self.settings.labelField;
+    // const fieldOptGroup = self.settings.optgroupLabelField;
     self.setup = (function () {
         const original = self.setup;
 
