@@ -1,9 +1,12 @@
 import './layer/theme/default/layer.css';
 import layer from './layer/layer';
 
+// 重置path属性，避免layer自身调用错误路径的css
+layer.path = null;
+
 $.etDialog = {
     config: layer.config,
-    ready: layer.ready,
+    // ready: layer.ready,
     parentFrameName: null,
 
     open: function (opts) {
