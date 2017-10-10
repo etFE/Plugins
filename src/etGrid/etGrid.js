@@ -613,7 +613,6 @@ import defaultOptions from './default';
             }
             return summaryRows;
         }
-
         /**
          * @description  内部生成生成合计行的函数
         */
@@ -788,7 +787,7 @@ import defaultOptions from './default';
              * @param {[string]}   eventname [**事件名] click、mousedown...
              * @param {Function} callback  [**回调函数]
              */
-            setEvent: function (eventname, callback) {
+            setEvent(eventname, callback) {
                 if (typeof eventname === 'string' && typeof callback === 'function') {
                     $self.on(eventname, callback);
                 }
@@ -798,7 +797,7 @@ import defaultOptions from './default';
              * @param  {number} rowIndx [**行索引]
              * @param  {String} cls     [**判断的class]
              */
-            addRowClass: function (rowIndx, cls) {
+            addRowClass(rowIndx, cls) {
                 grid.pqGrid('addClass', {
                     rowIndx: rowIndx,
                     cls: cls
@@ -810,7 +809,7 @@ import defaultOptions from './default';
              * @param  {Number/String} dataIndx [**键名或数组索引]
              * @param  {String} cls     [**判断的class]
              */
-            addCellClass: function (rowIndx, dataIndx, cls) {
+            addCellClass(rowIndx, dataIndx, cls) {
                 grid.pqGrid('addClass', {
                     rowIndx: rowIndx,
                     dataIndx: dataIndx,
@@ -821,7 +820,7 @@ import defaultOptions from './default';
              * 末尾添加数据行。
              * @param {object} obj      [行数据对象]
              */
-            addRow: function (obj) {
+            addRow(obj) {
                 obj = obj || {};
 
                 grid.pqGrid('addRow', {
@@ -833,7 +832,7 @@ import defaultOptions from './default';
              * @param  {number} rowIndx [行号]
              * @param  {object} obj     [行数据对象]
              */
-            insertRow: function (rowIndx, obj) {
+            insertRow(rowIndx, obj) {
                 grid.pqGrid('addRow', {
                     rowData: obj,
                     rowIndx: rowIndx
@@ -851,7 +850,7 @@ import defaultOptions from './default';
              * @param  {[string]} type ['add、update、']
              * @param  {array} rows [ rows: 服务端获取}]
              */
-            commit: function (type, rows) {
+            commit(type, rows) {
                 if (type && rows) {
                     grid.pqGrid('commit', {
                         type: type,
@@ -865,7 +864,7 @@ import defaultOptions from './default';
              * 生成类似结构，同步的表
              * @param  {object} obj [**键入{$cont: $('<div></div>'), data: [对应clomun的数据结构或数组]}]
              */
-            createTable: function ($cont, data) {
+            createTable($cont, data) {
                 grid.pqGrid('createTable', {
                     $cont: $cont,
                     data: data
@@ -875,7 +874,7 @@ import defaultOptions from './default';
              * 删除行
              * @param  {object} obj [**rowIndx: 行索引]
              */
-            deleteRow: function (rowIndx) {
+            deleteRow(rowIndx) {
                 grid.pqGrid('deleteRow', {
                     rowIndx: rowIndx
                 });
@@ -883,7 +882,7 @@ import defaultOptions from './default';
             /**
              * 删除选中行
              */
-            deleteSelectedRow: function () {
+            deleteSelectedRow() {
                 const selectedRow = grid.pqGrid('selection', {
                     method: 'getSelection',
                     type: 'row'
@@ -898,19 +897,19 @@ import defaultOptions from './default';
             /**
              * 销毁整个gird
              */
-            destroy: function () {
+            destroy() {
                 grid.pqGrid('destroy');
             },
             /**
              * 禁用grid
              */
-            disable: function () {
+            disable() {
                 grid.pqGrid('disable');
             },
             /**
              * 启用grid
              */
-            enable: function () {
+            enable() {
                 grid.pqGrid('enable');
             },
             /**
@@ -919,7 +918,7 @@ import defaultOptions from './default';
              * @param  {string/number} dataIndx [**单元格的name或列索引]
              * @param  {boolean} isInAll    [如果isInAll，name在变成所有数据的行索引]
              */
-            editCell: function (rowIndxPage, dataIndx, isInAll) {
+            editCell(rowIndxPage, dataIndx, isInAll) {
                 const paraObj = {};
                 isInAll ? paraObj.rowIndx = rowIndxPage : paraObj.rowIndxPage = rowIndxPage;
 
@@ -934,7 +933,7 @@ import defaultOptions from './default';
              * 可编辑模式下 选定行第一个单元格开始编辑
              * @param  {number} rowIndx [**行索引]
              */
-            editFirstCellInRow: function (rowIndx) {
+            editFirstCellInRow(rowIndx) {
                 grid.pqGrid('editFirstCellInRow', {
                     rowIndx: rowIndx
                 });
@@ -942,7 +941,7 @@ import defaultOptions from './default';
             /**
              * 展开表格 ！
              */
-            // expand: function () {
+            // expand() {
             //     grid.pqGrid("expand");
             // },
             /**
@@ -950,14 +949,14 @@ import defaultOptions from './default';
              * @param  {string} url       [**导出路径]
              * @param  {string} sheetName [**文件名]
              */
-            // exportExcel: function (url, sheetName) {
+            // exportExcel(url, sheetName) {
             //     grid.pqGrid("exportExcel", { url: url, sheetName: sheetName });
             // },
             /**
              * 导出csv格式
              * @param  {string} url [**导出路径]
              */
-            // exportCsv: function (url) {
+            // exportCsv(url) {
             //     grid.pqGrid("exportCsv", { url: url });
             // },
             /**
@@ -965,7 +964,7 @@ import defaultOptions from './default';
              * @param  {[string]} oper [**'replace'替换原有过滤/'add'添加条件，同一个dataIndx则替换]
              * @param  {[Array]} data [**过滤数组，[键入{ dataIndx: 列索引或键名， condition: 过滤条件，value: 过滤的值，value2: 第二值 }]]
              */
-            filter: function (oper, data) {
+            filter(oper, data) {
                 grid.pqGrid('filter', {
                     oper: oper,
                     data: data
@@ -977,7 +976,7 @@ import defaultOptions from './default';
              * @param  {number/string} dataIndx    [**单元格name，或列索引]
              * @param  {boolean} isInAll    [如果isInAll，name在变成所有数据的行索引]
              */
-            getCell: function (rowIndx, dataIndx, isInAll) {
+            getCell(rowIndx, dataIndx, isInAll) {
                 const paraObj = {};
 
                 isInAll ? paraObj.rowIndx = rowIndx : paraObj.rowIndxPage = rowIndx;
@@ -994,7 +993,7 @@ import defaultOptions from './default';
              * @param  {string} class [单元格class名]
              * @return {array}       [单元格对象数组]
              */
-            getCellsByClass: function (cls) {
+            getCellsByClass(cls) {
                 return grid.pqGrid('getCellsByClass', {
                     cls: cls
                 });
@@ -1003,7 +1002,7 @@ import defaultOptions from './default';
              * 返回单元格的索引 --
              * @param  {$obj} $td [单元格jquery对象]
              */
-            getCellIndices: function ($td) {
+            getCellIndices($td) {
                 return grid.pqGrid('getCellIndices', {
                     $td: $td
                 });
@@ -1013,7 +1012,7 @@ import defaultOptions from './default';
              * @param  {String} format [不填，返回引用的rowData，填'byVal'，克隆再返回]
              * @return {[type]}     [description]
              */
-            getChanges: function (format) {
+            getChanges(format) {
                 if (format && typeof format === 'string') {
                     return grid.pqGrid('getChanges', {
                         format: format
@@ -1027,7 +1026,7 @@ import defaultOptions from './default';
              * @param  {"string"} obj [**列name]
              * @return {number}     [列索引]
              */
-            getColIndx: function (dataInx) {
+            getColIndx(dataInx) {
                 return grid.pqGrid('getColIndx', {
                     dataIndx: dataInx
                 });
@@ -1037,7 +1036,7 @@ import defaultOptions from './default';
              * @param  {string} obj [**列name]
              * @return {object}     [列信息]
              */
-            getColumn: function (dataIndx) {
+            getColumn(dataIndx) {
                 return grid.pqGrid('getColumn', {
                     dataIndx: dataIndx
                 });
@@ -1045,14 +1044,14 @@ import defaultOptions from './default';
             /**
              * 获取columns，列信息
              */
-            getColumns: function () {
+            getColumns() {
                 return grid.pqGrid('getColModel');
             },
             /**
              * 根据列名数组，返回行对象数组
              * @param  {array} colNameArr [**列名数组]
              */
-            getData: function (colNameArr) {
+            getData(colNameArr) {
                 return grid.pqGrid('getData', {
                     dataIndx: colNameArr
                 });
@@ -1060,19 +1059,19 @@ import defaultOptions from './default';
             /**
              * 返回当前编辑单元格 --
              */
-            getEditCell: function () {
+            getEditCell() {
                 return grid.pqGrid('getEditCell');
             },
             /**
              * 返回当前编辑单元格关联的数据 --
              */
-            getEditCellData: function () {
+            getEditCellData() {
                 return grid.pqGrid('getEditCellData');
             },
             /**
              * 返回表格实例
              */
-            getInstance: function () {
+            getInstance() {
                 return grid.pqGrid('getInstance').grid;
             },
             /**
@@ -1080,7 +1079,7 @@ import defaultOptions from './default';
              * @param  {number} rowIndxPage [当前页行索引]
              * @return {$tr}         [行节点]
              */
-            getRowNode: function (rowIndxPage) {
+            getRowNode(rowIndxPage) {
                 return grid.pqGrid('getRow', {
                     rowIndxPage: rowIndxPage
                 });
@@ -1091,7 +1090,7 @@ import defaultOptions from './default';
              * @param  {Boolean} isInAll [如果不填是，当前页的行索引。true是所有数据的索引]
              * @return {[type]}          [description]
              */
-            getRowData: function (rowindx, isInAll) {
+            getRowData(rowindx, isInAll) {
                 const paraObj = {};
 
                 isInAll ? paraObj.rowIndx = rowindx : paraObj.rowIndxPage = rowindx;
@@ -1103,7 +1102,7 @@ import defaultOptions from './default';
              * @param  {jq object} obj [jquery对象]
              * @return {Number}     [索引值]
              */
-            getRowIndx: function ($tr) {
+            getRowIndx($tr) {
                 return grid.pqGrid('getRowIndx', {
                     $tr: $tr
                 });
@@ -1112,7 +1111,7 @@ import defaultOptions from './default';
              * 返回行数据对象数组
              * @param  {String} obj [行class]
              */
-            getRowsByClass: function (cls) {
+            getRowsByClass(cls) {
                 return grid.pqGrid('getRowsByClass', {
                     cls: cls
                 });
@@ -1121,7 +1120,7 @@ import defaultOptions from './default';
              * 翻页，跳转指定页面
              * @param  {Number} obj [指定页数]
              */
-            goToPage: function (pageNum) {
+            goToPage(pageNum) {
                 grid.pqGrid('goToPage', {
                     page: pageNum
                 });
@@ -1131,7 +1130,7 @@ import defaultOptions from './default';
              * @param  {number} rowIndx [行索引]
              * @param  {String} cls     [判断的class]
              */
-            hasRowClass: function (rowIndx, cls) {
+            hasRowClass(rowIndx, cls) {
                 return grid.pqGrid('hasClass', {
                     rowIndx: rowIndx,
                     cls: cls
@@ -1143,7 +1142,7 @@ import defaultOptions from './default';
              * @param  {Number/String} dataIndx [键名或数组索引]
              * @param  {String} cls     [判断的class]
              */
-            hasCellClass: function (rowIndx, dataIndx, cls) {
+            hasCellClass(rowIndx, dataIndx, cls) {
                 return grid.pqGrid('hasClass', {
                     rowIndx: rowIndx,
                     dataIndx: dataIndx,
@@ -1153,7 +1152,7 @@ import defaultOptions from './default';
             /**
              * 隐藏加载图表
              */
-            hideLoading: function () {
+            hideLoading() {
                 grid.pqGrid('hideLoading');
             },
             /**
@@ -1161,7 +1160,7 @@ import defaultOptions from './default';
              * @param  {String} obj [undo：反向添加更新删除, redo：重复添加更新删除先前反转的操作, canUndo：返回布尔值，是否可以执行进一步的撤销操作, canRedo：返回布尔值，是否可以重复执行操作, reset：清楚历史记录，不进行任何操作]
              * @return {[type]}     [description]
              */
-            history: function (method) {
+            history(method) {
                 if (method === 'canUndo' || method === 'canRedo') {
                     return grid.pqGrid('history', {
                         method: method
@@ -1177,7 +1176,7 @@ import defaultOptions from './default';
              * @param  {Srtng/number/""}  rowData [不填查所有。或填入行索引或行数据逐行查询]
              * @return {Boolean}         [description]
              */
-            isDirty: function (rowData) {
+            isDirty(rowData) {
                 if (rowData) {
                     const paraObj = {};
                     if (typeof rowData === 'number') {
@@ -1196,7 +1195,7 @@ import defaultOptions from './default';
              * @param  {Number/String}  dataIndx [数据数组索引，或键名]
              * @return {Boolean}          [description]
              */
-            isEditableCell: function (rowIndx, dataIndx) {
+            isEditableCell(rowIndx, dataIndx) {
                 return grid.pqGrid('isEditableCell', {
                     rowIndx: rowIndx,
                     dataIndx: dataIndx
@@ -1206,7 +1205,7 @@ import defaultOptions from './default';
              * 判断行是否可编辑
              * @param  {Number}  rowIndx [行索引]
              */
-            isEditableRow: function (rowIndx) {
+            isEditableRow(rowIndx) {
                 return grid.pqGrid('isEditableRow', {
                     rowIndx: rowIndx
                 });
@@ -1216,7 +1215,7 @@ import defaultOptions from './default';
              * @param  {number/obj/arry}  obj [行信息]
              * @param  {Boolean}  allowInvalid [为true是允许无效，返回无效集合 false，不允许无效，跳到第一个无效单元格，返回第一个单元格无效信息]
              */
-            isRowValid: function (rowIndx, allowInvalid) {
+            isRowValid(rowIndx, allowInvalid) {
                 if (typeof rowIndx === 'number') {
                     return grid.pqGrid('isValid', {
                         rowIndx: rowIndx,
@@ -1234,7 +1233,7 @@ import defaultOptions from './default';
              * @param  {arry}  obj [行信息集合]
              * @param  {Boolean}  allowInvalid []
              */
-            isRowArrayValid: function (data, allowInvalid) {
+            isRowArrayValid(data, allowInvalid) {
                 return grid.pqGrid('isValid', {
                     data: data,
                     allowInvalid: allowInvalid
@@ -1246,7 +1245,7 @@ import defaultOptions from './default';
              * @param  {number、string}  obj [列name或数据索引]
              * @param  {Boolean}  allowInvalid []
              */
-            isCellValid: function (rowIndx, dataIndx, allowInvalid) {
+            isCellValid(rowIndx, dataIndx, allowInvalid) {
                 return grid.pqGrid('isValid', {
                     rowIndx: rowIndx,
                     dataIndx: dataIndx,
@@ -1256,7 +1255,7 @@ import defaultOptions from './default';
             /**
              * 忽略编辑单元格未保存的更改，并退出编辑模式
              */
-            quitEditMode: function () {
+            quitEditMode() {
                 grid.pqGrid('quitEditMode');
             },
             /**
@@ -1264,7 +1263,7 @@ import defaultOptions from './default';
              * @param  {string/object/} optionName [不填：值返回当前grid设置对象，object：{optionName: value},增加设置]
              * @param  {  } value      [上个参数为string时，不填：返回对应设置的值。填：修改对应设置]
              */
-            option: function (optionName, value) {
+            option(optionName, value) {
                 if (optionName) {
                     if (typeof optionName === 'string') {
                         if (value) {
@@ -1315,7 +1314,7 @@ import defaultOptions from './default';
              * 刷新，更改dataModel，或更新记录时很有用
              * @return {[type]} [description]
              */
-            refresh: function () {
+            refresh() {
                 grid.pqGrid('refresh');
             },
             /**
@@ -1324,7 +1323,7 @@ import defaultOptions from './default';
              * @param  {Number，String} dataIndx [数据索引，或键名]
              * @param  {Boolean} isInAll  [为true时，所有数据索引]
              */
-            refreshCell: function (rowIndx, dataIndx, isInAll) {
+            refreshCell(rowIndx, dataIndx, isInAll) {
                 const paraObj = {
                     dataIndx: dataIndx
                 };
@@ -1335,7 +1334,7 @@ import defaultOptions from './default';
              * 刷新列
              * @param  {Number/string} dataIndx [数据索引，或键名]
              */
-            refreshColumn: function (dataIndx) {
+            refreshColumn(dataIndx) {
                 grid.pqGrid('refreshColumn', {
                     dataIndx: dataIndx
                 });
@@ -1343,13 +1342,13 @@ import defaultOptions from './default';
             /**
              * 刷新数据，也会重新加载后台数据。更改dataModal属性，或添加，删除更新记录后很有用。避免循环
              */
-            refreshDataAndView: function () {
+            refreshDataAndView() {
                 grid.pqGrid('refreshDataAndView');
             },
             /**
              * 刷新列标题
              */
-            refreshHeader: function () {
+            refreshHeader() {
                 grid.pqGrid('refreshHeader');
             },
             /**
@@ -1357,7 +1356,7 @@ import defaultOptions from './default';
              * @param  {Number} rowIndx [当前页行索引]
              * @param  {boolean} isInAll [填入并true时，所有数据行索引]
              */
-            refreshRow: function (rowIndx, isInAll) {
+            refreshRow(rowIndx, isInAll) {
                 const paraObj = {};
 
                 isInAll ? paraObj.rowIndx = rowIndx : paraObj.rowIndxPage = rowIndx;
@@ -1366,7 +1365,7 @@ import defaultOptions from './default';
             /**
              * 刷新视图。更改dataModel或添加，删除，更新记录后很有用
              */
-            refreshView: function () {
+            refreshView() {
                 grid.pqGrid('refreshView');
             },
             /**
@@ -1374,7 +1373,7 @@ import defaultOptions from './default';
              * @param  {number} rowIndx [**行索引]
              * @param  {String} cls     [**删除的class，可以空格分割来删除多个class]
              */
-            removeRowClass: function (rowIndx, cls) {
+            removeRowClass(rowIndx, cls) {
                 grid.pqGrid('removeClass', {
                     rowIndx: rowIndx,
                     cls: cls
@@ -1385,7 +1384,7 @@ import defaultOptions from './default';
              * @param  {number} rowIndx [**行索引]
              * @param  {Number/String} dataIndx [**键名或数组索引]
              */
-            removeCellClass: function (rowIndx, dataIndx, cls) {
+            removeCellClass(rowIndx, dataIndx, cls) {
                 grid.pqGrid('removeClass', {
                     rowIndx: rowIndx,
                     dataIndx: dataIndx,
@@ -1396,7 +1395,7 @@ import defaultOptions from './default';
              * 打开跟踪后，可以撤销添加，编辑，删除操作
              * @param  {string} type [撤销类型，"add", "update", "dalete"]
              */
-            rollback: function (type) {
+            rollback(type) {
                 grid.pqGrid('rollback', {
                     type: type
                 });
@@ -1406,7 +1405,7 @@ import defaultOptions from './default';
              * @param  {Number} rowIndx [当前页行索引]
              * @param  {Boolean} isInAll [填入并true时，所有数据行索引]
              */
-            rowCollapse: function (rowIndx, isInAll) {
+            rowCollapse(rowIndx, isInAll) {
                 const paraObj = {};
                 isInAll ? paraObj.rowIndx = rowIndx : paraObj.rowIndxPage = rowIndx;
                 grid.pqGrid('rowCollapse', paraObj);
@@ -1416,7 +1415,7 @@ import defaultOptions from './default';
              * @param  {Number} rowIndx [当前页行索引]
              * @param  {Boolean} isInAll [填入并true时，所有数据行索引]
              */
-            rowExpand: function (rowIndx, isInAll) {
+            rowExpand(rowIndx, isInAll) {
                 const paraObj = {};
 
                 isInAll ? paraObj.rowIndx = rowIndx : paraObj.rowIndxPage = rowIndx;
@@ -1427,7 +1426,7 @@ import defaultOptions from './default';
              * @param  {Number} rowIndx [当前页行索引]
              * @param  {Boolean} isInAll [填入并true时，所有数据行索引]
              */
-            // rowInvalidate: function (rowIndx, isInAll) {
+            // rowInvalidate(rowIndx, isInAll) {
             //     var paraObj = {};
 
             //     isInAll ? paraObj.rowIndx = rowIndx : paraObj.rowIndxPage = rowIndx;
@@ -1437,14 +1436,14 @@ import defaultOptions from './default';
              * 保存当前编辑单元格
              * @return {[type]} [description]
              */
-            saveEditCell: function () {
+            saveEditCell() {
                 return grid.pqGrid('saveEditCell');
             },
             /**
              * 水平滚动视图
              * @param  {Number/string} dataIndx [列名name或数据数组索引]
              */
-            scrollColumn: function (dataIndx) {
+            scrollColumn(dataIndx) {
                 grid.pqGrid('scrollColumn', {
                     dataIndx: dataIndx
                 });
@@ -1453,7 +1452,7 @@ import defaultOptions from './default';
              * 垂直滚动视图
              * @param  {Number} rowIndxPage [当前页行索引]
              */
-            scrollRow: function (rowIndxPage) {
+            scrollRow(rowIndxPage) {
                 grid.pqGrid('scrollRow', {
                     rowIndxPage: rowIndxPage
                 });
@@ -1461,7 +1460,7 @@ import defaultOptions from './default';
             /**
              * 针对选择状态的操作，
              */
-            selection: function (obj) {
+            selection(obj) {
                 if (obj && typeof obj === 'object') {
                     if (obj.method === 'indexOf' || obj.method === 'getSelection') {
                         return grid.pqGrid('selection', obj);
@@ -1473,7 +1472,7 @@ import defaultOptions from './default';
             /**
              * selection中抽离，从选择集中移除指定行数据
              */
-            selectRemove: function (rowIndx) {
+            selectRemove(rowIndx) {
                 grid.pqGrid('selection', {
                     method: 'remove',
                     type: 'row',
@@ -1483,7 +1482,7 @@ import defaultOptions from './default';
             /**
              * selection中抽离，删除所有选择数据
              */
-            selectRemoveAll: function () {
+            selectRemoveAll() {
                 grid.pqGrid('selection', {
                     method: 'removeAll',
                     type: 'row'
@@ -1492,7 +1491,7 @@ import defaultOptions from './default';
             /**
              * selection中抽离，从选择集中添加指定行数据
              */
-            selectAdd: function (rowIndx, dataIndx) {
+            selectAdd(rowIndx, dataIndx) {
                 if (dataIndx) {
                     grid.pqGrid('selection', {
                         method: 'add',
@@ -1512,7 +1511,7 @@ import defaultOptions from './default';
              * selection中抽离，获取选择数据集
              * @param  {string} type ["row"、 "cell"]
              */
-            selectGet: function (type) {
+            selectGet(type) {
                 type = type || 'row';
 
                 return grid.pqGrid('selection', {
@@ -1523,7 +1522,7 @@ import defaultOptions from './default';
             /**
              * selection中抽离，复选框问题时使用，获取选择数据
              */
-            selectGetChecked: function () {
+            selectGetChecked() {
                 let selection = grid.pqGrid('selection', {
                     method: 'getSelection',
                     type: 'row'
@@ -1537,7 +1536,7 @@ import defaultOptions from './default';
              * @param {Boolean} focus [是否聚焦必填]
              * @param {boolean} isInAll [true时，所有数据行索引。]
              */
-            setSelection: function (rowIndx, focus, isInAll) {
+            setSelection(rowIndx, focus, isInAll) {
                 let paraObj = {};
 
                 if (rowIndx === null) {
@@ -1552,14 +1551,14 @@ import defaultOptions from './default';
             /**
              * 显示loading。异步操作时很有用
              */
-            showLoading: function () {
+            showLoading() {
                 grid.pqGrid('showLoading');
             },
             /**
              * 撤销添加，更新，删除操作。可以被多次调用 ！
              * @return {[type]} [description]
              */
-            undo: function () {
+            undo() {
                 grid.pqGrid('undo');
             },
             /**
@@ -1567,7 +1566,7 @@ import defaultOptions from './default';
              * @param  {number} rowIndx [行索引]
              * @param  {object} rowdata [行数据]
              */
-            updateRow: function (rowIndx, rowdata) {
+            updateRow(rowIndx, rowdata) {
                 grid.pqGrid('updateRow', {
                     rowIndx: rowIndx,
                     row: rowdata
@@ -1577,7 +1576,7 @@ import defaultOptions from './default';
              * 返回包含表格的jquery对象
              * @return {[type]} [description]
              */
-            widget: function () {
+            widget() {
                 return grid.pqGrid('widget');
             },
 
@@ -1590,7 +1589,7 @@ import defaultOptions from './default';
              * @param  {obj} parms [ajax 参数]
              * @param  {string} url   [ajax url]
              */
-            loadData: function (parms, url) {
+            loadData(parms, url) {
                 url = url || grid.pqGrid('option', 'dataModel.url');
                 let onoff = true;
                 parms.push({ // 兼容之前ligergrid 后台向前台 传的changepage字段
@@ -1630,7 +1629,7 @@ import defaultOptions from './default';
              * @description 批量删除行数据
              * @param {any} arrs  [{rowIndx:..,....},{.....}]
              */
-            deleteRows: function (arrs) {
+            deleteRows(arrs) {
                 if (!(arrs instanceof Array)) {
                     return false;
                 }
@@ -1663,7 +1662,7 @@ import defaultOptions from './default';
              * @description 添加多行
              * @param {any} rowdataArr
              */
-            addRows: function (rowdataArr) {
+            addRows(rowdataArr) {
                 $(rowdataArr).each(function () {
                     $grid.addRow(this);
                 });
@@ -1672,19 +1671,19 @@ import defaultOptions from './default';
              * @description 获取远程请求时的字段 parms
              * @returns  parms对象
              */
-            getUrlParms: function () {
+            getUrlParms() {
                 return $grid.option('dataModel').getUrl().data;
             },
             /**
              * 获取所有数据
              */
-            getAllData: function () {
+            getAllData() {
                 return grid.pqGrid('option', 'dataModel.data');
             },
             /**
              * 获取当前页数据
              */
-            getDataInPage: function () {
+            getDataInPage() {
                 const inStance = grid.pqGrid('getInstance').grid;
                 return inStance.data;
             },
@@ -1693,7 +1692,7 @@ import defaultOptions from './default';
              * @param  {string}  columnname [列名]
              * @param  {Boolean} isShow     [是否显示]
              */
-            toggleCol: function (columnname, isShow) {
+            toggleCol(columnname, isShow) {
                 const colIndex = grid.pqGrid('getColIndx', {
                     dataIndx: columnname
                 });
@@ -1705,7 +1704,7 @@ import defaultOptions from './default';
              * @description  设置toobar 按钮置灰
              * @param {any} itemid button中 item.id值
              */
-            setDisabledTB: function (itemid) {
+            setDisabledTB(itemid) {
                 const inStance = grid.pqGrid('getInstance').grid;
                 inStance.$toolbar.pqToolbar('setDisabled', itemid);
             },
@@ -1713,7 +1712,7 @@ import defaultOptions from './default';
              * @description   获取修改数据
              * @returns 返回数组集合
              */
-            getUpdated: function () {
+            getUpdated() {
                 const inStance = grid.pqGrid('getInstance').grid;
                 return inStance.iUCData.udata;
             },
@@ -1721,7 +1720,7 @@ import defaultOptions from './default';
              * @description 获取添加数据
              * @returns 返回数组集合
              */
-            getAdded: function () {
+            getAdded() {
                 const inStance = grid.pqGrid('getInstance').grid;
                 return inStance.iUCData.adata;
             },
@@ -1729,14 +1728,14 @@ import defaultOptions from './default';
              * @description 获取删除数据
              * @returns 返回数组集合
              */
-            getDeleted: function () {
+            getDeleted() {
                 const inStance = grid.pqGrid('getInstance').grid;
                 return inStance.iUCData.ddata;
             },
             /**
              * @description 刷新摘要(合计)行
              */
-            refreshSummary: function () {
+            refreshSummary() {
                 summaryRows = _fillSummaryData();
                 grid.pqGrid('createTable', {
                     $cont: $summary,
@@ -1748,7 +1747,7 @@ import defaultOptions from './default';
              * @description 获取摘要摘要行数据
              * @returns
              */
-            getSummaryDatas: function () {
+            getSummaryDatas() {
                 return _fillSummaryData();
             },
             /**
@@ -1756,7 +1755,7 @@ import defaultOptions from './default';
              * @param {any} 'strings' or array
              * @returns
              */
-            getTotalSummary: function (columns) {
+            getTotalSummary(columns) {
                 if (typeof columns === 'string') {
                     const theColumn = [columns];
 
@@ -1771,7 +1770,7 @@ import defaultOptions from './default';
              * @description 获取表格打印格式的表头列
              * @returns
              */
-            getPrintColumns: function () {
+            getPrintColumns() {
                 let [colIndx, maxlevel] = [0, 1];
                 function _printColsFilter(obj) {
                     obj = $.extend(true, {}, obj);
@@ -1836,7 +1835,7 @@ import defaultOptions from './default';
              * @param {any} columnLevel number类型
              * @returns
              */
-            getColsByLevel: function (columnLevel) {
+            getColsByLevel(columnLevel) {
                 const result = [];
                 let cols = $grid.getPrintColumns();
                 if (columnLevel === undefined) {
@@ -1865,11 +1864,10 @@ import defaultOptions from './default';
             //     grid.pqGrid("pqgridload", fn);
             // }
         };
-
-        // const methods = import ('./methods');
         $grid = $.extend({}, grid, methods);
-
+        
         /*  inStance.$grid_inner.on('') */
+        export {grid, $self, opts, $grid, $summary, summaryRows, _fillSummaryData, _getTotalSummary}; 
         return $grid;
     };
 }(jQuery));

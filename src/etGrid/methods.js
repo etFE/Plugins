@@ -1,10 +1,12 @@
+import { grid, $self, $grid, opts, $summary, summaryRows, _fillSummaryData, _getTotalSummary } from './etGrid';
+
 const methods = {
     /**
      * 自定义绑定事件
      * @param {[string]}   eventname [**事件名] click、mousedown...
      * @param {Function} callback  [**回调函数]
      */
-    setEvent: function (eventname, callback) {
+    setEvent(eventname, callback) {
         if (typeof eventname === 'string' && typeof callback === 'function') {
             $self.on(eventname, callback);
         }
@@ -14,7 +16,7 @@ const methods = {
      * @param  {number} rowIndx [**行索引]
      * @param  {String} cls     [**判断的class]
      */
-    addRowClass: function (rowIndx, cls) {
+    addRowClass(rowIndx, cls) {
         grid.pqGrid('addClass', {
             rowIndx: rowIndx,
             cls: cls
@@ -26,7 +28,7 @@ const methods = {
      * @param  {Number/String} dataIndx [**键名或数组索引]
      * @param  {String} cls     [**判断的class]
      */
-    addCellClass: function (rowIndx, dataIndx, cls) {
+    addCellClass(rowIndx, dataIndx, cls) {
         grid.pqGrid('addClass', {
             rowIndx: rowIndx,
             dataIndx: dataIndx,
