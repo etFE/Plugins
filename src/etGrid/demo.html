@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" /> 
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
     <title>etGrid demo</title>
     <script src="../../lib/jquery.1.9.1.min.js"></script>
     <script src="../../lib/jquery-ui-1.9.2.min.js"></script>
@@ -17,7 +17,7 @@
                     company: 'Exxon Mobil',
                     orderDate: '1977-11-11',
                     revenues: 339938.33,
-                    profits: 11231              
+                    profits: 11231
                 },
                 {
                     rank: 2,
@@ -40,7 +40,7 @@
                     revenues: 267600.0,
                     profits: 22341.0
                 },
-                 {
+                {
                     rank: 5,
                     company: 'General Motors',
                     orderDate: '1977-11-11',
@@ -75,7 +75,7 @@
                     revenues: 177210.0,
                     profits: 2024.0
                 },
-                /* {
+                {
                     rank: 10,
                     company: 'ConocoPhillips',
                     orderDate: '1977-11-11',
@@ -151,15 +151,14 @@
                     orderDate: '1977-11-11',
                     revenues: 108905.0,
                     profits: 10477.0
-                }  */
+                }
             ]
             var grid = $("#grid_array").etGrid({
-                // width: 500,
                 columns: [{
                         display: "Rank",
                         align: "right",
                         dataType: "integer",
-                        width:120,
+                        width: 120,
                         name: "rank",
                         hidden: false
                     },
@@ -167,17 +166,15 @@
                         display: 'orderDate',
                         align: 'right',
                         name: 'orderDate',
-                        width:120,
+                        width: 120,
                         editor: {
                             type: 'date', // 日期编辑框
-                            onSelect: function () {
-                            },
+                            onSelect: function () {},
                             beforeShow: function (input, inst) {
 
                                 /*  return !this.firstOpen; */
                             },
-                            onClose: function () {
-                            }
+                            onClose: function () {}
                         },
                         /* validations: [{    // 单元格验证
                             type: 'regexp',   // 验证类型 此为正则表达式
@@ -188,11 +185,11 @@
                     {
                         display: "Company",
                         name: "company",
-                        width:120,
+                        width: 120,
                         editor: {
                             type: 'select', // 下拉框编辑框
-                            valueField : 'id',
-                        	textField : 'text',
+                            valueField: 'id',
+                            textField: 'text',
                             source: [{
                                     label2: 1,
                                     value: "c"
@@ -225,19 +222,15 @@
                             // url:   ,
                             autoFocus: true,
                             disabled: false,
-                            open: function () {
-                            },
+                            open: function () {},
                             select: function (ui, item) {
                                 // ui.rowData.id = item.label;
                                 /* $(this).val(item.item.label);
                                 return item.item.label; */
                             },
-                            change: function (ui, item) {
-                            },
-                            focus: function (ui, item) {
-                            },
-                            close: function () {
-                            }
+                            change: function (ui, item) {},
+                            focus: function (ui, item) {},
+                            close: function () {}
                         },
                         render: function (ui) {
 
@@ -264,14 +257,14 @@
                         display: "Revenues ($ millions)",
                         align: "right",
                         dataType: "float",
-                        width:120,
+                        width: 120,
                         name: "revenues",
                         editor: {
-                            type:'textbox'
+                            type: 'textbox'
                         },
-                        render: function (ui) {     // 初始化时 复选框置灰 不让选择
+                        render: function (ui) { // 初始化时 复选框置灰 不让选择
                             var rowdata = ui.rowData;
-                            if(rowdata.revenues < 150000) {
+                            if (rowdata.revenues < 150000) {
                                 rowdata.disabledcheckbox = true;
                             }
                         }
@@ -281,17 +274,17 @@
                         align: "right",
                         dataType: "float",
                         name: "profits",
-                        width:120,
+                        width: 120,
                         // minWidth:120,
                         editor: {
-                            type:'textbox'
+                            type: 'textbox'
                         }
                     }
                 ],
                 dataModel: { // 数据加载的有关属性
-                   /*  data: data, // 本地属性 数据属性 */
-                    location: "local",  // 远程数据时 location 值为remote
-                    /* url: ....., */     // 初始化页面时若不加载数据 参数可不用填  url 可以写在query方法里的loadData()参数里;  若加载数据URL可填
+                    data: data, // 本地属性 数据属性 
+                    location: "local", // 远程数据时 location 值为remote
+                    /* url: ....., */ // 初始化页面时若不加载数据 参数可不用填  url 可以写在query方法里的loadData()参数里;  若加载数据URL可填
                     // recIndx: 'rank' // 列名(最好是所有数据都有其字段值) 必填;  涉及到 记录添加、修改、删除数据的记录, 否则获取不到update、add、delete的数据
                 },
                 numberCell: {
@@ -300,8 +293,8 @@
                     title: "#",
                     width: 30,
                     minWidth: 30
-                }, 
-                height:300,
+                },
+                height: 300,
                 editable: true,
                 checkbox: true,
                 addRowByKey: true, //  快捷键控制添加行
@@ -315,8 +308,8 @@
                         type: "select",
                         label: '添加',
                         icon: 'circle-plus',
-                        disabled:true,
-                        options:[1,2,3]
+                        disabled: true,
+                        options: [1, 2, 3]
                         // disabled: true, // 初始化禁用按钮
                         /* listeners: [{
                             click: add
@@ -328,58 +321,47 @@
                         listeners: [{
                             click: delete2
                         }]
-                    },{
+                    }, {
                         type: "button",
                         label: '添加列',
                         icon: 'add',
-                        id:'add',
+                        id: 'add',
                         listeners: [{
                             click: addCol
                         }]
                     }]
                 },
-                summary:{         //  摘要行集合 对象
-                    totalColumns:['revenues','profits'],
-                    keyWordCol:'rank',   //关键字所在列的列名
-                    averageColumns:['revenues','profits'],
-                    maxColumns:['revenues','profits'],
-                    minColumns:['revenues','profits']
+                summary: { //  摘要行集合 对象
+                    totalColumns: ['revenues', 'profits'],
+                    keyWordCol: 'rank', //关键字所在列的列名
+                    averageColumns: ['revenues', 'profits'],
+                    maxColumns: ['revenues', 'profits'],
+                    minColumns: ['revenues', 'profits']
                 },
-                cellBeforeSave: function () {
-                },
-                cellSave: function (a,ui) {
+                cellBeforeSave: function () {},
+                cellSave: function (a, ui) {
                     // console.log(a,ui)
                 },
                 refresh: function () {
                     // console.log(1111)
                 },
-                render: function () {
-                },
-                refreshRow:function (){
+                render: function () {},
+                refreshRow: function () {
                     console.log(78878);
                 },
-                editorBlur: function (event, ui) {
-                },
+                editorBlur: function (event, ui) {},
                 editorEnd: function () {
 
                 },
                 load: function () {
 
                 },
-                changeRow: function () {
-                },
-                change:function (){
-                }
+                changeRow: function () {},
+                change: function () {}
             });
 
             $('#text1').click(function () {
-                grid.option('dataModel.data',data);
-                /* grid.addRows(data);
-                var num = grid.getAllData();
-                var selecteds = grid.selectGetChecked();
-                var selecteds2 = grid.selectGet();
-                grid.refreshSummary() */
-                // grid.editCell(num.length - 1, 'revenues');
+                grid.option('dataModel.data', data);
 
             });
 
@@ -416,17 +398,16 @@
                         title: 'orderDate',
                         editor: {
                             type: 'date', // 日期编辑框
-                            onSelect: function () {
-                            },
+                            onSelect: function () {},
                             beforeShow: function (input, inst) {
 
                                 /*  return !this.firstOpen; */
                             },
-                            onClose: function () {
-                            }
+                            onClose: function () {}
                         },
-                    }]
-                grid.option("colModel", colM );
+                    }
+                ]
+                grid.option("colModel", colM);
                 grid.refresh();
             }
             // grid.addRow();
