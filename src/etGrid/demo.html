@@ -12,7 +12,7 @@
 
     <script>
         $(function () {
-            var data = [{
+            /* var data = [{
                     rank: '1',
                     company: 'Exxon Mobil',
                     orderDate: '1977-11-11',
@@ -152,149 +152,9 @@
                     revenues: 108905.0,
                     profits: 10477.0
                 }
-            ]
-            var grid = $("#grid_array").etGrid({
-                columns: [{
-                        display: "Rank",
-                        align: "right",
-                        dataType: "integer",
-                        width: 120,
-                        name: "rank",
-                        hidden: false
-                    },
-                    {
-                        display: 'orderDate',
-                        align: 'right',
-                        name: 'orderDate',
-                        width: 120,
-                        editor: {
-                            type: 'date', // 日期编辑框
-                            onSelect: function () {},
-                            beforeShow: function (input, inst) {
-
-                                /*  return !this.firstOpen; */
-                            },
-                            onClose: function () {}
-                        },
-                        /* validations: [{    // 单元格验证
-                            type: 'regexp',   // 验证类型 此为正则表达式
-                            value: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$',  // 正则规则
-                            msg: '输入值不正确'   // 提示信息
-                        }] */
-                    },
-                    {
-                        display: "Company",
-                        name: "company",
-                        width: 120,
-                        editor: {
-                            type: 'select', // 下拉框编辑框
-                            valueField: 'id',
-                            textField: 'text',
-                            source: [{
-                                    label2: 1,
-                                    value: "c"
-                                },
-                                {
-                                    value: 2,
-                                    label: "java"
-                                },
-                                {
-                                    value: 3,
-                                    label: "php"
-                                },
-                                {
-                                    value: 4,
-                                    label: "coldfusion"
-                                },
-                                {
-                                    value: 5,
-                                    label: "javascript"
-                                },
-                                {
-                                    value: 6,
-                                    label: "asp"
-                                },
-                                {
-                                    value: 7,
-                                    label: "ruby"
-                                }
-                            ],
-                            // url:   ,
-                            autoFocus: true,
-                            disabled: false,
-                            open: function () {},
-                            select: function (ui, item) {
-                                // ui.rowData.id = item.label;
-                                /* $(this).val(item.item.label);
-                                return item.item.label; */
-                            },
-                            change: function (ui, item) {},
-                            focus: function (ui, item) {},
-                            close: function () {}
-                        },
-                        render: function (ui) {
-
-                        },
-                        //  validations: [{
-                        //     type: function (ui) {
-                        //         /* var value = ui.value;
-                        //         if ($.inArray(value, [
-                        //                 "ColdFusion",
-                        //                 "Erlang",
-                        //                 "Fortran",
-                        //                 "Groovy",
-                        //                 "Haskell",
-                        //                 "Java"
-                        //             ]) == -1) {
-                        //             ui.msg = value + "娌℃壘鍒�?;
-                        //             $('.pq-editor-focus').css('border-color', '#f00');
-                        //         } */
-                        //         return false
-                        //     }
-                        // }] 
-                    },
-                    {
-                        display: "Revenues ($ millions)",
-                        align: "right",
-                        dataType: "float",
-                        width: 120,
-                        name: "revenues",
-                        editor: {
-                            type: 'textbox'
-                        },
-                        render: function (ui) { // 初始化时 复选框置灰 不让选择
-                            var rowdata = ui.rowData;
-                            if (rowdata.revenues < 150000) {
-                                rowdata.disabledcheckbox = true;
-                            }
-                        }
-                    },
-                    {
-                        display: "Profits ($ millions)",
-                        align: "right",
-                        dataType: "float",
-                        name: "profits",
-                        width: 120,
-                        // minWidth:120,
-                        editor: {
-                            type: 'textbox'
-                        }
-                    }
-                ],
-                dataModel: { // 数据加载的有关属性
-                    data: data, // 本地属性 数据属性 
-                    location: "local", // 远程数据时 location 值为remote
-                    /* url: ....., */ // 初始化页面时若不加载数据 参数可不用填  url 可以写在query方法里的loadData()参数里;  若加载数据URL可填
-                    // recIndx: 'rank' // 列名(最好是所有数据都有其字段值) 必填;  涉及到 记录添加、修改、删除数据的记录, 否则获取不到update、add、delete的数据
-                },
-                numberCell: {
-                    //  show:false,
-                    resizable: false,
-                    title: "#",
-                    width: 30,
-                    minWidth: 30
-                },
-                height: 300,
+            ] */
+            var gridObj = {
+                height: 400,
                 editable: true,
                 checkbox: true,
                 addRowByKey: true, //  快捷键控制添加行
@@ -303,62 +163,192 @@
                     type: 'cell', // 选择模式 单元格选择 或 行选择 'cell'/'row'
                     // mode: 'single', //  mode 值 single时 复选框只能单选
                 },
-                toolbar: {
-                    items: [{
-                        type: "select",
-                        label: '添加',
-                        icon: 'circle-plus',
-                        disabled: true,
-                        options: [1, 2, 3]
-                        // disabled: true, // 初始化禁用按钮
-                        /* listeners: [{
-                            click: add
-                        }] */
-                    }, {
-                        type: "button",
-                        label: '删除',
-                        icon: 'delete',
-                        listeners: [{
-                            click: delete2
-                        }]
-                    }, {
-                        type: "button",
-                        label: '添加列',
-                        icon: 'add',
-                        id: 'add',
-                        listeners: [{
-                            click: addCol
-                        }]
+            };
+            gridObj.columns = [{
+                    display: "Rank",
+                    align: "right",
+                    dataType: "integer",
+                    width: 120,
+                    name: "rank",
+                    hidden: false
+                },
+                {
+                    display: 'orderDate',
+                    align: 'right',
+                    name: 'orderDate',
+                    width: 120,
+                    editor: {
+                        type: 'date', // 日期编辑框
+                        onSelect: function () {},
+                        beforeShow: function (input, inst) {
+
+                            /*  return !this.firstOpen; */
+                        },
+                        onClose: function () {}
+                    },
+                    /* validations: [{    // 单元格验证
+                        type: 'regexp',   // 验证类型 此为正则表达式
+                        value: '^[0-9]{4}-[0-9]{2}-[0-9]{2}$',  // 正则规则
+                        msg: '输入值不正确'   // 提示信息
+                    }] */
+                },
+                {
+                    display: "Company",
+                    name: "company",
+                    width: 120,
+                    editor: {
+                        type: 'select', // 下拉框编辑框
+                        valueField: 'id',
+                        textField: 'text',
+                        source: [{
+                                label2: 1,
+                                value: "c"
+                            },
+                            {
+                                value: 2,
+                                label: "java"
+                            },
+                            {
+                                value: 3,
+                                label: "php"
+                            },
+                            {
+                                value: 4,
+                                label: "coldfusion"
+                            },
+                            {
+                                value: 5,
+                                label: "javascript"
+                            },
+                            {
+                                value: 6,
+                                label: "asp"
+                            },
+                            {
+                                value: 7,
+                                label: "ruby"
+                            }
+                        ],
+                        // url:   ,
+                        autoFocus: true,
+                        disabled: false,
+                        open: function () {},
+                        select: function (ui, item) {
+                            // ui.rowData.id = item.label;
+                            /* $(this).val(item.item.label);
+                            return item.item.label; */
+                        },
+                        change: function (ui, item) {},
+                        focus: function (ui, item) {},
+                        close: function () {}
+                    },
+                    render: function (ui) {
+
+                    },
+                    //  validations: [{
+                    //     type: function (ui) {
+                    //         /* var value = ui.value;
+                    //         if ($.inArray(value, [
+                    //                 "ColdFusion",
+                    //                 "Erlang",
+                    //                 "Fortran",
+                    //                 "Groovy",
+                    //                 "Haskell",
+                    //                 "Java"
+                    //             ]) == -1) {
+                    //             ui.msg = value + "娌℃壘鍒�?;
+                    //             $('.pq-editor-focus').css('border-color', '#f00');
+                    //         } */
+                    //         return false
+                    //     }
+                    // }] 
+                },
+                {
+                    display: "Revenues ($ millions)",
+                    align: "right",
+                    dataType: "float",
+                    width: 120,
+                    name: "revenues",
+                    editor: {
+                        type: 'textbox'
+                    },
+                    render: function (ui) { // 初始化时 复选框置灰 不让选择
+                        var rowdata = ui.rowData;
+                        if (rowdata.revenues < 150000) {
+                            rowdata.disabledcheckbox = true;
+                        }
+                    }
+                },
+                {
+                    display: "Profits ($ millions)",
+                    align: "right",
+                    dataType: "float",
+                    name: "profits",
+                    width: 120,
+                    // minWidth:120,
+                    editor: {
+                        type: 'textbox'
+                    }
+                }
+            ];
+            gridObj.dataModel = { // 数据加载的有关属性
+                method: "GET",
+                /* data: data,  */ // 本地属性 数据属性 
+                location: "remote", // 远程数据时 location 值为remote
+                getData: function (res) { // 后台数据格式转化
+                    var response = {};
+                    response.data = res;
+                    return response;
+                },
+                url: 'http://localhost:9090/etGrid', // 初始化页面时若不加载数据 参数可不用填  url 可以写在query方法里的loadData()参数里;  若加载数据URL可填
+                // recIndx: 'rank' // 列名(最好是所有数据都有其字段值) 必填;  涉及到 记录添加、修改、删除数据的记录, 否则获取不到update、add、delete的数据
+            };
+            gridObj.numberCell = {
+                //  show:false,
+                resizable: false,
+                title: "#",
+                width: 30,
+                minWidth: 30
+            };
+            gridObj.toolbar = {
+                items: [{
+                    type: "select",
+                    label: '添加',
+                    icon: 'circle-plus',
+                    disabled: true,
+                    options: [1, 2, 3]
+                    // disabled: true, // 初始化禁用按钮
+                    /* listeners: [{
+                        click: add
+                    }] */
+                }, {
+                    type: "button",
+                    label: '删除',
+                    icon: 'delete',
+                    listeners: [{
+                        click: delete2
                     }]
-                },
-                summary: { //  摘要行集合 对象
-                    totalColumns: ['revenues', 'profits'],
-                    keyWordCol: 'rank', //关键字所在列的列名
-                    averageColumns: ['revenues', 'profits'],
-                    maxColumns: ['revenues', 'profits'],
-                    minColumns: ['revenues', 'profits']
-                },
-                cellBeforeSave: function () {},
-                cellSave: function (a, ui) {
-                    // console.log(a,ui)
-                },
-                refresh: function () {
-                    // console.log(1111)
-                },
-                render: function () {},
-                refreshRow: function () {
-                    console.log(78878);
-                },
-                editorBlur: function (event, ui) {},
-                editorEnd: function () {
-
-                },
-                load: function () {
-
-                },
-                changeRow: function () {},
-                change: function () {}
-            });
+                }, {
+                    type: "button",
+                    label: '添加列',
+                    icon: 'add',
+                    id: 'add',
+                    listeners: [{
+                        click: addCol
+                    }]
+                }]
+            };
+            gridObj.summary = { //  摘要行集合 对象
+                totalColumns: ['revenues', 'profits'],
+                keyWordCol: 'rank', //关键字所在列的列名
+                averageColumns: ['revenues', 'profits'],
+                maxColumns: ['revenues', 'profits'],
+                minColumns: ['revenues', 'profits']
+            };
+            gridObj.beforeTableView = function () {
+                grid.refreshSummary();
+            };
+            var grid = $("#grid_array").etGrid(gridObj);
 
             $('#text1').click(function () {
                 grid.option('dataModel.data', data);
@@ -373,11 +363,6 @@
                 // grid.deleteRows(selecteds);
             });
 
-            /*grid.on('keydown', function(evt){
-                if(evt.key == 'Tab') {
-                    grid.addRow({});
-                }
-            });*/
             function add() {
                 grid.addRow()
             }

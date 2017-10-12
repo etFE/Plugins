@@ -1,5 +1,7 @@
 import defaultOptions from './default';
-import { _fillSummaryData } from './PrivateMethods';
+import {
+    fillSummaryData
+} from './PrivateMethods';
 import Methods from './methods';
 
 !(function ($) {
@@ -30,8 +32,12 @@ import Methods from './methods';
                 editorObj.resizable = false;
                 return function (ui) {
                     const $inp = ui.$cell.find('input');
-                    const { $cell } = ui;
-                    let { rowIndx } = ui;
+                    const {
+                        $cell
+                    } = ui;
+                    let {
+                        rowIndx
+                    } = ui;
                     const $this = $(this);
                     const $invGridHTML = $('<div class="et_select_grid"></div>');
                     let $invGrid;
@@ -41,7 +47,9 @@ import Methods from './methods';
                         const columns = $invGrid.getColumns();
                         let dataPlhd = {};
 
-                        columns.forEach((item) => { dataPlhd[item.dataIndx] = ''; });
+                        columns.forEach((item) => {
+                            dataPlhd[item.dataIndx] = '';
+                        });
 
                         dataPlhd = $.extend(dataPlhd, rowData);
                         // dataPlhd = { ...rowData };
@@ -90,7 +98,7 @@ import Methods from './methods';
 
                     let [preValue, curValue] = ['', '']; // 先前值 当前值 初始选择的索引
                     let selectIndex = 0;
-                    let _timmer = null;
+                    let timmer = null;
 
                     // 绑定失焦事件
                     $inp.get(0).onblur = function () {
@@ -107,7 +115,7 @@ import Methods from './methods';
                         // 绑定键盘事件
                         $inp.get(0).onkeydown = function (event) {
                             event = event || window.event;
-                            const _this = this;
+                            const self = this;
 
                             // 操作下拉表格 选择行
                             switch (event.keyCode) {
@@ -124,7 +132,8 @@ import Methods from './methods';
                                 break;
                             case 39:
                                 break;
-                            case 40: {
+                            case 40:
+                            {
                                 // down
                                 selectIndex++;
                                 const rowDataLength = $invGrid.getAllData().length;
@@ -136,16 +145,23 @@ import Methods from './methods';
                                 $invGrid.setSelection(selectIndex, false, true);
                                 break;
                             }
-                            case 13: {
+                            case 13:
+                            {
                                 // 判断是否有行未被选中
                                 if (!$invGrid.selectGet()[0]) {
                                     break;
                                 }
-                                const { rowData } = $invGrid.selectGet()[0];
+                                const {
+                                    rowData
+                                } = $invGrid.selectGet()[0];
                                 rechargeValue(rowData, () => {
                                     /** *********控制回车键跳单元格****** */
-                                    const { iKeyNav } = $grid.getInstance();
-                                    const { rowIndxPage } = ui;
+                                    const {
+                                        iKeyNav
+                                    } = $grid.getInstance();
+                                    const {
+                                        rowIndxPage
+                                    } = ui;
                                     const offset = $grid.getInstance().rowIndxOffset;
                                     const colIndx = $grid.getColIndx(ui.dataIndx);
                                     let obj2;
@@ -168,20 +184,26 @@ import Methods from './methods';
                                 /** ******************** */
                                 break;
                             }
-                            case 9: {
+                            case 9:
+                            {
                                 // 如果tab，赋值并开始编辑下一个单元格。
-                                const { rowData } = $invGrid.selectGet()[0];
+                                const {
+                                    rowData
+                                } = $invGrid.selectGet()[0];
                                 rechargeValue(rowData);
                                 break;
                             }
-                            default: return;
+                            default:
+                                return;
                             }
-                            if (event.shiftKey) return false; // 避免与按shift键与回车键时冲突
+                            if (event.shiftKey) {
+                                return;
+                            } // 避免与按shift键与回车键时冲突
 
-                            clearTimeout(_timmer);
+                            clearTimeout(timmer);
                             // 模糊查询
-                            _timmer = setTimeout(() => {
-                                curValue = $(_this).val();
+                            timmer = setTimeout(() => {
+                                curValue = $(self).val();
                                 curValue = curValue.replace(/(^\s*)|(\s*$)|(\s*)/g, '');
 
                                 if (curValue !== preValue) {
@@ -285,23 +307,22 @@ import Methods from './methods';
                                 success: function (data) {
                                     if (typeof setting.success === 'function') {
                                         return setting.success(data, Response);
-                                    } else {
-                                        Response($.map(data, (item) => {
-                                            if (setting.keyField) {
-                                                return {
-                                                    value: item.text,
-                                                    label: item.text,
-                                                    id: item.id
-                                                };
-                                            } else {
-                                                return {
-                                                    value: item[setting.textField],
-                                                    label: item[setting.textField],
-                                                    id: item[setting.valueField]
-                                                };
-                                            }
-                                        }));
                                     }
+                                    Response($.map(data, (item) => {
+                                        if (setting.keyField) {
+                                            return {
+                                                value: item.text,
+                                                label: item.text,
+                                                id: item.id
+                                            };
+                                        }
+                                        return {
+                                            value: item[setting.textField],
+                                            label: item[setting.textField],
+                                            id: item[setting.valueField]
+                                        };
+                                    }));
+                                    return false;
                                 }
                             });
                         };
@@ -313,7 +334,9 @@ import Methods from './methods';
                         };
                     }
                     setting.select = function (evt, item2) {
-                        const { item } = item2;
+                        const {
+                            item
+                        } = item2;
                         if (!item) {
                             ui.rowData[ui.dataIndx] = '';
                             setting.keyField ?
@@ -327,7 +350,9 @@ import Methods from './methods';
                         }
 
                         if (typeof autoCompleteObj.select === 'function') {
-                            const { rowData } = ui;
+                            const {
+                                rowData
+                            } = ui;
                             const cellData = {};
                             $.extend(cellData, ui);
                             // const cellData = { ...ui };
@@ -335,10 +360,13 @@ import Methods from './methods';
                             delete cellData.rowData;
                             return autoCompleteObj.select(rowData, cellData, setting);
                         }
+                        return false;
                     };
 
                     setting.change = function (evt, item3) {
-                        const { item } = item3;
+                        const {
+                            item
+                        } = item3;
 
                         if (!item) {
                             ui.rowData[ui.dataIndx] = '';
@@ -352,7 +380,9 @@ import Methods from './methods';
                                 ui.rowData[setting.valueField] = item.id;
                         }
                         if (typeof autoCompleteObj.change === 'function') {
-                            const { rowData } = ui;
+                            const {
+                                rowData
+                            } = ui;
                             const cellData = {};
                             $.extend(cellData, ui);
                             // const cellData = { ...ui };
@@ -360,10 +390,13 @@ import Methods from './methods';
                             delete cellData.rowData;
                             return autoCompleteObj.change(rowData, cellData, setting);
                         }
+                        return false;
                     };
 
                     if (typeof setting.focus === 'function') {
-                        const { rowData } = ui;
+                        const {
+                            rowData
+                        } = ui;
                         const cellData = {};
                         $.extend(cellData, ui);
                         // const cellData = { ...ui };
@@ -375,7 +408,9 @@ import Methods from './methods';
                     }
 
                     if (typeof setting.close === 'function') {
-                        const { rowData } = ui;
+                        const {
+                            rowData
+                        } = ui;
                         const cellData = {};
                         $.extend(cellData, ui);
                         // const cellData = { ...ui };
@@ -387,7 +422,9 @@ import Methods from './methods';
                     }
 
                     if (typeof setting.create === 'function') {
-                        const { rowData } = ui;
+                        const {
+                            rowData
+                        } = ui;
                         const cellData = {};
                         $.extend(cellData, ui);
                         // const cellData = { ...ui };
@@ -430,7 +467,9 @@ import Methods from './methods';
                             prvRowData = ui.rowData;
                         };
                         eidtorObj.getData = (ui) => {
-                            const { $cell } = ui;
+                            const {
+                                $cell
+                            } = ui;
                             const curValue = $cell.find('input').val();
                             const curRowData = $.extend({}, prvRowData);
                             // const curRowData = { ...prvRowData };
@@ -495,16 +534,16 @@ import Methods from './methods';
 
         /**
          * @description  内部生成生成合计行的函数
-        */
-        let $summary;
-        let summaryRows = []; //   摘要合计行节点、 摘要行数据   (全局变量)
+         */
+        $self.$summary;
+        $self.summaryRows = []; //   摘要合计行节点、 摘要行数据   (全局变量)
         function createSummaryRows() {
             opts.render = function (event, ui) {
                 // 生成合计行的节点 储存到$summary里
-                $summary = $('<div class="pq-grid-summary"></div>')
+                $self.$summary = $('<div class="pq-grid-summary"></div>')
                     .prependTo($('.pq-grid-bottom', this));
                 if (opts.summary) {
-                    summaryRows = _fillSummaryData($self, opts);
+                    $self.summaryRows = fillSummaryData($self, opts);
                 }
                 if (typeof options.render === 'function') {
                     options.render(event, ui);
@@ -526,7 +565,7 @@ import Methods from './methods';
                     }
                 };
                 opts.cellSave = function (evt, ui) {
-                    summaryRows = _fillSummaryData($self, opts);
+                    $self.summaryRows = fillSummaryData($self, opts);
                     opts.refresh.call(this);
                     if (typeof options.cellSave === 'function') {
                         options.cellSave(evt, ui);
@@ -540,7 +579,7 @@ import Methods from './methods';
             if (opts.summaryRowIndx) {
                 opts.dataModel.getData = function (response, textStatus, jqXHR) {
                     const data = response.Rows;
-                    summaryRows = [];
+                    $self.summaryRows = [];
                     if (!data) {
                         return false;
                     }
@@ -548,30 +587,25 @@ import Methods from './methods';
                     for (let i = 0; i < opts.summaryRowIndx; i++) {
                         const Indx = opts.summaryRowIndx[i];
                         if (typeof Indx !== 'number') {
-                            alert('请填写正确的行索引值');
                             return false;
                         }
-                        summaryRows.push(data[Indx]);
+                        $self.summaryRows.push(data[Indx]);
                         data.splice(Indx, 1);
                     }
                     response.data = data;
 
                     if (typeof options.dataModel.getData === 'function') {
                         return options.dataModel.getData(response, textStatus, jqXHR);
-                    } else {
-                        return response;
                     }
+                    return response;
                 };
             }
             opts.refresh = function (event, ui) {
-                // summaryRows = _fillSummaryData();
-                // if (ui.dataModel.data) {
                 $(this).pqGrid('createTable', {
-                    $cont: $summary,
-                    data: summaryRows
+                    $cont: $self.$summary,
+                    data: $self.summaryRows
 
                 });
-                // }
                 if (typeof options.refresh === 'function') {
                     options.refresh(event, ui);
                 }
@@ -661,7 +695,7 @@ import Methods from './methods';
         }
 
         const grid = $self.pqGrid(opts);
-        const methods = Methods(grid, $summary, summaryRows);
+        const methods = Methods(grid);
         $grid = $.extend({}, grid, methods);
         /*  inStance.$grid_inner.on('') */
         return $grid;

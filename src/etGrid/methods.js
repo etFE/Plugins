@@ -1,6 +1,6 @@
-import { _fillSummaryData, _getTotalSummary } from './PrivateMethods';
+import { fillSummaryData, getTotalSummary } from './PrivateMethods';
 
-function Methods(grid, $summary, summaryRows) {
+function Methods(grid) {
     const methods = {
         /**
          * 自定义绑定事件
@@ -235,9 +235,8 @@ function Methods(grid, $summary, summaryRows) {
                 return grid.pqGrid('getChanges', {
                     format: format
                 });
-            } else {
-                return grid.pqGrid('getChanges');
             }
+            return grid.pqGrid('getChanges');
         },
         /**
          * 根据键名获取列索引
@@ -383,11 +382,11 @@ function Methods(grid, $summary, summaryRows) {
                 return grid.pqGrid('history', {
                     method: method
                 });
-            } else {
-                grid.pqGrid('history', {
-                    method: method
-                });
             }
+            grid.pqGrid('history', {
+                method: method
+            });
+            return false;
         },
         /**
          * 判断提交后数据是否有变化
@@ -403,9 +402,8 @@ function Methods(grid, $summary, summaryRows) {
                     paraObj.rowData = rowData;
                 }
                 return grid.pqGrid('isDirty', paraObj);
-            } else {
-                return grid.pqGrid('isDirty');
             }
+            return grid.pqGrid('isDirty');
         },
         /**
          * 判断是否可编辑
@@ -445,6 +443,7 @@ function Methods(grid, $summary, summaryRows) {
                     allowInvalid: allowInvalid
                 });
             }
+            return false;
         },
         /**
          * 检查行集合是否对column.validations []有效
@@ -525,9 +524,8 @@ function Methods(grid, $summary, summaryRows) {
                 } else if (typeof optionName === 'object') {
                     grid.pqGrid('option', optionName);
                 }
-            } else {
-                return grid.pqGrid('option');
             }
+            return grid.pqGrid('option');
         },
         /**
          * 刷新，更改dataModel，或更新记录时很有用
@@ -683,10 +681,10 @@ function Methods(grid, $summary, summaryRows) {
             if (obj && typeof obj === 'object') {
                 if (obj.method === 'indexOf' || obj.method === 'getSelection') {
                     return grid.pqGrid('selection', obj);
-                } else {
-                    grid.pqGrid('selection', obj);
                 }
+                grid.pqGrid('selection', obj);
             }
+            return false;
         },
         /**
          * selection中抽离，从选择集中移除指定行数据
@@ -879,6 +877,7 @@ function Methods(grid, $summary, summaryRows) {
                 }
             }
             Gobj.refreshView();
+            return false;
         },
         /**
          * @description 添加多行
@@ -959,10 +958,10 @@ function Methods(grid, $summary, summaryRows) {
          */
         refreshSummary() {
             const opts = grid.pqGrid('option');
-            summaryRows = _fillSummaryData(opts);
+            grid.summaryRows = fillSummaryData(grid, opts);
             grid.pqGrid('createTable', {
-                $cont: $summary,
-                data: summaryRows
+                $cont: grid.$summary,
+                data: grid.summaryRows
 
             });
         },
@@ -972,7 +971,7 @@ function Methods(grid, $summary, summaryRows) {
          */
         getSummaryDatas() {
             const opts = grid.pqGrid('option');
-            return _fillSummaryData(opts);
+            return fillSummaryData(opts);
         },
         /**
          * @description 获取合计行数据
@@ -983,12 +982,11 @@ function Methods(grid, $summary, summaryRows) {
             if (typeof columns === 'string') {
                 const theColumn = [columns];
 
-                const totalValue = _getTotalSummary(grid, theColumn);
+                const totalValue = getTotalSummary(grid, theColumn);
 
                 return totalValue[columns];
-            } else {
-                return _getTotalSummary(grid, columns);
             }
+            return getTotalSummary(grid, columns);
         },
         /**
          * @description 获取表格打印格式的表头列
@@ -997,7 +995,7 @@ function Methods(grid, $summary, summaryRows) {
         getPrintColumns() {
             let [colIndx, maxlevel] = [0, 1];
 
-            function _printColsFilter(obj) {
+            function printColsFilter(obj) {
                 obj = $.extend(true, {}, obj);
                 let leafIndex;
                 if (obj.level) { // obj 是或否为表头子节点
@@ -1023,7 +1021,7 @@ function Methods(grid, $summary, summaryRows) {
                     }
 
                     if (item.colModel && item.colModel.length) {
-                        item.columns = _printColsFilter(item);
+                        item.columns = printColsFilter(item);
                         delete item.colModel;
                     } else {
                         colIndx++;
@@ -1047,7 +1045,7 @@ function Methods(grid, $summary, summaryRows) {
                 return result;
             }
             const Obj = grid.pqGrid('option');
-            const cols = _printColsFilter(Obj);
+            const cols = printColsFilter(Obj);
             const results = {
                 maxcolumnindex: colIndx - 1,
                 maxlevel: maxlevel,
