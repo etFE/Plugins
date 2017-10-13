@@ -7,6 +7,9 @@ const config = {
         etSelect: `${__dirname}/src/etSelect`,
         etCheck: `${__dirname}/src/etCheck`,
         etTab: `${__dirname}/src/etTab`,
+        etDialog: `${__dirname}/src/etDialog`,
+        etGrid: `${__dirname}/src/etGrid`,
+        etValidate: `${__dirname}/src/etValidate`
         etDatepicker: `${__dirname}/src/etDatepicker`
     },
     output: {
