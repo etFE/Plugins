@@ -1,0 +1,27 @@
+
+.etUpload{
+    text-align:center
+}
+
+.etUpload .image{
+    display:block;
+    background: url('./empty.jpg') no-repeat center center #f3f3f3; ;
+    width:100%;
+    height:80%;
+}
+
+.etUpload .button{
+    box-sizing: border-box;
+    width:50px;
+    height: 26px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin:3px;
+    border: 1px solid #aecaf0;
+    background: #e5edf4;
+    outline: none;
+    border-radius: 2px;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);
+}
