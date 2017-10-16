@@ -10,6 +10,7 @@ const config = {
         etDialog: `${__dirname}/src/etDialog`,
         etGrid: `${__dirname}/src/etGrid`,
         etValidate: `${__dirname}/src/etValidate`,
+        etDatepicker: `${__dirname}/src/etDatepicker`,
         etTree: `${__dirname}/src/etTree`
     },
     output: {
