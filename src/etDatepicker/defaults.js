@@ -6,7 +6,8 @@ const defaults = {
     toggleSelected: false, // false时可以选择同一天，true时点同一天取消选择
     showNav: true,
     readonly: true,
-    language: 'zh'
+    language: 'zh',
+    multipleDatesSeparator: ' 至 '
     // onSelect: function (formattedDate, date, inst) {},
     // onShow: function (inst, animationCompleted) {},
     // onHide: function (inst, animationCompleted) {},
