@@ -9,7 +9,10 @@ const config = {
         etTab: `${__dirname}/src/etTab`,
         etDialog: `${__dirname}/src/etDialog`,
         etGrid: `${__dirname}/src/etGrid`,
-        etValidate: `${__dirname}/src/etValidate`
+        etValidate: `${__dirname}/src/etValidate`,
+        etDatepicker: `${__dirname}/src/etDatepicker`,
+        etTree: `${__dirname}/src/etTree`,
+        etUpload: `${__dirname}/src/etUpload`
     },
     output: {
         path: `${__dirname}/public`,
