@@ -12,11 +12,15 @@ $borderColor: #bed5f3;
 /*最外层*/
 .ettab-container {
     border: 1px solid $borderColor;
+    position: relative;
+    padding-top: 31px;
 }
 
 /*导航标签*/
 .ettab-nav {
     height: 28px;
+    position: absolute;
+    top: 0;
     list-style: none;
     background: $navBg;
     margin: 0;
@@ -46,10 +50,18 @@ $borderColor: #bed5f3;
 }
 
 /*内容块*/
-.ettab-panel {
-    display: none;
+.ettab-content {
+    height: 100%;
 
-    &.ettab-active {
-        display: block;
+    .ettab-panel {
+        display: none;
+        height: 100%;
+        padding: 5px;
+        box-sizing: border-box;
+        overflow: auto;
+
+        &.ettab-active {
+            display: block;
+        }
     }
 }
