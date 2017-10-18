@@ -345,7 +345,7 @@
                 maxColumns: ['revenues', 'profits'],
                 minColumns: ['revenues', 'profits']
             };
-            gridObj.beforeTableView = function () {
+            gridObj.beforeTableView = function () { // 请求后台数据时 初始化更新合计行数据
                 grid.refreshSummary();
             };
             var grid = $("#grid_array").etGrid(gridObj);
