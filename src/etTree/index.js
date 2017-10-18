@@ -19,6 +19,8 @@ $.fn.etTree = function (settings, treeNode) {
         }
     };
     const opts = $.extend(true, {}, defaultSet, settings);
+
+    $self.addClass('ztree');
     const etTree = $.fn.zTree.init($self, opts, treeNode);
 
     return etTree;
