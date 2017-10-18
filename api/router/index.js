@@ -1,6 +1,6 @@
 const { getData, getArchives } = require('./selectData');
 const { getGridData } = require('./gridData');
-const { getTreeDept } = require('./treeData');
+const { getTreeDept, getTreeChild } = require('./treeData');
 const fs = require('fs');
 
 const route = (server) => {
@@ -29,6 +29,12 @@ const route = (server) => {
     // 部门结构数据
     server.post('/hr/deptTree', (req, res) => {
         const data = getTreeDept();
+        res.json(data);
+    });
+
+    // 人事子集结构数据
+    server.post('/hr/childTree', (req, res) => {
+        const data = getTreeChild();
         res.json(data);
     });
 
