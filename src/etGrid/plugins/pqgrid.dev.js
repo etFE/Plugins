@@ -2096,7 +2096,7 @@
 			}
 			if (heightPercent) {
 				ht = (parseInt(o.height) * htParent / 100) + heightOffset;
-				if(o.inWindowHeight) {
+				if(o.inWindowHeight || parent[0] == document.body) {
 					ht -= element.offset().top; // 让高度自适应 add---(cl)
 				}
 			}
