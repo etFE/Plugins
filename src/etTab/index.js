@@ -20,11 +20,12 @@ const tabChangeStatus = function ($label, $panel, tabid, index) {
 };
 
 // 改变标签
-const tabChangeTab = function ($label) {
-    if ($label.hasClass('ettab-active')) {
+const tabChangeTab = function (tabid) {
+    const $label = this.tabLabelObj[tabid];
+
+    if (!$label || $label.hasClass('ettab-active')) {
         return;
     }
-    const tabid = $label.attr('tabid');
     const $panel = this.tabPanelObj[tabid];
     const index = $label.index();
 
@@ -40,7 +41,8 @@ const tabChangeTab = function ($label) {
 const tabSetup = function () {
     const that = this;
     this.$tabNav.on('click', '.ettab-tab', function () {
-        tabChangeTab.call(that, $(this));
+        const tabid = $(this).attr('tabid');
+        tabChangeTab.call(that, tabid);
     });
 };
 
@@ -50,7 +52,7 @@ const tabInit = function () {
     $panels.each((index, panel) => {
         const $panel = $(panel);
         const tabTitle = $panel.attr('title');
-        const tabid = $panel.attr('tabid');
+        const tabid = $panel.attr('tabid') || index;
         const $label = $(`<li class="ettab-tab" tabid="${tabid}">${tabTitle}</li>`);
 
         $panel
@@ -103,8 +105,12 @@ class EtTab {
         return this;
     }
 
-    ChangeTab() {
-        tabChangeTab.call(this);
+    changeTab(tabid) {
+        tabChangeTab.call(this, tabid);
+    }
+
+    getStatus() {
+        return this.status;
     }
 }
 
