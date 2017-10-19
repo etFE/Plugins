@@ -1,5 +1,5 @@
 const { getData, getArchives } = require('./selectData');
-const { getGridData } = require('./gridData');
+const { getGridData, getBaseGrid } = require('./gridData');
 const { getTreeDept, getTreeChild } = require('./treeData');
 const fs = require('fs');
 
@@ -41,6 +41,12 @@ const route = (server) => {
     // 档案下拉框
     server.post('/hr/archives', (req, res) => {
         const data = getArchives();
+        res.json(data);
+    });
+
+    // 基础信息表格
+    server.post('/hr/baseGrid', (req, res) => {
+        const data = getBaseGrid();
         res.json(data);
     });
 };
