@@ -9,6 +9,7 @@ const defaults = {
     type: 'POST',
     defaultValue: '',
     maxOptions: 50,
+    maxItems: 1,
     mode: '',
     showClear: true,
     checkboxMode: false,
