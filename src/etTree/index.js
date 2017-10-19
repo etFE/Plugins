@@ -1,5 +1,6 @@
 import './zTree/css/zTree.css';
 import './zTree/js/jquery.ztree.all';
+import './zTree/js/jquery.ztree.exhide';
 
 $.fn.etTree = function (settings, treeNode) {
     const $self = this;
