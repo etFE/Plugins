@@ -73,17 +73,9 @@ import Methods from './methods';
 
                         rechargeValue(ui2.rowData);
 
-                        $this.remove();
-                    };
-                    /* editorObj.rowClick = function (event, ui2) {
-                        event = event || window.event;
-                        event.stopPropagation();
-
-                        rechargeValue(ui.rowData);
-
                         $(this).remove();
-                    }; */
-
+                    };
+                
                     // 渲染grid，添加到body，并定位
                     $invGrid = $invGridHTML.etGrid(editorObj);
                     $invGridHTML
