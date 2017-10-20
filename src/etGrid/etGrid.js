@@ -38,7 +38,7 @@ import Methods from './methods';
                     let {
                         rowIndx
                     } = ui;
-                    const $this = $(this);
+                    const $this = grid;
                     const $invGridHTML = $('<div class="et_select_grid"></div>');
                     let $invGrid;
                     // 回充值。由于部分数据后台未传。
