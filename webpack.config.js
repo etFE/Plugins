@@ -12,7 +12,8 @@ const config = {
         etValidate: `${__dirname}/src/etValidate`,
         etDatepicker: `${__dirname}/src/etDatepicker`,
         etTree: `${__dirname}/src/etTree`,
-        etUpload: `${__dirname}/src/etUpload`
+        etUpload: `${__dirname}/src/etUpload`,
+        etForm: `${__dirname}/src/etForm`
     },
     output: {
         path: `${__dirname}/public`,

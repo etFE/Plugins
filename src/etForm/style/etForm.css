@@ -1,0 +1,12 @@
+.form_content {
+    font-size:13px;
+    /* background-color: #EDEDED; */
+    padding: 5px;
+}
+
+.form_item {
+    height:25px;
+    padding: 5px;
+    float: left;
+
+}
