@@ -49,6 +49,10 @@ function buildField(type) {
 // 构建插件
 function initWidget($el) {
     function initSelect($item) {
+        if (!$.fn.etSelect) {
+            console.warn('下拉框插件未引用');
+            return $item;
+        }
         const widget = $item.$el.etSelect({
             options: $item.data
         });
@@ -56,6 +60,10 @@ function initWidget($el) {
     }
 
     function initDate($item) {
+        if (!$.fn.etDatepicker) {
+            console.warn('日期框插件未引用');
+            return $item;
+        }
         const widget = $item.etDatepicker({
 
         });
@@ -63,6 +71,10 @@ function initWidget($el) {
     }
 
     function initCheck($item) {
+        if (!$.fn.etCheck) {
+            console.warn('复选框插件未引用');
+            return $item;
+        }
         const widget = $item.etCheck({
 
         });
@@ -70,6 +82,10 @@ function initWidget($el) {
     }
 
     function initFile($item) {
+        if (!$.fn.etUpload) {
+            console.warn('复选框插件未引用');
+            return $item;
+        }
         // TODO
         return $item;
     }
