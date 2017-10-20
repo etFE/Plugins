@@ -116,6 +116,8 @@
 }
 .selectize-control {
   position: relative;
+  display:inline-block;
+  vertical-align: middle;
 }
 .selectize-dropdown,
 .selectize-input,
