@@ -38,7 +38,7 @@ import Methods from './methods';
                     let {
                         rowIndx
                     } = ui;
-                    const $this = $(this);
+                    const $this = grid;
                     const $invGridHTML = $('<div class="et_select_grid"></div>');
                     let $invGrid;
                     // 回充值。由于部分数据后台未传。
@@ -72,26 +72,22 @@ import Methods from './methods';
                         event.stopPropagation();
 
                         rechargeValue(ui2.rowData);
-
-                        $this.remove();
+                        $invGrid.remove();
                     };
-                    /* editorObj.rowClick = function (event, ui2) {
-                        event = event || window.event;
-                        event.stopPropagation();
-
-                        rechargeValue(ui.rowData);
-
-                        $(this).remove();
-                    }; */
-
                     // 渲染grid，添加到body，并定位
+                    // 确定 子表格top的距离
+                    let cellOffsetTop = $cell.offset().top + $cell.height();
+                    // 档子表格处于最底部时，显示在单元格上面
+                    if ($('body').height() - cellOffsetTop < parseInt(editorObj.height, 10)) {
+                        cellOffsetTop = $cell.offset().top - parseInt(editorObj.height, 10);
+                    }
                     $invGrid = $invGridHTML.etGrid(editorObj);
                     $invGridHTML
                         .appendTo($('body'))
                         .css({
                             'z-index': '99',
                             position: 'absolute',
-                            top: $cell.offset().top + $cell.height(),
+                            top: cellOffsetTop,
                             left: $cell.offset().left
                         });
 
@@ -194,7 +190,7 @@ import Methods from './methods';
                                 break;
                             }
                             default:
-                                return;
+                                break;
                             }
                             if (event.shiftKey) {
                                 return;
@@ -327,7 +323,7 @@ import Methods from './methods';
                             });
                         };
                     }
-
+                    // open 事件
                     if (typeof setting.open === 'function') {
                         setting.open = function (evt, item) {
                             return autoCompleteObj.open(ui, item);
@@ -392,7 +388,7 @@ import Methods from './methods';
                         }
                         return false;
                     };
-
+                    // focus 事件
                     if (typeof setting.focus === 'function') {
                         const {
                             rowData
@@ -406,7 +402,7 @@ import Methods from './methods';
                             return autoCompleteObj.focus(rowData, cellData, setting);
                         };
                     }
-
+                    // close 事件
                     if (typeof setting.close === 'function') {
                         const {
                             rowData
@@ -420,7 +416,7 @@ import Methods from './methods';
                             return autoCompleteObj.close(rowData, cellData, setting);
                         };
                     }
-
+                    // create 事件
                     if (typeof setting.create === 'function') {
                         const {
                             rowData
