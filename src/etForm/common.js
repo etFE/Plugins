@@ -35,66 +35,65 @@ let widgetArray;
 function initWidget($el) {
     widgetArray = $el;
     function initSelect($item) {
+        const { OPTIONS } = $item;
         if (!$.fn.etSelect) {
             console.warn('下拉框插件未引用');
             return $item;
         }
-        const widget = $item.$el.etSelect({
-            options: $item.data
-        });
+        const widget = $item.$el.etSelect(OPTIONS);
         return widget;
     }
 
     function initDate($item) {
+        const { OPTIONS } = $item;
         if (!$.fn.etDatepicker) {
             console.warn('日期框插件未引用');
             return $item;
         }
-        const widget = $item.etDatepicker({
-
-        });
+        const widget = $item.$el.etDatepicker(OPTIONS);
         return widget;
     }
 
     function initCheck($item) {
+        const { OPTIONS } = $item;
         if (!$.fn.etCheck) {
             console.warn('复选框插件未引用');
             return $item;
         }
-        const widget = $item.etCheck({
-
-        });
+        const widget = $item.$el.etCheck();
         return widget;
     }
 
     function initFile($item) {
+        const { OPTIONS } = $item;
         if (!$.fn.etUpload) {
             console.warn('复选框插件未引用');
-            return $item;
+            return $item.$el;
         }
-        // TODO
-        return $item;
+        // TODO:
+        return $item.$el;
     }
 
     function initInt($item) {
-        // TODO
-        return $item;
+        const { OPTIONS } = $item;
+        // TODO:
+        return $item.$el;
     }
 
     function initFloat($item) {
-        // TODO
-        return $item;
+        const { OPTIONS } = $item;
+        // TODO:
+        return $item.$el;
     }
 
-
     $.each($el, (index, element) => {
-        const { $field, type, data } = element;
+        const { $field, type, OPTIONS } = element;
         if (element.type === 'select') {
-            element.widget = initSelect({ $el: $field, data: data });
+            element.widget = initSelect({ $el: $field, OPTIONS: OPTIONS });
         }
 
         if (type === 'date') {
-            element.widget = initDate($field);
+            element.widget = initDate({ $el: $field, OPTIONS: OPTIONS });
         }
 
         if (element.type === 'text') {
@@ -103,19 +102,19 @@ function initWidget($el) {
         }
 
         if (element.type === 'checkbox') {
-            element.widget = initCheck($field);
+            element.widget = initCheck({ $el: $field, OPTIONS: OPTIONS });
         }
 
         if (element.type === 'file') {
-            element.widget = initFile($field);
+            element.widget = initFile({ $el: $field, OPTIONS: OPTIONS });
         }
 
         if (element.type === 'int') {
-            element.widget = initInt($field);
+            element.widget = initInt({ $el: $field, OPTIONS: OPTIONS });
         }
 
         if (element.type === 'float') {
-            element.widget = initFloat($field);
+            element.widget = initFloat({ $el: $field, OPTIONS: OPTIONS });
         }
     });
 }
