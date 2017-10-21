@@ -3,13 +3,18 @@ import './style/etForm.css';
 const defaultOptions = {
     fieldItems: [
         {
-            id: 'select', name: '下拉框', type: 'select', width: '250px', data: [{ id: '1', text: '测试1' }, { id: '2', text: '测试2' }]
+            id: 'select',
+            name: '下拉框',
+            type: 'select',
+            width: '250px',
+            fieldWidth: 120,
+            data: [{ id: '1', text: '测试1' }, { id: '2', text: '测试2' }]
         },
         {
-            id: 'text', name: '文本框', type: 'text', width: '250px'
+            id: 'text', name: '文本框', type: 'text', width: '250px', fieldWidth: 120
         },
         {
-            id: 'date', name: '日期框', type: 'date', width: '250px'
+            id: 'date', name: '日期框', type: 'date', width: '250px', fieldWidth: 120
         },
         {
             id: 'checkbox', name: '复选框', type: 'checkbox', width: '100%'
@@ -25,7 +30,7 @@ function buildField(type) {
     }
 
     if (type === 'text') {
-        return '<input type="text">';
+        return '<input class="text-input" type="text">';
     }
 
     if (type === 'date') {
@@ -148,7 +153,10 @@ function initWidget($el) {
         opts.fieldItems.forEach((item, index) => {
             const $item = $(`<div class="form_item" style="width:${item.width || ''}"></div>`);
             const $label = $(`<label for="${item.id}">${item.name}：</label>`).appendTo($item);
-            const $field = $(buildField(item.type)).attr('id', item.id).appendTo($item);
+            const $field = $(buildField(item.type))
+                .attr('id', item.id)
+                .css({ width: item.fieldWidth })
+                .appendTo($item);
             const fieldItem = {
                 id: item.id,
                 type: item.type,
