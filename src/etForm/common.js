@@ -32,7 +32,7 @@ function buildElement(type) {
 
 // 构建自定义插件
 let widgetArray;
-function initWidget($el) {
+function initWidget($el, onInitWidget) {
     widgetArray = $el;
     function initSelect($item) {
         const { OPTIONS } = $item;
@@ -117,6 +117,11 @@ function initWidget($el) {
             element.widget = initFloat({ $el: $field, OPTIONS: OPTIONS });
         }
     });
+
+    // 插件创建完成事件
+    if (typeof onInitWidget === "function") {
+        onInitWidget(widgetArray);
+    }
 }
 
 // 获取插件数组
@@ -154,4 +159,19 @@ function initLayout(fieldArr, colNum) {
     return $table;
 }
 
-export { buildElement, initWidget, initLayout, getWidgetArray };
+// 构建验证
+function initValidate($el, onInitValidate) {
+    // TODO:
+    // 插件创建完成事件
+    if (typeof onInitValidate === "function") {
+        onInitValidate($el);
+    }
+}
+
+// 验证表单
+function validateForm() {
+    // TODO:
+    return true;
+}
+
+export { buildElement, initWidget, initLayout, initValidate, getWidgetArray, validateForm };
