@@ -86,7 +86,6 @@ function initWidget($el, onInitWidget) {
         return $item.$el;
     }
 
-    // $.each($el, (index, element) => {
     $el.forEach((element, index) => {
         const { $field, type, OPTIONS } = element;
         if (element.type === 'select') {
@@ -150,17 +149,21 @@ function initLayout(fieldArr, colNum) {
 
 // 构建验证
 function initValidate($el, onInitValidate) {
-    // TODO:
+    if (!$.etValidate) {
+        console.warn('验证插件未引用');
+        return '';
+    }
+    const validateItems = widgetArray.map((v, i) => ({ el: v.$field, required: v.required }));
+    const validate = $.etValidate({
+        config: {
+        },
+        items: validateItems
+    });
     // 插件创建完成事件
     if (typeof onInitValidate === 'function') {
         onInitValidate($el);
     }
-}
-
-// 验证表单
-function validateForm() {
-    // TODO:
-    return true;
+    return validate;
 }
 
 // 获取表单数据
@@ -197,6 +200,5 @@ export {
     initLayout,
     initValidate,
     getWidgetArray,
-    getFormData,
-    validateForm
+    getFormData
 };
