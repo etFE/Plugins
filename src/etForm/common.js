@@ -173,6 +173,8 @@ function getFormData() {
             return widget.getValue();
         } else if (type === 'file') {
             return widget.getValue();
+        } else if (type === 'checkbox') {
+            return widget.checked;
         }
         return $field.val();
     }
