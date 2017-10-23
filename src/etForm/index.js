@@ -1,6 +1,14 @@
 import './style/etForm.css';
 import defaultOptions from './default';
-import { buildElement, initWidget, initLayout, initValidate, getWidgetArray, validateForm } from './common';
+import {
+    buildElement,
+    initWidget,
+    initLayout,
+    initValidate,
+    getWidgetArray,
+    getFormData,
+    validateForm
+} from './common';
 
 !(function ($) {
     $.fn.etForm = function (options) {
@@ -59,6 +67,9 @@ import { buildElement, initWidget, initLayout, initValidate, getWidgetArray, val
             },
             validate: function () {
                 return validateForm();
+            },
+            getFormData: function () {
+                return getFormData();
             }
         };
         return $.extend(true, {}, result, methods);

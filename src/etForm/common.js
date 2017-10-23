@@ -86,40 +86,29 @@ function initWidget($el, onInitWidget) {
         return $item.$el;
     }
 
-    $.each($el, (index, element) => {
+    // $.each($el, (index, element) => {
+    $el.forEach((element, index) => {
         const { $field, type, OPTIONS } = element;
         if (element.type === 'select') {
             element.widget = initSelect({ $el: $field, OPTIONS: OPTIONS });
-        }
-
-        if (type === 'date') {
+        } else if (type === 'date') {
             element.widget = initDate({ $el: $field, OPTIONS: OPTIONS });
-        }
-
-        if (element.type === 'text') {
+        } else if (element.type === 'text') {
             // nothing
             element.widget = $field;
-        }
-
-        if (element.type === 'checkbox') {
+        } else if (element.type === 'checkbox') {
             element.widget = initCheck({ $el: $field, OPTIONS: OPTIONS });
-        }
-
-        if (element.type === 'file') {
+        } else if (element.type === 'file') {
             element.widget = initFile({ $el: $field, OPTIONS: OPTIONS });
-        }
-
-        if (element.type === 'int') {
+        } else if (element.type === 'int') {
             element.widget = initInt({ $el: $field, OPTIONS: OPTIONS });
-        }
-
-        if (element.type === 'float') {
+        } else if (element.type === 'float') {
             element.widget = initFloat({ $el: $field, OPTIONS: OPTIONS });
         }
     });
 
     // 插件创建完成事件
-    if (typeof onInitWidget === "function") {
+    if (typeof onInitWidget === 'function') {
         onInitWidget(widgetArray);
     }
 }
@@ -163,7 +152,7 @@ function initLayout(fieldArr, colNum) {
 function initValidate($el, onInitValidate) {
     // TODO:
     // 插件创建完成事件
-    if (typeof onInitValidate === "function") {
+    if (typeof onInitValidate === 'function') {
         onInitValidate($el);
     }
 }
@@ -174,4 +163,38 @@ function validateForm() {
     return true;
 }
 
-export { buildElement, initWidget, initLayout, initValidate, getWidgetArray, validateForm };
+// 获取表单数据
+function getFormData() {
+    function getValue(value) {
+        const { type, $field, widget } = value;
+        if (type === 'select') {
+            return widget.getValue();
+        } else if (type === 'date') {
+            return widget.getValue();
+        } else if (type === 'file') {
+            return widget.getValue();
+        }
+        return $field.val();
+    }
+
+    const formData = new FormData();
+    if (!widgetArray) {
+        console.warn('widget is not build ,please use this function initWidget !');
+        return formData;
+    }
+
+    widgetArray.forEach((v, i) => {
+        formData.append(v.id, getValue(v));
+    });
+    return formData;
+}
+
+export {
+    buildElement,
+    initWidget,
+    initLayout,
+    initValidate,
+    getWidgetArray,
+    getFormData,
+    validateForm
+};
