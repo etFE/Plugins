@@ -7,7 +7,8 @@ const defaults = {
     showNav: true,
     readonly: true,
     language: 'zh',
-    multipleDatesSeparator: ' 至 '
+    multipleDatesSeparator: ' 至 ',
+    dateFormat: 'yyyy-mm-dd'
     // onSelect: function (formattedDate, date, inst) {},
     // onShow: function (inst, animationCompleted) {},
     // onHide: function (inst, animationCompleted) {},
