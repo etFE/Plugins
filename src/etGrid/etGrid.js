@@ -329,6 +329,7 @@ import Methods from './methods';
                             return autoCompleteObj.open(ui, item);
                         };
                     }
+                    // select事件
                     setting.select = function (evt, item2) {
                         const {
                             item
@@ -356,9 +357,9 @@ import Methods from './methods';
                             delete cellData.rowData;
                             return autoCompleteObj.select(rowData, cellData, setting);
                         }
-                        return false;
+                        return true;
                     };
-
+                    // change事件
                     setting.change = function (evt, item3) {
                         const {
                             item
@@ -386,7 +387,7 @@ import Methods from './methods';
                             delete cellData.rowData;
                             return autoCompleteObj.change(rowData, cellData, setting);
                         }
-                        return false;
+                        return true;
                     };
                     // focus 事件
                     if (typeof setting.focus === 'function') {
