@@ -1,6 +1,14 @@
 import './style/etForm.css';
 import defaultOptions from './default';
-import { buildElement, initWidget, initLayout, getWidgetArray } from './common';
+import {
+    buildElement,
+    initWidget,
+    initLayout,
+    initValidate,
+    getWidgetArray,
+    getFormData,
+    validateForm
+} from './common';
 
 !(function ($) {
     $.fn.etForm = function (options) {
@@ -42,17 +50,26 @@ import { buildElement, initWidget, initLayout, getWidgetArray } from './common';
         $self.append(initLayout(fieldArr, opts.colNum));
 
         // 构建完成事件
-        if (typeof opts.onInit === 'function') {
-            opts.onInit($el);
+        if (typeof opts.onInitElement === 'function') {
+            opts.onInitElement($el);
         }
 
         // 构建接口函数
         const methods = {
             initWidget: function () {
-                initWidget($el);
+                initWidget($el, opts.onInitWidget);
+            },
+            initValidate: function () {
+                initValidate({}, opts.onInitValidate);
             },
             getWidgetArray: function () {
                 return getWidgetArray();
+            },
+            validate: function () {
+                return validateForm();
+            },
+            getFormData: function () {
+                return getFormData();
             }
         };
         return $.extend(true, {}, result, methods);

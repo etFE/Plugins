@@ -67,9 +67,7 @@ const defaultOptions = {
             }
         });
 
-        result.getValue = () => {
-            return $file.get(0).files[0];
-        };
+        result.getValue = () => $file.get(0).files[0];
 
         return result;
     };
