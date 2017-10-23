@@ -42,6 +42,16 @@ function Methods(select) {
             }
             return result;
         },
+        getText: (separator) => {
+            const result = separator ? select.items.join(separator) : select.items;
+            let resultText = '';
+            if (result.length < 2) {
+                resultText = result[0] ? select.options[result[0]].text : '';
+            } else {
+                resultText = result.map(v => select.options[v].text);
+            }
+            return resultText;
+        },
         open: () => {
             select.open();
         },
