@@ -6,8 +6,7 @@ import {
     initLayout,
     initValidate,
     getWidgetArray,
-    getFormData,
-    validateForm
+    getFormData
 } from './common';
 
 !(function ($) {
@@ -29,16 +28,16 @@ import {
             // place 不可大于colNum 如果大于则按照colNum计算
             const place = (item.place || 1) > opts.colNum ? opts.colNum : item.place;
             const colSpan = (place * 2) - 1; // input所在td占colspan 计算方式: place * 2 - 1
-            const labelHTML = `<td class="label" align="right">${item.name}：</td>`;
+            const labelHTML = `<td class="label ${item.required ? 'no-empty' : ''}" align="right">${item.name}：</td>`;
             const inputHTML = `<td class="ipt" colSpan=${colSpan}></td>`;
             const fieldItem = {
                 id: item.id,
                 type: item.type,
                 $field: $field,
+                required: item.required,
                 OPTIONS: item.OPTIONS
             };
             $el.push(fieldItem);
-            // $self.append($item);
             result[item.id] = fieldItem;
 
             fieldArr.push({
@@ -60,13 +59,10 @@ import {
                 initWidget($el, opts.onInitWidget);
             },
             initValidate: function () {
-                initValidate({}, opts.onInitValidate);
+                return initValidate({}, opts.onInitValidate);
             },
             getWidgetArray: function () {
                 return getWidgetArray();
-            },
-            validate: function () {
-                return validateForm();
             },
             getFormData: function () {
                 return getFormData();
