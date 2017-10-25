@@ -44,15 +44,8 @@ import Methods from './methods';
                     // 回充值。由于部分数据后台未传。
                     // 先获取所有列信息，并对列name赋值空字符串。然后拿后台数据进行扩展
                     function rechargeValue(rowData, callback) {
-                        const columns = $invGrid.getColumns();
                         let dataPlhd = {};
-
-                        columns.forEach((item) => {
-                            dataPlhd[item.dataIndx] = '';
-                        });
-
                         dataPlhd = $.extend(dataPlhd, rowData);
-                        // dataPlhd = { ...rowData };
                         dataPlhd.pq_rowselect = false;
                         dataPlhd._rowIndx = rowIndx;
                         dataPlhd._rowIndxPage = ui.rowIndxPage;
@@ -116,7 +109,7 @@ import Methods from './methods';
                             // 操作下拉表格 选择行
                             switch (event.keyCode) {
                             case 37:
-                                break;
+                                return;
                             case 38:
                                 // up
                                 selectIndex--;
@@ -125,9 +118,9 @@ import Methods from './methods';
                                 }
                                 $invGrid.setSelection(null);
                                 $invGrid.setSelection(selectIndex, false, true);
-                                break;
+                                return;
                             case 39:
-                                break;
+                                return;
                             case 40:
                             {
                                 // down
@@ -139,7 +132,7 @@ import Methods from './methods';
                                 }
                                 $invGrid.setSelection(null);
                                 $invGrid.setSelection(selectIndex, false, true);
-                                break;
+                                return;
                             }
                             case 13:
                             {
@@ -178,7 +171,7 @@ import Methods from './methods';
                                 });
 
                                 /** ******************** */
-                                break;
+                                return;
                             }
                             case 9:
                             {
@@ -335,12 +328,10 @@ import Methods from './methods';
                             item
                         } = item2;
                         if (!item) {
-                            ui.rowData[ui.dataIndx] = '';
                             setting.keyField ?
                                 ui.rowData[setting.keyField] = '' :
                                 ui.rowData[setting.valueField] = '';
                         } else {
-                            ui.rowData[ui.dataIndx] = item.label;
                             setting.keyField ?
                                 ui.rowData[setting.keyField] = item.id :
                                 ui.rowData[setting.valueField] = item.id;
@@ -352,7 +343,6 @@ import Methods from './methods';
                             } = ui;
                             const cellData = {};
                             $.extend(cellData, ui);
-                            // const cellData = { ...ui };
                             cellData.selected = item;
                             delete cellData.rowData;
                             return autoCompleteObj.select(rowData, cellData, setting);
@@ -366,12 +356,10 @@ import Methods from './methods';
                         } = item3;
 
                         if (!item) {
-                            ui.rowData[ui.dataIndx] = '';
                             setting.keyField ?
                                 ui.rowData[setting.keyField] = '' :
                                 ui.rowData[setting.valueField] = '';
                         } else {
-                            ui.rowData[ui.dataIndx] = item.label;
                             setting.keyField ?
                                 ui.rowData[setting.keyField] = item.id :
                                 ui.rowData[setting.valueField] = item.id;
@@ -382,7 +370,6 @@ import Methods from './methods';
                             } = ui;
                             const cellData = {};
                             $.extend(cellData, ui);
-                            // const cellData = { ...ui };
                             cellData.selected = item;
                             delete cellData.rowData;
                             return autoCompleteObj.change(rowData, cellData, setting);

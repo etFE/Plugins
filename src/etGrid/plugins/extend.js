@@ -150,8 +150,11 @@
 			if (rec.rowData == rowData) {
 				_found = true;
 				for (var dataIndx in newRow) {
-					var column = columns[dataIndx],
-						dataType = column.dataType,
+					var column = columns[dataIndx];
+                    if(!column) {   // 下拉子表格更新父表格数据时 数据会有列名以外的字段 及排除
+                        break;
+                    }
+					var dataType = column.dataType,
 						newVal = newRow[dataIndx],
 						newVal = getVal(newVal, dataType),
 						oldVal = oldRow[dataIndx],
