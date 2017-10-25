@@ -41,6 +41,23 @@ import Methods from './methods';
                     const $this = grid;
                     const $invGridHTML = $('<div class="et_select_grid"></div>');
                     let $invGrid;
+                    const relyed = ui.column.relyOn;
+                    const paramArr = relyed.map((item) => {
+                        const key = item.search; // 键名
+                        const value = ui.rowData[item.field]; // 键值  
+                        const objR = {};
+                        objR[key] = value;
+                        return {
+                            name: key,
+                            value: value
+                        };
+                    });
+                    editorObj.dataModel.getUrl = function () {
+                        return {
+                            data: paramArr,
+                            url: editorObj.dataModel.url
+                        };
+                    };
                     // 回充值。由于部分数据后台未传。
                     // 先获取所有列信息，并对列name赋值空字符串。然后拿后台数据进行扩展
                     function rechargeValue(rowData, callback) {
@@ -108,82 +125,82 @@ import Methods from './methods';
 
                             // 操作下拉表格 选择行
                             switch (event.keyCode) {
-                            case 37:
-                                return;
-                            case 38:
-                                // up
-                                selectIndex--;
-                                if (selectIndex < 0) {
-                                    selectIndex = 0;
-                                }
-                                $invGrid.setSelection(null);
-                                $invGrid.setSelection(selectIndex, false, true);
-                                return;
-                            case 39:
-                                return;
-                            case 40:
-                            {
-                                // down
-                                selectIndex++;
-                                const rowDataLength = $invGrid.getAllData().length;
-
-                                if (selectIndex > rowDataLength - 1) {
-                                    selectIndex = rowDataLength - 1;
-                                }
-                                $invGrid.setSelection(null);
-                                $invGrid.setSelection(selectIndex, false, true);
-                                return;
-                            }
-                            case 13:
-                            {
-                                // 判断是否有行未被选中
-                                if (!$invGrid.selectGet()[0]) {
-                                    break;
-                                }
-                                const {
-                                    rowData
-                                } = $invGrid.selectGet()[0];
-                                rechargeValue(rowData, () => {
-                                    /** *********控制回车键跳单元格****** */
-                                    const {
-                                        iKeyNav
-                                    } = $grid.getInstance();
-                                    const {
-                                        rowIndxPage
-                                    } = ui;
-                                    const offset = $grid.getInstance().rowIndxOffset;
-                                    const colIndx = $grid.getColIndx(ui.dataIndx);
-                                    let obj2;
-                                    if (event.shiftKey) {
-                                        obj2 = iKeyNav._decrEditIndx(rowIndxPage, colIndx);
-                                    } else {
-                                        obj2 = iKeyNav._incrEditIndx(rowIndxPage, colIndx);
+                                case 37:
+                                    return;
+                                case 38:
+                                    // up
+                                    selectIndex--;
+                                    if (selectIndex < 0) {
+                                        selectIndex = 0;
                                     }
-                                    if (obj2) {
-                                        rowIndx = obj2.rowIndxPage + offset;
-                                        iKeyNav.select({
-                                            rowIndx: rowIndx,
-                                            colIndx: obj2.colIndx,
-                                            evt: event
+                                    $invGrid.setSelection(null);
+                                    $invGrid.setSelection(selectIndex, false, true);
+                                    return;
+                                case 39:
+                                    return;
+                                case 40:
+                                    {
+                                        // down
+                                        selectIndex++;
+                                        const rowDataLength = $invGrid.getAllData().length;
+
+                                        if (selectIndex > rowDataLength - 1) {
+                                            selectIndex = rowDataLength - 1;
+                                        }
+                                        $invGrid.setSelection(null);
+                                        $invGrid.setSelection(selectIndex, false, true);
+                                        return;
+                                    }
+                                case 13:
+                                    {
+                                        // 判断是否有行未被选中
+                                        if (!$invGrid.selectGet()[0]) {
+                                            break;
+                                        }
+                                        const {
+                                            rowData
+                                        } = $invGrid.selectGet()[0];
+                                        rechargeValue(rowData, () => {
+                                            /** *********控制回车键跳单元格****** */
+                                            const {
+                                                iKeyNav
+                                            } = $grid.getInstance();
+                                            const {
+                                                rowIndxPage
+                                            } = ui;
+                                            const offset = $grid.getInstance().rowIndxOffset;
+                                            const colIndx = $grid.getColIndx(ui.dataIndx);
+                                            let obj2;
+                                            if (event.shiftKey) {
+                                                obj2 = iKeyNav._decrEditIndx(rowIndxPage, colIndx);
+                                            } else {
+                                                obj2 = iKeyNav._incrEditIndx(rowIndxPage, colIndx);
+                                            }
+                                            if (obj2) {
+                                                rowIndx = obj2.rowIndxPage + offset;
+                                                iKeyNav.select({
+                                                    rowIndx: rowIndx,
+                                                    colIndx: obj2.colIndx,
+                                                    evt: event
+                                                });
+                                            }
+                                            event.preventDefault();
                                         });
-                                    }
-                                    event.preventDefault();
-                                });
 
-                                /** ******************** */
-                                return;
-                            }
-                            case 9:
-                            {
-                                // 如果tab，赋值并开始编辑下一个单元格。
-                                const {
-                                    rowData
-                                } = $invGrid.selectGet()[0];
-                                rechargeValue(rowData);
-                                break;
-                            }
-                            default:
-                                break;
+                                        /** ******************** */
+                                        return;
+                                    }
+                                case 9:
+                                    {
+                                        // 如果tab，赋值并开始编辑下一个单元格。
+                                        const {
+                                            rowData
+                                        } = $invGrid.selectGet()[0];
+                                        rechargeValue(rowData);
+                                        break;
+                                    }
+                                default:
+                                    break;
                             }
                             if (event.shiftKey) {
                                 return;
