@@ -1,16 +1,14 @@
-
-const checkObj = {
-    status: '',
-    checked: false,
-    disabled: false
-};
-
 /**
  * 生成组件事件
  * @param {object} $self
  * @param {object} opts
  */
 function Events($self, opts) {
+    const checkObj = {
+        status: '',
+        checked: false,
+        disabled: false
+    };
     checkObj.options = opts;
 
     $self.on('ifCreated', () => {
