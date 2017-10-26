@@ -4,6 +4,7 @@ const Webpack = require('webpack');
 const dateTime = new Date();
 const config = {
     entry: {
+        common: `${__dirname}/src/common`,
         etSelect: `${__dirname}/src/etSelect`,
         etCheck: `${__dirname}/src/etCheck`,
         etTab: `${__dirname}/src/etTab`,
@@ -14,7 +15,6 @@ const config = {
         etTree: `${__dirname}/src/etTree`,
         etUpload: `${__dirname}/src/etUpload`,
         etForm: `${__dirname}/src/etForm`,
-
         etJsonLayout: `${__dirname}/src/etJsonLayout`
     },
     output: {
