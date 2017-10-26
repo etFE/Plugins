@@ -46,9 +46,9 @@ function Methods(select) {
             const result = separator ? select.items.join(separator) : select.items;
             let resultText = '';
             if (result.length < 2) {
-                resultText = result[0] ? select.options[result[0]].text : '';
+                resultText = result[0] ? select.options[result[0]][select.settings.labelField] : '';
             } else {
-                resultText = result.map(v => select.options[v].text);
+                resultText = result.map(v => select.options[v][select.settings.labelField]);
             }
             return resultText;
         },
