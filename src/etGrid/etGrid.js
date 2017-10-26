@@ -1,7 +1,7 @@
 import defaultOptions from './default';
 import {
     fillSummaryData
-} from './PrivateMethods';
+} from './summaryMethods';
 import Methods from './methods';
 
 !(function ($) {
@@ -42,16 +42,16 @@ import Methods from './methods';
                     const $invGridHTML = $('<div class="et_select_grid"></div>');
                     let $invGrid;
                     const relyed = ui.column.relyOn;
-                    const paramArr = relyed.map((item) => {
-                        const key = item.search; // 键名
-                        const value = ui.rowData[item.field]; // 键值  
-                        const objR = {};
-                        objR[key] = value;
-                        return {
-                            name: key,
-                            value: value
-                        };
-                    });
+                    let paramArr = '';
+                    if (relyed) {
+                        paramArr = relyed.map((item) => {
+                            const { key } = item; // 键名
+                            const value = ui.rowData[item.field]; // 键值
+                            const objP = {};
+                            objP[key] = value;
+                            return { name: key, value: value };
+                        });
+                    }
                     editorObj.dataModel.getUrl = function () {
                         return {
                             data: paramArr,
@@ -91,6 +91,11 @@ import Methods from './methods';
                     if ($('body').height() - cellOffsetTop < parseInt(editorObj.height, 10)) {
                         cellOffsetTop = $cell.offset().top - parseInt(editorObj.height, 10);
                     }
+                    // 当子表格处于最右边时，自动调换到靠左边的位置
+                    let cellOffsetLeft = $cell.offset().left;
+                    if ($('body').width() - $cell.offset().left < parseInt(editorObj.width, 10)) {
+                        cellOffsetLeft -= parseInt(editorObj.width, 10) - $cell.width();
+                    }
                     $invGrid = $invGridHTML.etGrid(editorObj);
                     $invGridHTML
                         .appendTo($('body'))
@@ -98,7 +103,7 @@ import Methods from './methods';
                             'z-index': '99',
                             position: 'absolute',
                             top: cellOffsetTop,
-                            left: $cell.offset().left
+                            left: cellOffsetLeft
                         });
 
 
@@ -125,82 +130,82 @@ import Methods from './methods';
 
                             // 操作下拉表格 选择行
                             switch (event.keyCode) {
-                                case 37:
-                                    return;
-                                case 38:
-                                    // up
-                                    selectIndex--;
-                                    if (selectIndex < 0) {
-                                        selectIndex = 0;
-                                    }
-                                    $invGrid.setSelection(null);
-                                    $invGrid.setSelection(selectIndex, false, true);
-                                    return;
-                                case 39:
-                                    return;
-                                case 40:
-                                    {
-                                        // down
-                                        selectIndex++;
-                                        const rowDataLength = $invGrid.getAllData().length;
+                            case 37:
+                                return;
+                            case 38:
+                                // up
+                                selectIndex--;
+                                if (selectIndex < 0) {
+                                    selectIndex = 0;
+                                }
+                                $invGrid.setSelection(null);
+                                $invGrid.setSelection(selectIndex, false, true);
+                                return;
+                            case 39:
+                                return;
+                            case 40:
+                            {
+                                // down
+                                selectIndex++;
+                                const rowDataLength = $invGrid.getAllData().length;
 
-                                        if (selectIndex > rowDataLength - 1) {
-                                            selectIndex = rowDataLength - 1;
-                                        }
-                                        $invGrid.setSelection(null);
-                                        $invGrid.setSelection(selectIndex, false, true);
-                                        return;
-                                    }
-                                case 13:
-                                    {
-                                        // 判断是否有行未被选中
-                                        if (!$invGrid.selectGet()[0]) {
-                                            break;
-                                        }
-                                        const {
-                                            rowData
-                                        } = $invGrid.selectGet()[0];
-                                        rechargeValue(rowData, () => {
-                                            /** *********控制回车键跳单元格****** */
-                                            const {
-                                                iKeyNav
-                                            } = $grid.getInstance();
-                                            const {
-                                                rowIndxPage
-                                            } = ui;
-                                            const offset = $grid.getInstance().rowIndxOffset;
-                                            const colIndx = $grid.getColIndx(ui.dataIndx);
-                                            let obj2;
-                                            if (event.shiftKey) {
-                                                obj2 = iKeyNav._decrEditIndx(rowIndxPage, colIndx);
-                                            } else {
-                                                obj2 = iKeyNav._incrEditIndx(rowIndxPage, colIndx);
-                                            }
-                                            if (obj2) {
-                                                rowIndx = obj2.rowIndxPage + offset;
-                                                iKeyNav.select({
-                                                    rowIndx: rowIndx,
-                                                    colIndx: obj2.colIndx,
-                                                    evt: event
-                                                });
-                                            }
-                                            event.preventDefault();
-                                        });
-
-                                        /** ******************** */
-                                        return;
-                                    }
-                                case 9:
-                                    {
-                                        // 如果tab，赋值并开始编辑下一个单元格。
-                                        const {
-                                            rowData
-                                        } = $invGrid.selectGet()[0];
-                                        rechargeValue(rowData);
-                                        break;
-                                    }
-                                default:
+                                if (selectIndex > rowDataLength - 1) {
+                                    selectIndex = rowDataLength - 1;
+                                }
+                                $invGrid.setSelection(null);
+                                $invGrid.setSelection(selectIndex, false, true);
+                                return;
+                            }
+                            case 13:
+                            {
+                                // 判断是否有行未被选中
+                                if (!$invGrid.selectGet()[0]) {
                                     break;
+                                }
+                                const {
+                                    rowData
+                                } = $invGrid.selectGet()[0];
+                                rechargeValue(rowData, () => {
+                                    /** *********控制回车键跳单元格****** */
+                                    const {
+                                        iKeyNav
+                                    } = $grid.getInstance();
+                                    const {
+                                        rowIndxPage
+                                    } = ui;
+                                    const offset = $grid.getInstance().rowIndxOffset;
+                                    const colIndx = $grid.getColIndx(ui.dataIndx);
+                                    let obj2;
+                                    if (event.shiftKey) {
+                                        obj2 = iKeyNav._decrEditIndx(rowIndxPage, colIndx);
+                                    } else {
+                                        obj2 = iKeyNav._incrEditIndx(rowIndxPage, colIndx);
+                                    }
+                                    if (obj2) {
+                                        rowIndx = obj2.rowIndxPage + offset;
+                                        iKeyNav.select({
+                                            rowIndx: rowIndx,
+                                            colIndx: obj2.colIndx,
+                                            evt: event
+                                        });
+                                    }
+                                    event.preventDefault();
+                                });
+
+                                /** ******************** */
+                                return;
+                            }
+                            case 9:
+                            {
+                                // 如果tab，赋值并开始编辑下一个单元格。
+                                const {
+                                    rowData
+                                } = $invGrid.selectGet()[0];
+                                rechargeValue(rowData);
+                                break;
+                            }
+                            default:
+                                break;
                             }
                             if (event.shiftKey) {
                                 return;
@@ -304,10 +309,22 @@ import Methods from './methods';
                          * @param {any} Response [ 此参数是回调函数 取到数据后必须执行此参数方法 如下]
                          */
                         setting.source = function (request, Response) {
+                            // 处理所传的参数
+                            const relyed = ui.column.relyOn;
+                            let paramArr = '';
+                            if (relyed) {
+                                paramArr = relyed.map((item) => {
+                                    const { key } = item; // 键名
+                                    const value = ui.rowData[item.field]; // 键值
+                                    const objP = {};
+                                    objP[key] = value;
+                                    return { name: key, value: value };
+                                });
+                            }
                             $.ajax({
                                 type: setting.method,
                                 url: setting.url,
-                                data: request,
+                                data: paramArr,
                                 dataType: 'json',
                                 // 把 success 事件暴露出来 若有值 则直接覆盖  但Response一定要执行
                                 success: function (data) {
@@ -613,6 +630,7 @@ import Methods from './methods';
             };
         }
         opts.colModel = filterColumn(opts);
+        // 构造checkbox列
         if (opts.checkbox) {
             createCheckBoxColumn(opts);
             if (opts.freezeCols) {
@@ -621,11 +639,12 @@ import Methods from './methods';
                 opts.freezeCols = 1;
             }
         }
+        // 是否开启分页器
         if (!opts.usePager) {
             opts.pageModel.type = null;
         }
         //  显示固定在表格底部的合计、平均值、最大值、最小值 的行集合 参数
-        /* eg：
+            /* eg：
              summary:{         //  摘要行集合 对象
                  totalColumns:['revenues','profits'],
                  keyWordCol:'rank',   //关键字所在列的列名
@@ -698,7 +717,6 @@ import Methods from './methods';
         const grid = $self.pqGrid(opts);
         const methods = Methods(grid);
         $grid = $.extend({}, grid, methods);
-        /*  inStance.$grid_inner.on('') */
         return $grid;
     };
 }(jQuery));
