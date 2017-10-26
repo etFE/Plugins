@@ -1,4 +1,4 @@
-import { fillSummaryData, getTotalSummary } from './PrivateMethods';
+import { fillSummaryData, getTotalSummary } from './summaryMethods';
 
 function Methods(grid) {
     const methods = {

@@ -1,7 +1,7 @@
 import defaultOptions from './default';
 import {
     fillSummaryData
-} from './PrivateMethods';
+} from './summaryMethods';
 import Methods from './methods';
 
 !(function ($) {
@@ -41,18 +41,28 @@ import Methods from './methods';
                     const $this = grid;
                     const $invGridHTML = $('<div class="et_select_grid"></div>');
                     let $invGrid;
+                    const relyed = ui.column.relyOn;
+                    let paramArr = '';
+                    if (relyed) {
+                        paramArr = relyed.map((item) => {
+                            const { key } = item; // 键名
+                            const value = ui.rowData[item.field]; // 键值
+                            const objP = {};
+                            objP[key] = value;
+                            return { name: key, value: value };
+                        });
+                    }
+                    editorObj.dataModel.getUrl = function () {
+                        return {
+                            data: paramArr,
+                            url: editorObj.dataModel.url
+                        };
+                    };
                     // 回充值。由于部分数据后台未传。
                     // 先获取所有列信息，并对列name赋值空字符串。然后拿后台数据进行扩展
                     function rechargeValue(rowData, callback) {
-                        const columns = $invGrid.getColumns();
                         let dataPlhd = {};
-
-                        columns.forEach((item) => {
-                            dataPlhd[item.dataIndx] = '';
-                        });
-
                         dataPlhd = $.extend(dataPlhd, rowData);
-                        // dataPlhd = { ...rowData };
                         dataPlhd.pq_rowselect = false;
                         dataPlhd._rowIndx = rowIndx;
                         dataPlhd._rowIndxPage = ui.rowIndxPage;
@@ -81,6 +91,11 @@ import Methods from './methods';
                     if ($('body').height() - cellOffsetTop < parseInt(editorObj.height, 10)) {
                         cellOffsetTop = $cell.offset().top - parseInt(editorObj.height, 10);
                     }
+                    // 当子表格处于最右边时，自动调换到靠左边的位置
+                    let cellOffsetLeft = $cell.offset().left;
+                    if ($('body').width() - $cell.offset().left < parseInt(editorObj.width, 10)) {
+                        cellOffsetLeft -= parseInt(editorObj.width, 10) - $cell.width();
+                    }
                     $invGrid = $invGridHTML.etGrid(editorObj);
                     $invGridHTML
                         .appendTo($('body'))
@@ -88,7 +103,7 @@ import Methods from './methods';
                             'z-index': '99',
                             position: 'absolute',
                             top: cellOffsetTop,
-                            left: $cell.offset().left
+                            left: cellOffsetLeft
                         });
 
 
@@ -116,7 +131,7 @@ import Methods from './methods';
                             // 操作下拉表格 选择行
                             switch (event.keyCode) {
                             case 37:
-                                break;
+                                return;
                             case 38:
                                 // up
                                 selectIndex--;
@@ -125,9 +140,9 @@ import Methods from './methods';
                                 }
                                 $invGrid.setSelection(null);
                                 $invGrid.setSelection(selectIndex, false, true);
-                                break;
+                                return;
                             case 39:
-                                break;
+                                return;
                             case 40:
                             {
                                 // down
@@ -139,7 +154,7 @@ import Methods from './methods';
                                 }
                                 $invGrid.setSelection(null);
                                 $invGrid.setSelection(selectIndex, false, true);
-                                break;
+                                return;
                             }
                             case 13:
                             {
@@ -178,7 +193,7 @@ import Methods from './methods';
                                 });
 
                                 /** ******************** */
-                                break;
+                                return;
                             }
                             case 9:
                             {
@@ -294,10 +309,22 @@ import Methods from './methods';
                          * @param {any} Response [ 此参数是回调函数 取到数据后必须执行此参数方法 如下]
                          */
                         setting.source = function (request, Response) {
+                            // 处理所传的参数
+                            const relyed = ui.column.relyOn;
+                            let paramArr = '';
+                            if (relyed) {
+                                paramArr = relyed.map((item) => {
+                                    const { key } = item; // 键名
+                                    const value = ui.rowData[item.field]; // 键值
+                                    const objP = {};
+                                    objP[key] = value;
+                                    return { name: key, value: value };
+                                });
+                            }
                             $.ajax({
                                 type: setting.method,
                                 url: setting.url,
-                                data: request,
+                                data: paramArr,
                                 dataType: 'json',
                                 // 把 success 事件暴露出来 若有值 则直接覆盖  但Response一定要执行
                                 success: function (data) {
@@ -335,12 +362,10 @@ import Methods from './methods';
                             item
                         } = item2;
                         if (!item) {
-                            ui.rowData[ui.dataIndx] = '';
                             setting.keyField ?
                                 ui.rowData[setting.keyField] = '' :
                                 ui.rowData[setting.valueField] = '';
                         } else {
-                            ui.rowData[ui.dataIndx] = item.label;
                             setting.keyField ?
                                 ui.rowData[setting.keyField] = item.id :
                                 ui.rowData[setting.valueField] = item.id;
@@ -352,7 +377,6 @@ import Methods from './methods';
                             } = ui;
                             const cellData = {};
                             $.extend(cellData, ui);
-                            // const cellData = { ...ui };
                             cellData.selected = item;
                             delete cellData.rowData;
                             return autoCompleteObj.select(rowData, cellData, setting);
@@ -366,12 +390,10 @@ import Methods from './methods';
                         } = item3;
 
                         if (!item) {
-                            ui.rowData[ui.dataIndx] = '';
                             setting.keyField ?
                                 ui.rowData[setting.keyField] = '' :
                                 ui.rowData[setting.valueField] = '';
                         } else {
-                            ui.rowData[ui.dataIndx] = item.label;
                             setting.keyField ?
                                 ui.rowData[setting.keyField] = item.id :
                                 ui.rowData[setting.valueField] = item.id;
@@ -382,7 +404,6 @@ import Methods from './methods';
                             } = ui;
                             const cellData = {};
                             $.extend(cellData, ui);
-                            // const cellData = { ...ui };
                             cellData.selected = item;
                             delete cellData.rowData;
                             return autoCompleteObj.change(rowData, cellData, setting);
@@ -609,6 +630,7 @@ import Methods from './methods';
             };
         }
         opts.colModel = filterColumn(opts);
+        // 构造checkbox列
         if (opts.checkbox) {
             createCheckBoxColumn(opts);
             if (opts.freezeCols) {
@@ -617,11 +639,12 @@ import Methods from './methods';
                 opts.freezeCols = 1;
             }
         }
+        // 是否开启分页器
         if (!opts.usePager) {
             opts.pageModel.type = null;
         }
         //  显示固定在表格底部的合计、平均值、最大值、最小值 的行集合 参数
-        /* eg：
+            /* eg：
              summary:{         //  摘要行集合 对象
                  totalColumns:['revenues','profits'],
                  keyWordCol:'rank',   //关键字所在列的列名
@@ -694,7 +717,6 @@ import Methods from './methods';
         const grid = $self.pqGrid(opts);
         const methods = Methods(grid);
         $grid = $.extend({}, grid, methods);
-        /*  inStance.$grid_inner.on('') */
         return $grid;
     };
 }(jQuery));
