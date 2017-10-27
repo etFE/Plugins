@@ -42,21 +42,10 @@ $.fn.etTree = function (settings, treeNode) {
         opts.callback.onAsyncSuccess = function (...successParam) {
             successFn(...successParam);
 
-            // 封装层
+            // 根据配置规则，输出样式配置的数组
             const { rules, nodes } = opts.addSuffix();
             const addNodes = nodes || [];
-
-            let styleHtml = '<style>';
-            rules.forEach((rule, index) => {
-                styleHtml +=
-                    `.tree_after_${index}:after {
-                        content: '${rule.text}';
-                        color: ${rule.color};
-                    }`;
-            });
-            styleHtml += '</style>';
-
-            $('body').prepend(styleHtml);
+            const setStyleArray = [];
 
             addNodes.forEach((node) => {
                 rules.forEach((rule, index) => {
@@ -64,10 +53,26 @@ $.fn.etTree = function (settings, treeNode) {
                     const value = rule.rule[key];
 
                     if (node[key] === value) {
-                        $(`#${node.tId}`).addClass(`tree_after_${index}`);
+                        setStyleArray.push({
+                            id: node.tId,
+                            text: rule.text,
+                            color: rule.color
+                        });
                     }
                 });
             });
+
+            // 动态组成样式表添加到body
+            let styleHtml = '<style>';
+            setStyleArray.forEach((style) => {
+                styleHtml +=
+                    `#${style.id}:after {
+                        content: '${style.text}';
+                        color: ${style.color};
+                    }`;
+            });
+            styleHtml += '</style>';
+            $('body').prepend(styleHtml);
         };
     }
 
