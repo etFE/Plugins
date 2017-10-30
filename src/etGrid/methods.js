@@ -925,6 +925,14 @@ function Methods(grid) {
             inStance.$toolbar.pqToolbar('setDisabled', itemid);
         },
         /**
+         * @description 设置toobar 按钮不置灰
+         * @param {any} itemid button中 item.id值
+         */
+        setEnabledTB(itemid) {
+            const inStance = grid.pqGrid('getInstance').grid;
+            inStance.$toolbar.pqToolbar('setEnabled', itemid);
+        },
+        /**
          * @description   获取修改数据
          * @returns 返回数组集合
          */

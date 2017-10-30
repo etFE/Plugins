@@ -640,5 +640,9 @@
 	fnTB.setDisabled = function (itemid) {
 		var $toolbar = this.element;
 		$("> .ui-button-text-icon-primary[toolbarid=" + itemid + "]", $toolbar).button('disable');
+	};
+	fnTB.setEnabled = function (itemid) {
+		var $toolbar = this.element;
+		$("> .ui-button-text-icon-primary[toolbarid=" + itemid + "]", $toolbar).button('enable');
 	}
 })(jQuery);
