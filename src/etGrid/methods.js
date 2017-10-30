@@ -98,19 +98,14 @@ function Methods(grid) {
             });
         },
         /**
-         * 删除选中行
+         * 删除选中行 
          */
         deleteSelectedRow() {
             const selectedRow = grid.pqGrid('selection', {
                 method: 'getSelection',
                 type: 'row'
             });
-
-            selectedRow.forEach((item) => {
-                grid.pqGrid('deleteRow', {
-                    rowIndx: item.rowIndx
-                });
-            });
+            this.deleteRows(selectedRow);
         },
         /**
          * 销毁整个gird
