@@ -98,9 +98,9 @@ function Methods(grid) {
             });
         },
         /**
-         * 删除选中行 
+         * 删除选中行
          */
-        deleteSelectedRow() {
+        deleteSelectedRows() {
             const selectedRow = grid.pqGrid('selection', {
                 method: 'getSelection',
                 type: 'row'
