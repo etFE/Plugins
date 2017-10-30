@@ -98,9 +98,9 @@ function Methods(grid) {
             });
         },
         /**
-         * 删除选中行 
+         * 删除选中行
          */
-        deleteSelectedRow() {
+        deleteSelectedRows() {
             const selectedRow = grid.pqGrid('selection', {
                 method: 'getSelection',
                 type: 'row'
@@ -923,6 +923,14 @@ function Methods(grid) {
         setDisabledTB(itemid) {
             const inStance = grid.pqGrid('getInstance').grid;
             inStance.$toolbar.pqToolbar('setDisabled', itemid);
+        },
+        /**
+         * @description 设置toobar 按钮不置灰
+         * @param {any} itemid button中 item.id值
+         */
+        setEnabledTB(itemid) {
+            const inStance = grid.pqGrid('getInstance').grid;
+            inStance.$toolbar.pqToolbar('setEnabled', itemid);
         },
         /**
          * @description   获取修改数据
