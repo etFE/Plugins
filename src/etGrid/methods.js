@@ -1,4 +1,5 @@
 import { fillSummaryData, getTotalSummary } from './summaryMethods';
+import { replaceOption } from './common';
 
 function Methods(grid) {
     const methods = {
@@ -477,49 +478,50 @@ function Methods(grid) {
          */
         option(optionName, value) {
             const opts = grid.pqGrid('option');
-            if (optionName) {
-                if (typeof optionName === 'string') {
-                    if (value) {
-                        if (optionName === 'columns') {
-                            optionName = 'colModel';
-                            value.forEach((item) => {
-                                if (item.display) {
-                                    item.title = item.display;
-                                    delete item.display;
-                                }
-                                if (item.name) {
-                                    item.dataIndx = item.name;
-                                    delete item.name;
-                                }
-                                if (item.isSort) {
-                                    item.sortable = item.isSort;
-                                    delete item.isSort;
-                                }
+            if (typeof optionName === 'string') {
+                if (value) {
+                    if (optionName === 'columns') {
+                        optionName = 'colModel';
+                        // value.forEach((item) => {
+                        //     if (item.display) {
+                        //         item.title = item.display;
+                        //         delete item.display;
+                        //     }
+                        //     if (item.name) {
+                        //         item.dataIndx = item.name;
+                        //         delete item.name;
+                        //     }
+                        //     if (item.isSort) {
+                        //         item.sortable = item.isSort;
+                        //         delete item.isSort;
+                        //     }
+                        // });
+                        replaceOption({ columns: value });
+
+                        if (opts.checkbox) {
+                            value.unshift({
+                                title: '',
+                                dataIndx: 'et_checkBox',
+                                width: 30,
+                                minWidth: 30,
+                                align: 'center',
+                                type: 'checkBoxSelection',
+                                cls: 'ui-state-default',
+                                resizable: false,
+                                editable: false,
+                                sortable: false
                             });
-                            if (opts.checkbox) {
-                                value.unshift({
-                                    title: '',
-                                    dataIndx: 'et_checkBox',
-                                    width: 30,
-                                    minWidth: 30,
-                                    align: 'center',
-                                    type: 'checkBoxSelection',
-                                    cls: 'ui-state-default',
-                                    resizable: false,
-                                    editable: false,
-                                    sortable: false
-                                });
-                            }
                         }
-                        grid.pqGrid('option', optionName, value);
-                    } else {
-                        return grid.pqGrid('option', optionName);
                     }
-                    return grid.pqGrid('option');
-                } else if (typeof optionName === 'object') {
-                    grid.pqGrid('option', optionName);
+                    grid.pqGrid('option', optionName, value);
+                } else {
+                    return grid.pqGrid('option', optionName);
                 }
+                return grid.pqGrid('option');
+            } else if (typeof optionName === 'object') {
+                grid.pqGrid('option', optionName);
             }
+
             return grid.pqGrid('option');
         },
         /**
