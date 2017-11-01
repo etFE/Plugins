@@ -90,27 +90,73 @@ const setup = function () {
     }
     if (this.elements.$weekInput) {
         this.weekInput = this.elements.$weekInput.etSelect({
-            options: [
-                { id: 1, text: '第一周' },
-                { id: 2, text: '第二周' },
-                { id: 3, text: '第三周' },
-                { id: 4, text: '第四周' },
-                { id: 5, text: '第五周' },
-                { id: 6, text: '第六周' }
-            ],
+            options: [],
             showClear: false
         });
     }
 
-    this.elements.$prevButton.on('click', (params) => {
-        if (this.elements.$weekInput && this.weekInput) {
-            let curVal = this.weekInput.getValue();
+    // 计算周数，起始
+    const curYear = this.yearInput.getValue() * 1; // 当前年 转为number类型
+    const curMonth = this.monthInput.getValue() * 1; // 当前月
+    const curMonthMaxDate = new Date(curYear, curMonth, 0).getDate(); // 当前月最大天数
+    const curWeek = new Date(`${curYear}-${curMonth}-01`).getDay() || 7; // 当前周
+    const curWeekDays = (7 - curWeek) + 1; // 当前周天数
+    const restWeekDays = curMonthMaxDate - curWeekDays; // 剩余周天数
+    // 剩余周数
+    let restWeeksLength = restWeekDays / 7;
+    restWeeksLength = String(restWeeksLength).indexOf('.') > 0 ? Math.floor(restWeeksLength) + 1 : restWeeksLength;
+    // 当月周数
+    const curWeeksLength = restWeeksLength + 1;
 
-            console.log(this.weekInput)
+    const weekTextArray = ['第一周', '第二周', '第三周', '第四周', '第五周', '第六周'];
+    this.weekInput.clearOptions();
+    for (let i = 0; i < curWeeksLength; i++) {
+        this.weekInput.addOptions({
+            id: i + 1,
+            text: weekTextArray[i]
+        });
+    }
+    this.weekInput.setValue(1);
+    // 计算周数，结束
+
+    this.elements.$datepaging.on('click', 'button', (e) => {
+        let buttonName;
+        let step;
+        if (e.target.className === 'dp-prev-button') {
+            buttonName = 'prev';
+            step = -1;
+        } else if (e.target.className === 'dp-next-button') {
+            buttonName = 'next';
+            step = 1;
         }
-    });
-    this.elements.$nextButton.on('click', (params) => {
-        console.log('next');
+
+        // 判断当前最小的是否周
+        if (this.elements.$weekInput && this.weekInput) {
+            const curWeekVal = this.weekInput.getValue();
+            const weekKeys = Object.keys(this.weekInput.getOptions());
+            const minWeekVal = weekKeys[0];
+            const maxWeekVal = weekKeys[weekKeys.length - 1];
+
+            if (buttonName === 'prev' && curWeekVal === minWeekVal) {
+                return;
+            }
+            if (buttonName === 'next' && curWeekVal === maxWeekVal) {
+                return;
+            }
+            this.weekInput.setValue(Number(curWeekVal) + step);
+
+            // 判断当前最小的是否月
+        } else if (this.elements.$monthInput && this.monthInput) {
+            const curMonthVal = this.monthInput.getValue();
+
+            if (buttonName === 'prev' && curMonthVal === '1') {
+                return;
+            }
+            if (buttonName === 'next' && curMonthVal === '12') {
+                return;
+            }
+            this.monthInput.setValue(`${Number(curMonthVal) + step}`);
+        }
     });
 };
 

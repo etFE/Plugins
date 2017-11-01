@@ -12,6 +12,7 @@ const config = {
         etGrid: `${__dirname}/src/etGrid`,
         etValidate: `${__dirname}/src/etValidate`,
         etDatepicker: `${__dirname}/src/etDatepicker`,
+        etDatepaging: `${__dirname}/src/etDatepaging`,
         etTree: `${__dirname}/src/etTree`,
         etUpload: `${__dirname}/src/etUpload`,
         etForm: `${__dirname}/src/etForm`,
