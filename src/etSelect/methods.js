@@ -52,6 +52,7 @@ function Methods(select) {
             }
             return resultText;
         },
+        getOptions: () => select.options,
         open: () => {
             select.open();
         },
