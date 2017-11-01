@@ -6,7 +6,7 @@ function Methods(datepicker) {
             const { range, dateFormat } = datepicker.opts;
             const FORMAT = format || dateFormat;
             const result = datepicker.selectedDates.map(value => moment(value).format(FORMAT.toUpperCase()));
-            return range ? result : result[0];
+            return range ? result : (result[0] || '');
         },
         setValue: (value) => {
             let setDate = [];
