@@ -42,6 +42,7 @@ function Methods(select) {
             }
             return result;
         },
+        getOptions: () => select.options,
         getText: (separator) => {
             const result = separator ? select.items.join(separator) : select.items;
             let resultText = '';
