@@ -35,37 +35,40 @@ let widgetArray;
 function initWidget($el, onInitWidget) {
     widgetArray = $el;
     function initSelect($item) {
-        const { OPTIONS } = $item;
+        const { OPTIONS, value } = $item;
         if (!$.fn.etSelect) {
             console.warn('下拉框插件未引用');
             return $item;
         }
         const widget = $item.$el.etSelect(OPTIONS);
+        if (value) { widget.setValue(value); }
         return widget;
     }
 
     function initDate($item) {
-        const { OPTIONS } = $item;
+        const { OPTIONS, value } = $item;
         if (!$.fn.etDatepicker) {
             console.warn('日期框插件未引用');
             return $item;
         }
         const widget = $item.$el.etDatepicker(OPTIONS);
+        if (value) { widget.setValue(value); }
         return widget;
     }
 
     function initCheck($item) {
-        const { OPTIONS } = $item;
+        const { OPTIONS, value } = $item;
         if (!$.fn.etCheck) {
             console.warn('复选框插件未引用');
             return $item;
         }
         const widget = $item.$el.etCheck();
+        if (value) { widget.setCheck(); }
         return widget;
     }
 
     function initFile($item) {
-        const { OPTIONS } = $item;
+        const { OPTIONS, value } = $item;
         if (!$.fn.etUpload) {
             console.warn('复选框插件未引用');
             return $item.$el;
@@ -73,36 +76,45 @@ function initWidget($el, onInitWidget) {
         // TODO:
         return $item.$el;
     }
+    function initTxt($item) {
+        const { OPTIONS, value } = $item;
+        if (value) { $item.$el.val(value); }
+        return $item.$el;
+    }
 
     function initInt($item) {
-        const { OPTIONS } = $item;
+        const { OPTIONS, value } = $item;
         // TODO:
         return $item.$el;
     }
 
     function initFloat($item) {
-        const { OPTIONS } = $item;
+        const { OPTIONS, value } = $item;
         // TODO:
         return $item.$el;
     }
-
     $el.forEach((element, index) => {
-        const { $field, type, OPTIONS } = element;
+        const {
+            $field,
+            type,
+            OPTIONS,
+            value
+        } = element;
         if (element.type === 'select') {
-            element.widget = initSelect({ $el: $field, OPTIONS: OPTIONS });
+            element.widget = initSelect({ $el: $field, OPTIONS: OPTIONS, value: value });
         } else if (type === 'date') {
-            element.widget = initDate({ $el: $field, OPTIONS: OPTIONS });
+            element.widget = initDate({ $el: $field, OPTIONS: OPTIONS, value: value });
         } else if (element.type === 'text') {
             // nothing
-            element.widget = $field;
+            element.widget = initTxt({ $el: $field, OPTIONS: OPTIONS, value: value });
         } else if (element.type === 'checkbox') {
-            element.widget = initCheck({ $el: $field, OPTIONS: OPTIONS });
+            element.widget = initCheck({ $el: $field, OPTIONS: OPTIONS, value: value });
         } else if (element.type === 'file') {
-            element.widget = initFile({ $el: $field, OPTIONS: OPTIONS });
+            element.widget = initFile({ $el: $field, OPTIONS: OPTIONS, value: value });
         } else if (element.type === 'int') {
-            element.widget = initInt({ $el: $field, OPTIONS: OPTIONS });
+            element.widget = initInt({ $el: $field, OPTIONS: OPTIONS, value: value });
         } else if (element.type === 'float') {
-            element.widget = initFloat({ $el: $field, OPTIONS: OPTIONS });
+            element.widget = initFloat({ $el: $field, OPTIONS: OPTIONS, value: value });
         }
     });
 
