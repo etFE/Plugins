@@ -35,7 +35,8 @@ import {
                 type: item.type,
                 $field: $field,
                 required: item.required,
-                OPTIONS: item.OPTIONS
+                OPTIONS: item.OPTIONS,
+                value: item.value
             };
             $el.push(fieldItem);
             result[item.id] = fieldItem;
