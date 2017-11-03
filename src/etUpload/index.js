@@ -68,7 +68,9 @@ const defaultOptions = {
         });
 
         result.getValue = () => $file.get(0).files[0];
-
+        result.setValue = (src) => {
+            $image.attr('src', src);
+        };
         return result;
     };
 }(jQuery));
