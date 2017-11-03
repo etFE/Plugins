@@ -1,7 +1,9 @@
+import moment from 'moment';
 import './etDatepaging.css';
 
 const defaultOptions = {
-    minDate: 'week'
+    minDate: 'week',
+    startDay: 1
 };
 
 // 根据参数，配置节点参数
@@ -69,6 +71,46 @@ const initElement = function () {
     }
 };
 
+// TODO: 起始日期为周日时的，算法。一个月的第一周，按7天算，还是现在的算法？
+const calculateWeekAndSet = function (year, month) {
+    const curYear = year ? year * 1 : this.yearInput.getValue() * 1; // 当前年 转为number类型
+    const curMonth = month ? month * 1 : this.monthInput.getValue() * 1; // 当前月
+    const daysInCurMonth = moment(`${curYear}-${curMonth}`, 'YYYY-MM').daysInMonth(); // 当前月的天数
+    const startWeek = moment(`${curYear}-${curMonth}-01`).day() || 7; // 当前月初是周几
+    const endWeek = moment(`${curYear}-${curMonth}-${daysInCurMonth}`).day() || 7; // 当前月初末是周几
+    // 当月周数
+    let weekLength = (daysInCurMonth - (8 - startWeek)) / 7;
+    weekLength = weekLength === Math.floor(weekLength) ? weekLength : Math.floor(weekLength) + 1;
+    weekLength += 1;
+    const weekTextArray = ['第一周', '第二周', '第三周', '第四周', '第五周', '第六周'];
+    const weekDataArray = [];
+
+    // 循环添加每周的起始结尾日期
+    // 清空下拉框，并填充周数
+    this.weekInput.clearOptions();
+    for (let i = 0; i < weekLength; i++) {
+        weekDataArray.push({
+            startDay: i === 0 ? startWeek : 1,
+            endDay: i === (weekLength - 1) ? endWeek : 7,
+            startDate: i === 0 ?
+                `${curYear}-${curMonth}-1` :
+                `${curYear}-${curMonth}-${(8 - startWeek) + (7 * (i - 1)) + 1}`,
+            endDate: i === (weekLength - 1) ?
+                `${curYear}-${curMonth}-${daysInCurMonth}` :
+                `${curYear}-${curMonth}-${(8 - startWeek) + (7 * i)}`,
+            week: i + 1
+        });
+
+        this.weekInput.addOptions({
+            id: i + 1,
+            text: weekTextArray[i]
+        });
+    }
+    this.weekInput.setValue(1);
+
+    return weekDataArray;
+};
+
 // 事件处理中心
 const setup = function () {
     if (this.elements.$yearInput) {
@@ -76,7 +118,13 @@ const setup = function () {
             view: 'years',
             minView: 'years',
             dateFormat: 'yyyy',
-            defaultDate: true
+            defaultDate: true,
+            onChange: () => {
+                if (this.yearInput && this.monthInput && this.weekInput) {
+                    const array = calculateWeekAndSet.call(this);
+                    console.log(array);
+                }
+            }
         });
     }
     if (this.elements.$monthInput) {
@@ -85,7 +133,13 @@ const setup = function () {
             minView: 'months',
             showNav: false,
             dateFormat: 'MM',
-            defaultDate: true
+            defaultDate: true,
+            onChange: () => {
+                if (this.yearInput && this.monthInput && this.weekInput) {
+                    const array = calculateWeekAndSet.call(this);
+                    console.log(array);
+                }
+            }
         });
     }
     if (this.elements.$weekInput) {
@@ -93,31 +147,9 @@ const setup = function () {
             options: [],
             showClear: false
         });
-    }
 
-    // 计算周数，起始
-    const curYear = this.yearInput.getValue() * 1; // 当前年 转为number类型
-    const curMonth = this.monthInput.getValue() * 1; // 当前月
-    const curMonthMaxDate = new Date(curYear, curMonth, 0).getDate(); // 当前月最大天数
-    const curWeek = new Date(`${curYear}-${curMonth}-01`).getDay() || 7; // 当前周
-    const curWeekDays = (7 - curWeek) + 1; // 当前周天数
-    const restWeekDays = curMonthMaxDate - curWeekDays; // 剩余周天数
-    // 剩余周数
-    let restWeeksLength = restWeekDays / 7;
-    restWeeksLength = String(restWeeksLength).indexOf('.') > 0 ? Math.floor(restWeeksLength) + 1 : restWeeksLength;
-    // 当月周数
-    const curWeeksLength = restWeeksLength + 1;
-
-    const weekTextArray = ['第一周', '第二周', '第三周', '第四周', '第五周', '第六周'];
-    this.weekInput.clearOptions();
-    for (let i = 0; i < curWeeksLength; i++) {
-        this.weekInput.addOptions({
-            id: i + 1,
-            text: weekTextArray[i]
-        });
+        calculateWeekAndSet.call(this);
     }
-    this.weekInput.setValue(1);
-    // 计算周数，结束
 
     this.elements.$datepaging.on('click', 'button', (e) => {
         let buttonName;
