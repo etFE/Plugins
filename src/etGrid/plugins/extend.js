@@ -634,7 +634,104 @@
 			}
 		}
 	}
-
+	fnTB._create = function () {
+		var self = this,
+			options = this.options,
+			that = options.gridInstance,
+			CM = that.colModel,
+			items = options.items,
+			element = this.element,
+			$grid = element.closest(".pq-grid");
+		element.addClass("pq-toolbar");
+		for (var i = 0, len = items.length; i < len; i++) {
+			var item = items[i],
+				type = item.type,
+				icon = item.icon,
+				options = item.options,
+				text = item.label,
+				listener = item.listener,
+				listeners = listener ? [listener] : item.listeners,
+				itemcls = item.cls,
+				cls = "ui-corner-all " + (itemcls ? itemcls : ""),
+				itemstyle = item.style,
+				style = itemstyle ? 'style="' + itemstyle + '"' : "",
+				itemattr = item.attr,
+				attr = itemattr ? itemattr : "",
+				itemid = item.id,
+				$ctrl;
+				switch (type) {
+					case "textbox": $ctrl = $("<input type='text' class='" + cls + "' " + attr + " " + style + ">").appendTo(element);break;
+					case "checkbox": $ctrl = $("<input type='checkbox' class='" + cls + "' " + attr + " " + style + ">").appendTo(element);break;
+					case "separator": $("<span class='pq-separator '" + cls + "' " + attr + " " + style + "></span>").appendTo(element);break;
+					case "button": 
+						var options = item.options ? item.options : {};
+						$.extend(options, {
+							text: text ? true : false,
+							icons: {
+								primary: icon
+							}
+						});
+						$ctrl = $("<button type='button' class='" + cls + "' " + attr + style + ">" + text + "</button>").button(options).appendTo(element);break;
+					case "select": 
+						var options = item.options ? item.options : [];
+						if (typeof options === "function") {
+							options = options.call(that.element[0], {
+								colModel: CM
+							})
+						}
+						inp = $.paramquery.select({
+							options: options,
+							attr: " class='" + cls + "' " + attr + " " + style,
+							prepend: item.prepend,
+							groupIndx: item.groupIndx,
+							valueIndx: item.valueIndx,
+							labelIndx: item.labelIndx
+						});
+						$ctrl = $(inp).appendTo(element);
+						break;
+					case "menu": 
+						$ctrl = $("<button id='TB-" + item.id + "' class='ui-corner-all ui-button ui-widget ui-state-default ui-button-text-icon-primary menu-bar' ><span>" + item.label + "</span><span class='triangle-top'></span></button>").appendTo(element);
+						item.id = 'TB-' + item.id;
+						var $menu = $("<div id='menu-bar' style='display:none;position:absolute'></div>").appendTo(element);
+						$menu.menu(item);
+						$ctrl.click(function () {
+							var offsetT = element.outerHeight() - 5;
+							var offsetL = $(this).position().left;
+							$menu.css({
+								top: offsetT,
+								left: offsetL,
+								zIndex: 9999
+							}).show();
+						});
+						$ctrl.hover(function () {
+							$(this).addClass('ui-state-hover');
+						}, function () {
+							$(this).removeClass('ui-state-hover');
+						});break;
+					default:
+						if (typeof type == "string") {
+							$ctrl = $(type).appendTo(element)
+						} else {
+							if (typeof type == "function") {
+								var inp = type.call(that.element[0], {
+									colModel: CM,
+									cls: cls
+								});
+								$ctrl = $(inp).appendTo(element)
+							}
+						}
+				
+				}
+			if (listeners) {
+				for (var j = 0; j < listeners.length; j++) {
+					var listener = listeners[j];
+					for (var event in listener) {
+						$ctrl.bind(event, listener[event])
+					}
+				}
+			}
+		}
+	}
 	/**=======================新添方法====================================== */
 	var fnTB = $.paramquery.pqToolbar.prototype;
 	fnTB.setDisabled = function (itemid) {

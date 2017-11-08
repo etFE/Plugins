@@ -6,6 +6,7 @@
  * http://paramquery.com/license
  *
  */
+import './menu.js'  // 工具栏菜单选项引用
 (function ($) {
 	var pq = $.paramquery = $.paramquery || {};
 	$.paramquery.pqgrid = $.paramquery.pqgrid || {};
@@ -6571,7 +6572,6 @@
 
 	};
 	_pKeyNav.select = function (objP) {
-		console.log(999999)
 		var that = this.that,
 			rowIndx = objP.rowIndx,
 			colIndx = objP.colIndx,
@@ -12022,7 +12022,7 @@
 											cls: cls
 										});
 										$ctrl = $(inp).appendTo(element)
-									}
+									}  
 								}
 							}
 						}
