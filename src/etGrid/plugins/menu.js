@@ -2,6 +2,27 @@
     $.fn.menu = function (options) {
         const defaultOpt = {
             width: 120
+            /* items: [{
+                text: '',
+                children: []
+                },
+                {
+                    text: 'Word',
+                },
+                {
+                    text: 'PDF',
+                },
+                {
+                    text: 'TXT',
+                },
+                {
+                    line: true
+                },
+                {
+                    text: 'XML',
+                }
+                ]
+            }] */
         };
         const opts = $.extend(true, {}, defaultOpt, options);
         const $this = this;
@@ -69,7 +90,7 @@
             }
         });
     };
-    // eg:
+    // 用在表格写法如下 eg:
     /* gridObj.toolbar = {
         items: [
             {
