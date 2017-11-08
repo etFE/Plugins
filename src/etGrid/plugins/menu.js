@@ -2,6 +2,27 @@
     $.fn.menu = function (options) {
         const defaultOpt = {
             width: 120
+            /* items: [{
+                text: '',
+                children: []
+                },
+                {
+                    text: 'Word',
+                },
+                {
+                    text: 'PDF',
+                },
+                {
+                    text: 'TXT',
+                },
+                {
+                    line: true
+                },
+                {
+                    text: 'XML',
+                }
+                ]
+            }] */
         };
         const opts = $.extend(true, {}, defaultOpt, options);
         const $this = this;
@@ -69,4 +90,42 @@
             }
         });
     };
+    // 用在表格写法如下 eg:
+    /* gridObj.toolbar = {
+        items: [
+            {
+                type: "menu",
+                label: '添的方式的加',
+                //width: 200,   // 设置菜单宽度
+                id: 'menu',     // 必填参数
+                items: [{
+                    text: '文件',
+                    children: [{   // 二级菜单
+                        text: 'El',
+                        children: [{
+                            text: 'kjkll',
+                            click: itemclick
+                        }]
+                    },
+                    {
+                        text: 'Word',
+                    },
+                    {
+                        text: 'PDF',
+                    },
+                    {
+                        text: 'TXT',
+                    },
+                    {
+                        line: true
+                    },
+                    {
+                        text: 'XML',
+                    }
+                    ]
+                }, {
+                    line: true
+                }]
+            }]
+    } */
 }(jQuery));
