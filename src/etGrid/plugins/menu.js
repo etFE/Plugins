@@ -1,11 +1,12 @@
 !(function ($) {
     $.fn.menu = function (options) {
         const defaultOpt = {
-            width: 180
+            width: 120
         };
         const opts = $.extend(true, {}, defaultOpt, options);
         const $this = this;
         const Func = {};
+        // 生成菜单项
         const htmlCreateMenu = function ($obj, items = []) {
             if (items.length) {
                 const $ul = $('<ul class="menu_ul"></ul>');
@@ -17,12 +18,8 @@
                         const $icon = $('<i class="menu_icon"></i>');
                         $icon.appendTo($li);
                     } else if (item.children) {
-                        $li = $(`<li class='menu_li'><a href='javascript:;' class='menu_a'><i class='triangle'></i>${item.text}</a></li>`);
+                        $li = $(`<li class='menu_li'><a href='javascript:;' class='menu_a'><span>${item.text}</span></a><i class='triangle'></i></li>`);
                         const $Child = $('<div class="menuChild"></div>');
-                        $Child.css({
-                            left: $li.width(),
-                            top: '-1px'
-                        });
                         htmlCreateMenu($Child, item.children);
                         $Child.appendTo($li);
                     } else if (item.click) {
@@ -45,7 +42,7 @@
         const $Pli = $Child.parent('li');
         $this.width(opts.width).addClass('menu_main');
         $Child.css({
-            left: $Pli.width() - 5,
+            left: opts.width - 9,
             top: 0,
             width: opts.width
         });
@@ -62,6 +59,13 @@
                 event = event || window.event;
                 event.stopPropagation();
                 Func[text].click && Func[text].click(item, event);
+            }
+        });
+        $(document).on('click', (event) => {
+            const evt = window.event || event;
+            const id = $this.attr('id');
+            if ($(evt.target).closest(`#${id}`).length === 0 && $(evt.target).closest(`#${opts.id}`).length === 0) {
+                $this.hide();
             }
         });
     };

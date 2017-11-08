@@ -1,0 +1,84 @@
+ul,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+.menu_li .menu_a {
+    padding: 0 5px 0 20px;
+    color: rgb(59, 59, 59);
+    font-size: 14px;
+}
+
+.menu_ul .menu_li {
+    position: relative;
+    border-radius: 4px;
+    padding-right: 20px;
+    line-height: 26px !important;
+}
+
+.menuChild {
+    display: none;
+    min-Width: 120px;
+    position: absolute;
+    border-radius: 4px;
+    background: #fefefe;
+    border: 1px solid #aaaaaa;
+   /*  white-space: nowrap */
+}
+
+a {
+    text-decoration: none;
+}
+.menu-bar {
+    min-width: 120px;
+}
+.menu_main {
+    width: 120px;
+    border-radius: 4px;
+    background: #fefefe;
+    border: 1px solid #aaaaaa;
+}
+
+.menu_separate {
+    border-bottom: 1px solid rgb(202, 202, 202);
+    margin-top: 3px
+}
+
+#menu-bar ul.menu_ul {
+    padding: 0 2px;
+    
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border: 5px dashed transparent;
+    border-left: 5px solid #666;
+    overflow: hidden;
+    position: absolute;
+    top: 8px;
+    right: 0px;
+}
+.triangle-top {
+    width: 0;
+    height: 0;
+    border: 5px dashed transparent;
+    border-top: 5px solid #666;
+    overflow: hidden;
+    position: absolute;
+    top: 7px;
+    right: 0px;
+}
+.menu_li:hover {
+    background: rgba(158, 158, 158, 0.84);
+}
+
+.menu_li:hover>a {
+    color: #fff;
+}
+
+.menu_li:hover>a .triangle {
+    border-left-color: #fff;
+}
