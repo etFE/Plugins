@@ -1,7 +1,7 @@
 
-import 'air-datepicker';
 import moment from 'moment';
-import 'air-datepicker/src/js/i18n/datepicker.zh';
+import './js/datepicker';
+import './js/i18n/datepicker.zh';
 import './style/datepicker.css';
 import defaultOptions from './defaults';
 import initMethod from './methods';
@@ -37,7 +37,7 @@ import initMethod from './methods';
         }
 
         // 生成
-        const datepicker = $self.datepicker(opts).data('datepicker');
+        const datepicker = $self.airDatepicker(opts).data('datepicker');
 
         const methods = initMethod(datepicker);
 

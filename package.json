@@ -35,7 +35,6 @@
     "webpack-dev-server": "^2.8.2"
   },
   "dependencies": {
-    "air-datepicker": "^2.2.3",
     "icheck": "^1.0.2",
     "restify": "^6.0.1",
     "selectize": "^0.12.4"

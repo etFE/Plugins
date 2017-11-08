@@ -2,3 +2,4 @@ public/*.js
 lib/*.js
 src/etDialog/layer/*.js
 src/etTree/zTree/js/*.js
+src/etDatepicker/js/*.js
