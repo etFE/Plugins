@@ -270,8 +270,15 @@ function gridEditor(editorObj) {
         // 回充值。由于部分数据后台未传。
         // 先获取所有列信息，并对列name赋值空字符串。然后拿后台数据进行扩展
         function rechargeValue(rowData, callback) {
-            let dataPlhd = {};
-            dataPlhd = $.extend(dataPlhd, rowData);
+            const columns = $invGrid.getColumns();
+            const dataPlhd = {};
+
+            // 遍历下拉表格所有字段，赋予空字符串，避免部分值后台未传而无法覆盖主表的值
+            columns.forEach((item) => {
+                dataPlhd[item.dataIndx] = '';
+            });
+
+            $.extend(dataPlhd, rowData);
             dataPlhd.pq_rowselect = false;
             dataPlhd._rowIndx = rowIndx;
             dataPlhd._rowIndxPage = ui.rowIndxPage;
