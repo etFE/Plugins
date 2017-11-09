@@ -246,7 +246,8 @@ function gridEditor(editorObj) {
         const $inp = ui.$cell.find('input');
         const { $cell } = ui;
         let { rowIndx } = ui;
-        const $this = grid;
+        const $this = $(this);
+        // const $self = $(this);
         const $invGridHTML = $('<div class="et_select_grid"></div>');
         let $invGrid;
         const relyed = ui.column.relyOn;
@@ -377,12 +378,14 @@ function gridEditor(editorObj) {
                                 /** *********控制回车键跳单元格****** */
                                 const {
                                         iKeyNav
-                                    } = $grid.getInstance();
+                                } = $this.pqGrid('getInstance').grid;
                                 const {
                                         rowIndxPage
                                     } = ui;
-                                const offset = $grid.getInstance().rowIndxOffset;
-                                const colIndx = $grid.getColIndx(ui.dataIndx);
+                                const offset = $this.pqGrid('getInstance').grid.rowIndxOffset;
+                                const colIndx = $this.pqGrid('getColIndx', {
+                                    dataIndx: ui.dataIndx
+                                });
                                 let obj2;
                                 if (event.shiftKey) {
                                     obj2 = iKeyNav._decrEditIndx(rowIndxPage, colIndx);
