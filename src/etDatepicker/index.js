@@ -1,7 +1,7 @@
 
 import moment from 'moment';
 import './js/datepicker';
-import './js/i18n/datepicker.zh';
+import './js/datepicker.zh';
 import './style/datepicker.css';
 import defaultOptions from './defaults';
 import initMethod from './methods';
