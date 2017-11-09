@@ -634,7 +634,7 @@
 			}
 		}
 	}
-	fnTB._create = function () {
+	/* fnTB._create = function () {
 		var self = this,
 			options = this.options,
 			that = options.gridInstance,
@@ -700,7 +700,7 @@
 							$menu.css({
 								top: offsetT,
 								left: offsetL,
-								zIndex: 9999
+								'z-index': 9999
 							}).show();
 						});
 						$ctrl.hover(function () {
@@ -731,7 +731,7 @@
 				}
 			}
 		}
-	}
+	} */
 	/**=======================新添方法====================================== */
 	var fnTB = $.paramquery.pqToolbar.prototype;
 	fnTB.setDisabled = function (itemid) {
