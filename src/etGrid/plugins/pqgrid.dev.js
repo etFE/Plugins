@@ -6,7 +6,7 @@
  * http://paramquery.com/license
  *
  */
-import './menu.js'  // 工具栏菜单选项引用
+/* import './menu.js'  // 工具栏菜单选项引用 */
 (function ($) {
 	var pq = $.paramquery = $.paramquery || {};
 	$.paramquery.pqgrid = $.paramquery.pqgrid || {};
