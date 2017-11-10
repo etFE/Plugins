@@ -50,18 +50,24 @@ import initMethod from './methods';
             // 如果是true显示当天
             if (typeof defaultDate === 'boolean') {
                 $datepicker.selectDate(new Date());
-
-                // 如果是指定日期显示指定日期
             } else if (typeof defaultDate === 'string') {
-                $datepicker.selectDate(new Date(defaultDate));
-                // 如果是数组，,multiple 或range范围选择
-            } else if (Array.isArray(defaultDate) && (opts.multipleDates || opts.range)) {
-                defaultDate.forEach((item, index) => {
-                    if (typeof item === 'string') {
-                        $datepicker.selectDate(new Date(item));
-                    } else if (item instanceof Date) {
-                        $datepicker.selectDate(item);
+                $datepicker.selectDate(new Date(methods.convertDate(defaultDate)));
+            } else if (Array.isArray(defaultDate)) {
+                if (opts.range && defaultDate.length !== 2) {
+                    console.warn('如果range为true，数组defaultDate最好只放两个元素');
+                } else if (!opts.range && !opts.multipleDates && defaultDate.length > 1) {
+                    console.warn('数组defaultDate最好只放一个元素，或者defaultDate使用字符串类型');
+                }
+
+                defaultDate.forEach((item) => {
+                    let value;
+                    if (item && typeof item === 'boolean') {
+                        value = new Date();
+                    } else if (typeof item === 'string') {
+                        value = new Date(methods.convertDate(item));
                     }
+
+                    $datepicker.selectDate(value);
                 });
             }
         }
