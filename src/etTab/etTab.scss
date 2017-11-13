@@ -12,18 +12,18 @@ $borderColor: #bed5f3;
 /*最外层*/
 .ettab-container {
     border: 1px solid $borderColor;
-    position: relative;
-    padding-top: 31px;
+    display: -ms-flexbox;
+    display: -webkit-flex;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 /*导航标签*/
 .ettab-nav {
     height: 28px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    width: 100%;
+    box-sizing: border-box;
     list-style: none;
     background: $navBg;
     margin: 0;
@@ -54,7 +54,9 @@ $borderColor: #bed5f3;
 
 /*内容块*/
 .ettab-content {
-    height: 100%;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
     width: 100%;
 
     .ettab-panel {
