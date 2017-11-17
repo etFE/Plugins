@@ -9,6 +9,11 @@ $.etDialog = {
     // ready: layer.ready,
     parentFrameName: null,
 
+    parentFrameNameObj: {},
+    getFrameName: function (key) {
+        return key ? this.parentFrameNameObj[key] : this.parentFrameName;
+    },
+
     open: function (opts) {
         if (opts.url) {
             opts.content = opts.url;
@@ -50,8 +55,15 @@ $.etDialog = {
             if (opts.isMax) {
                 layer.full(index);
             }
+            // 获取设置的windows name
             if (opts.frameName) {
                 this.parentFrameName = opts.frameName;
+            }
+            // 获取设置的windows name的对象
+            if (opts.frameNameObj && typeof opts.frameNameObj === 'object') {
+                const key = Object.keys(opts.frameNameObj)[0];
+                this.parentFrameNameObj[key] = opts.frameNameObj[key];
+                this.parentFrameName = opts.frameNameObj[key];
             }
             return index;
         }
