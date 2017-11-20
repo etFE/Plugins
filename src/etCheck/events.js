@@ -42,13 +42,13 @@ function Events($self, opts) {
     });
     // 取消选择时
     $self.on('ifUnchecked', () => {
-        if (opts.onUnCheck === 'function') {
+        if (typeof opts.onUnCheck === 'function') {
             opts.onUnCheck();
         }
     });
     // 被禁用时
     $self.on('ifDisabled', () => {
-        if (opts.ifDisabled) {
+        if (typeof opts.ifDisabled === 'function') {
             opts.ifDisabled();
         }
     });
