@@ -1,0 +1,45 @@
+/* title */
+.layui-layer-title {
+    height: 29px;
+    line-height: 29px;
+    font-weight: bold;
+    font-size: 12px;
+    background: -webkit-gradient(linear, 0 0, 0 100%, from(#eff5fe), to(#d6e4f4));
+    background: -o-linear-gradient(top, #eff5fe, #d6e4f4);
+    _background: #eff5fe;
+    background: -ms-linear-gradient(top, #eff5fe 0%,#d6e4f4 100%);
+    background: linear-gradient(top, #eff5fe, #d6e4f4);
+    background: -moz-linear-gradient(top, #eff5fe, #d6e4f4);
+    filter: progid:dximagetransform.microsoft.gradient(startcolorstr='#eff5fe', endcolorstr='#d6e4f4');
+}
+/* 关闭按钮 */
+.layui-layer-setwin {
+    top: 8px;
+}
+.layui-layer-setwin a {
+    width: 14px;
+    height: 14px;
+}
+/* 底部 */
+.layui-layer-btn {
+    padding: 6px 12px;
+    background: #f8f8f8;
+    border-top: 1px solid #efefef;
+}
+.layui-layer-btn a {
+    font-size: 12px;
+    height: 25px;
+    line-height: 25px;
+    padding: 0 18px;
+    margin-top: 0;
+    border-color: #c1c1c1;
+    background-color: #f9f9f9;
+}
+.layui-layer-btn a:hover {
+    background: #f0f0f0;
+}
+.layui-layer-btn .layui-layer-btn0 {
+    border-color: #c1c1c1;
+    background-color: #f9f9f9;
+    color: #333;
+}
