@@ -114,6 +114,7 @@ color:red;
     left:0;
     opacity: 0.5;
     background-color:black;
+    z-index: 99;
 }
 
 .preView-image{
@@ -123,6 +124,7 @@ color:red;
     top:100px;
     left:50%;
     margin-left:-200px;
+    z-index:100;
 }
 
 .preView-image img{
