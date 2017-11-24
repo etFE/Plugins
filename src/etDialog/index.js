@@ -1,4 +1,5 @@
 import './layer/theme/default/layer.css';
+import './dialog.css';
 import layer from './layer/layer';
 
 // 重置path属性，避免layer自身调用错误路径的css

@@ -2,6 +2,7 @@ import './etTab.scss';
 
 const defaults = {
     active: '',
+    navCover: false, // 标签要不要填充满
     onCreate: () => {},
     onChange: () => {}
 };
@@ -70,6 +71,9 @@ const tabInit = function () {
             tabChangeStatus.call(this, $label, $panel, tabid, index);
         }
     });
+
+    // 判断tab填充满
+    this.opts.navCover && this.$tabNav.addClass('ettab-nav-full');
 
     this.$ettab
         .addClass('ettab-container')
