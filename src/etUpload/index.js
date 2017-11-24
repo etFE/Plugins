@@ -1,8 +1,10 @@
 import './style/main.css';
+import render from './upload';
 
 const defaultOptions = {
     height: 190,
     width: 130,
+    multiple: false,
     onUpload: () => {
 
     },
@@ -23,6 +25,12 @@ const defaultOptions = {
         // 构建组件
         const { height, width } = opts;
         const $file = this;
+        if (opts.multiple) {
+            // 构造多文件上传
+            const $main = this;
+            const resultMulti = render($main, opts);
+            return resultMulti;
+        }
         $file.hide();
         const $main = $(`<div class="etUpload" style="height:${height}px;width:${width}px"></div>`);
         const $image = $(`<img class="image" style="height:${height - 30}px" alt="" src=""/>`);
@@ -31,8 +39,6 @@ const defaultOptions = {
         $file.wrap($main).before($image);
         $image.after($buttonCancel);
         $image.after($buttonUpload);
-
-
         // 上传按钮
         $buttonUpload.click(() => {
             $file.click();

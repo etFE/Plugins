@@ -25,3 +25,107 @@
     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .1);
 }
+
+/* 多文件样式 */
+.etUpload-multiple{
+    border:1px solid #ededed;
+    min-height:60px;
+    max-width:400px;
+    border-radius: 2px;
+    box-sizing: border-box;
+    padding:8px;
+}
+
+.upload-preView{
+    /* border:1px solid red; */
+    margin:0;
+    padding:0
+}
+
+.view-item{
+    border:2px dashed #c2cdda;
+    border-radius: 4px;
+
+    height:80px;
+    width:80px;
+    line-height: 72px;
+    margin:6px;
+    display:inline-block;
+   
+    font-size:30px;
+    color:#acb9c7;
+    text-align: center;
+    vertical-align: top;
+    cursor: pointer;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+.view-item.view-image{
+    border:none;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+.view-item.view-image img{
+    height:100%;
+    width:100%
+}
+
+.upload-file{
+    display:none;
+}
+
+.mask{
+    width:100%;
+    height:100%;
+    position: absolute;;
+    top:0;
+    left:0;
+    background-color:black;
+    opacity: 0.5;
+    display: none;
+}
+.mask span{
+    opacity: 10;
+    font-size:12px;
+    margin:5px;
+    display: inline-block;
+    vertical-align: top;
+    color: #fff;
+}
+.mask .show:hover{
+    color:red;
+}
+
+.mask .delete:hover{
+color:red;
+}
+.view-image:hover .mask{
+    display: block;
+}
+
+.preView{
+    position: fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    opacity: 0.5;
+    background-color:black;
+}
+
+.preView-image{
+    position:fixed;
+    width:400px;
+    height:400px;
+    top:100px;
+    left:50%;
+    margin-left:-200px;
+}
+
+.preView-image img{
+    width:100%;
+}
+/* 多文件样式 */
