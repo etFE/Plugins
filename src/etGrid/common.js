@@ -73,6 +73,7 @@ function autoCompleteEditor(autoCompleteObj) {
              */
             setting.source = function (request, Response) {
                 // 处理所传的参数
+                 // 下拉框请求时所依赖的字段集合
                 const relyed = ui.column.relyOn;
                 let paramArr = '';
                 if (relyed) {
@@ -250,6 +251,7 @@ function gridEditor(editorObj) {
         // const $self = $(this);
         const $invGridHTML = $('<div class="et_select_grid"></div>');
         let $invGrid;
+        // 下拉框请求时所依赖的字段集合
         const relyed = ui.column.relyOn;
         let paramArr = '';
         if (relyed) {
