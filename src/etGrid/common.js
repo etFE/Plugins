@@ -84,6 +84,7 @@ function autoCompleteEditor(autoCompleteObj) {
                         return { name: key, value: value };
                     });
                 }
+
                 $.ajax({
                     type: setting.method,
                     url: setting.url,
@@ -94,20 +95,18 @@ function autoCompleteEditor(autoCompleteObj) {
                         if (typeof setting.success === 'function') {
                             return setting.success(data, Response);
                         }
-                        Response($.map(data, (item) => {
-                            if (setting.keyField) {
-                                return {
-                                    value: item.text,
-                                    label: item.text,
-                                    id: item.id
-                                };
-                            }
-                            return {
-                                value: item[setting.textField],
-                                label: item[setting.textField],
-                                id: item[setting.valueField]
-                            };
-                        }));
+                        const idF = setting.keyField ? 'id' : setting.valueField;
+                        const textF = setting.keyField ? 'text' : setting.textField;
+
+                        // 将原有数据继承 update simon 2017/11/27
+                        Response(data.map(item => (
+                            $.extend({}, item, {
+                                value: item[textF],
+                                label: item[textF],
+                                id: item[idF]
+                            })
+                        )));
+
                         return false;
                     }
                 });
@@ -145,7 +144,6 @@ function autoCompleteEditor(autoCompleteObj) {
         // change事件
         setting.change = function (evt, item3) {
             const { item } = item3;
-
             if (!item) {
                 setting.keyField ?
                     ui.rowData[setting.keyField] = '' :
