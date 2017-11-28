@@ -881,8 +881,8 @@ function Methods(grid) {
          * @param {any} rowdataArr
          */
         addRows(rowdataArr) {
-            $(rowdataArr).each(function () {
-                this.addRow(this);
+            rowdataArr.forEach((rowData) => {
+                this.addRow(rowData);
             });
         },
         /**
