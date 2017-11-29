@@ -1,5 +1,16 @@
 let grid;
 let $grid;
+/**
+ * 工具方法 >> 计算节点是否距离底部一定距离
+ */
+const calculateIsElToBottom = ($el, height) => {
+    const offsetTop = $el.offset().top;
+    const windowHeight = $(window).height();
+    if (windowHeight - offsetTop - $el.height() < height) {
+        return false;
+    }
+    return true;
+};
 
 const initDateEditor = function (dateObj, ui) {
     //  点击今天按钮时选择值
@@ -40,6 +51,25 @@ const initDateEditor = function (dateObj, ui) {
 };
 
 const initSelectEditor = function (autoCompleteObj, ui) {
+    const { $cell } = ui;
+    const $inp = $cell.find('input');
+
+    // 添加箭头样式
+    $cell.css({ position: 'relative' });
+    const $selectArrorw = $('<span></span>');
+    $selectArrorw.css({
+        display: 'block',
+        width: '0',
+        height: '0',
+        'border-top': '5px solid #333',
+        'border-right': '5px solid transparent',
+        'border-left': '5px solid transparent',
+        position: 'absolute',
+        top: '10px',
+        right: '10px'
+    });
+    $cell.append($selectArrorw);
+
     const defaultParam = {
         selectItem: {
             on: true
@@ -185,23 +215,13 @@ const initSelectEditor = function (autoCompleteObj, ui) {
             return autoCompleteObj.create(rowData, cellData, setting);
         };
     }
-    // 计算节点是否距离底部一定距离
-    const calculateIsElToBottom = ($el, height) => {
-        const offsetTop = $el.offset().top;
-        const windowHeight = $(window).height();
-        if (windowHeight - offsetTop - $el.height() < height) {
-            return false;
-        }
-        return true;
-    };
-    const $inp = ui.$cell.find('input');
+
     if (!calculateIsElToBottom($inp, 250)) {
         setting.position = {
             my: 'left bottom',
             at: 'left top'
         };
     }
-
     // initialize the editor
     $inp.autocomplete(setting).focus(function () {
         // open the autocomplete upon focus
