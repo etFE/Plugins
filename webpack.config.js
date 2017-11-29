@@ -41,7 +41,7 @@ const config = {
             }
         ]
     },
-    devtool: 'cheap-source-map',
+    // devtool: 'cheap-source-map',
     externals: {
         jquery: 'jQuery'
     },
