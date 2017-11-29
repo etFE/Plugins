@@ -457,7 +457,7 @@ const initDefaultEditor = (editorObj) => {
  */
 function dateEditor(dateObj) {
     return function (ui) {
-        initDateEditor(dateObj, ui);
+        initDateEditor.call(this, dateObj, ui);
     };
 }
 
@@ -466,7 +466,7 @@ function dateEditor(dateObj) {
  */
 function autoCompleteEditor(autoCompleteObj) {
     return function (ui) {
-        initSelectEditor(autoCompleteObj, ui);
+        initSelectEditor.call(this, autoCompleteObj, ui);
     };
 }
 
@@ -475,7 +475,7 @@ function autoCompleteEditor(autoCompleteObj) {
  */
 function gridEditor(editorObj) {
     return function (ui) {
-        initGridEditor(editorObj, ui);
+        initGridEditor.call(this, editorObj, ui);
     };
 }
 
@@ -489,13 +489,13 @@ function dynamicEditor(editorObj) {
 
         switch (dynamic) {
         case 'select':
-            initSelectEditor(editorObj, ui);
+            initSelectEditor.call(this, editorObj, ui);
             break;
         case 'date':
-            initDateEditor(editorObj, ui);
+            initDateEditor.call(this, editorObj, ui);
             break;
         case 'grid':
-            initGridEditor(editorObj, ui);
+            initGridEditor.call(this, editorObj, ui);
             break;
         default:
             break;
