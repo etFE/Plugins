@@ -1,7 +1,7 @@
 let grid;
 let $grid;
 
-const initDateEditor = (dateObj, ui) => {
+const initDateEditor = function (dateObj, ui) {
     //  点击今天按钮时选择值
     const oldGoToToday = $.datepicker._gotoToday;
     $.datepicker._gotoToday = function (id) {
@@ -39,7 +39,7 @@ const initDateEditor = (dateObj, ui) => {
     $inp.datepicker(setting);
 };
 
-const initSelectEditor = (autoCompleteObj, ui) => {
+const initSelectEditor = function (autoCompleteObj, ui) {
     const defaultParam = {
         selectItem: {
             on: true
@@ -209,7 +209,7 @@ const initSelectEditor = (autoCompleteObj, ui) => {
     });
 };
 
-const initGridEditor = (editorObj, ui) => {
+const initGridEditor = function (editorObj, ui) {
     editorObj.showTop = false;
     editorObj.selectionModel = {
         type: 'row',
@@ -422,7 +422,7 @@ const initGridEditor = (editorObj, ui) => {
     });
 };
 
-const initDefaultEditor = (editorObj) => {
+const initDefaultEditor = function (editorObj) {
     let prvValue;
     let prvRowData;
     // 在init中拿取先前值，先前行数据
