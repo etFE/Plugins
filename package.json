@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack -p",
+    "buildtest": "webpack",
     "server": "webpack-dev-server --hot --inline --open",
     "watch": "webpack -p --watch",
     "eslint": "eslint src/**/*.js",
