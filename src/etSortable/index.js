@@ -12,7 +12,7 @@ function buildRow(rowData, { checkbox, columns, dragHandle }) {
     }
 
     // 行数据
-    columns.forEach((col, j) => {
+    columns.forEach((col) => {
         const $span = $(`<span>${rowData[col.name]}</span>`);
         $li.append($span);
     });
@@ -39,7 +39,7 @@ function buildTable({
     }
 
     // 列头数据
-    columns.forEach((v, i) => {
+    columns.forEach((v) => {
         const $span = $(`<span>${v.display}</span>`);
         $header.append($span);
     });
@@ -52,7 +52,7 @@ function buildTable({
     /* end 添加列头 */
 
     /* start 添加数据 */
-    data.forEach((row, i) => {
+    data.forEach((row) => {
         const $li = buildRow(row, { checkbox, columns, dragHandle });
         $ul.append($li);
     });
@@ -117,13 +117,24 @@ function next(index, arr) {
     arr[index] = targetValue;
 }
 
+// 数组元素移动
+function moveItem(o, n, arr) {
+    const oldItem = arr[o];
+    arr.splice(n, 0, oldItem);
+    arr.splice(o, 1);
+}
+
+function insertItem(item, n, arr) {
+    arr.splice(n, 0, item);
+}
+
 // 节点上移
 function prevDom(index, $el) {
     const curDom = $el.find('.row').eq(index);
     const targetDom = $el.find('.row').eq(index - 1);
     curDom.insertBefore(targetDom);
 }
-
+// 节点下移
 function nextDom(index, $el) {
     const curDom = $el.find('.row').eq(index);
     const targetDom = $el.find('.row').eq(index + 1);
@@ -164,7 +175,7 @@ function nextDom(index, $el) {
             getData: () => result.data,
             addRows: (rows) => { // 批量添加行
                 // 填充到页面上
-                rows.forEach((row, i) => {
+                rows.forEach((row) => {
                     const $li = buildRow(row, opts);
                     $table.append($li);
                 });
@@ -173,14 +184,15 @@ function nextDom(index, $el) {
             },
             addRow: (row) => { // 添加行
                 const $li = buildRow(row, opts);
+                $table.append($li);
                 result.data.push(row);
             },
             deleteRows: (rowsIndex) => { // 根据索引删除行
                 const $el = [];
-                rowsIndex.forEach((v, i) => {
+                rowsIndex.forEach((v) => {
                     $el.push($table.find('.row').eq(v));
                 });
-                $el.forEach((v, i) => {
+                $el.forEach((v) => {
                     v.remove();
                 });
                 result.data = result.data.filter((item, i) => rowsIndex.indexOf(i) === -1);
@@ -214,20 +226,20 @@ function nextDom(index, $el) {
                     nextDom(checkedIndex[i], $table);
                 }
             }
+            // insertItem: (item, index) => {
+            //     const key = opts.unique;
+            //     const { data } = result;
+            //     for (let i = 0; i < data.length; i++) {
+            //         const value = data[i];
+            //         if (value[key] === item[key]) {
+            //             console.warn(`${key}重复不可添加！`);
+            //             return;
+            //         }
+            //     }
+            //     insertItem(item, index, result.data);
+            // }
         };
         const res = $.extend(true, result, methods);
         return res;
     };
 }(jQuery));
-
-
-const data = [
-    { name: 1 },
-    { name: 2 },
-    { name: 3 },
-    { name: 4 },
-    { name: 5 }
-];
-
-data[3] = data[0];
-console.log(data);
