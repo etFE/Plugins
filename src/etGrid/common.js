@@ -89,9 +89,9 @@ const initSelectEditor = function (autoCompleteObj, ui) {
          * @param {any} Response [ 此参数是回调函数 取到数据后必须执行此参数方法 如下]
          */
         setting.source = function (request, Response) {
-            // 处理所传的参数
+            // 级联查询的参数，key是传参key，field是在rowData查找值的key
             const relyed = ui.column.relyOn;
-            let paramArr = '';
+            let paramArr = [];
             if (relyed) {
                 paramArr = relyed.map((item) => {
                     const { key } = item; // 键名
@@ -101,7 +101,10 @@ const initSelectEditor = function (autoCompleteObj, ui) {
                     return { name: key, value: value };
                 });
             }
-
+            // 后台检索
+            paramArr.push({
+                name: 'key', value: request.term
+            });
             $.ajax({
                 type: setting.method,
                 url: setting.url,
