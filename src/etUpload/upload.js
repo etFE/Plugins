@@ -90,6 +90,10 @@ function render($main, options) {
 
     $ulFile.on('change', 'input:file', (e) => {
         const file = e.target.files[0];
+        if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(e.target.value)) {
+            alert('文件类型必须是图片！');
+            return;
+        }
         fileList.push(file);
         const index = $ulFile.find('li').index(e.target.parentNode);
         // 填充待上传图片
