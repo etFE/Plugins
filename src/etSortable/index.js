@@ -13,7 +13,7 @@ function buildRow(rowData, { checkbox, columns, dragHandle }) {
 
     // 行数据
     columns.forEach((col) => {
-        const $span = $(`<span>${rowData[col.name]}</span>`);
+        const $span = $(`<span style="width:${col.width}px">${rowData[col.name] || ''}</span>`);
         $li.append($span);
     });
 
@@ -40,7 +40,7 @@ function buildTable({
 
     // 列头数据
     columns.forEach((v) => {
-        const $span = $(`<span>${v.display}</span>`);
+        const $span = $(`<span style="width:${v.width}px">${v.display}</span>`);
         $header.append($span);
     });
 
@@ -60,6 +60,13 @@ function buildTable({
     return $ul;
 }
 
+function buildColumn($table) {
+    const $ul = $('<ul class="column"></ul>');
+    const $li = $table.find('li.header');
+    $ul.append($li);
+    return $ul;
+}
+
 // 构建事件
 function initEvent($table) {
     // 判断是否全部选中
@@ -75,8 +82,8 @@ function initEvent($table) {
     }
 
     // 全选事件
-    $table.on('change', '.header .check-box input', () => {
-        const $checkAll = $table.find('.header .check-box input'); // 列头复选框
+    $table.parent().on('change', '.column .header .check-box input', () => {
+        const $checkAll = $table.parent().find('.header .check-box input'); // 列头复选框
         const $check = $table.find('.row .check-box input'); // 行复选框
         const checked = $checkAll.prop('checked');
         $check.prop('checked', checked);
@@ -85,7 +92,7 @@ function initEvent($table) {
 
     // 行复选框事件
     $table.on('change', '.row .check-box input', (e) => {
-        const $checkAll = $table.find('.header .check-box input'); // 列头复选框
+        const $checkAll = $table.parent().find('.header .check-box input'); // 列头复选框
         const $row = $(e.target).parent().parent();
         const checked = $(e.target).prop('checked');
         if (checked) {
@@ -150,10 +157,17 @@ function nextDom(index, $el) {
             data: opts.data,
             columns: opts.columns
         };
-
+        // 创建列表
         const $table = buildTable(opts);
+        // 创建列头
+        const $column = buildColumn($table);
+        // 填充到主容器
+        $(this).append($column).append($table);
+        // 创建事件
         initEvent($table);
-        $(this).append($table);
+
+        $(this).height(opts.height);
+        $table.height(opts.height - 27);
         Sortable.create($table.get(0), opts);
         // 函数
         const methods = {
@@ -196,13 +210,25 @@ function nextDom(index, $el) {
                     v.remove();
                 });
                 result.data = result.data.filter((item, i) => rowsIndex.indexOf(i) === -1);
+
+                // 删除完恢复全选
+                const $checkAll = $table.parent().find('.header .check-box input'); // 列头复选框
+                $checkAll.prop('checked', false);
             },
             deleteCheckedRows: () => { // 删除选中行
                 const { getChecked, deleteRows } = methods;
                 const { checkedIndex } = getChecked();
                 deleteRows(checkedIndex);
             },
-            prevMove: () => {
+            deleteAllRows: () => { // 删除所有数据
+                const { getData, deleteRows } = methods;
+                const dataIndex = [];
+                for (let i = 0, len = getData().length; i < len; i++) {
+                    dataIndex.push(i);
+                }
+                deleteRows(dataIndex);
+            },
+            prevMove: () => { // 向上移动数据改变排序
                 const { checkedIndex } = methods.getChecked();
                 // 判断是否可移动
                 if (checkedIndex[0] < 1) {
@@ -214,7 +240,7 @@ function nextDom(index, $el) {
                     prevDom(checkedIndex[i], $table);
                 }
             },
-            nextMove: () => {
+            nextMove: () => { // 向下移动数据 改变排序
                 const { checkedIndex } = methods.getChecked();
                 // 判断是否可移动
                 if (checkedIndex[checkedIndex.length - 1] === result.data.length - 1) {
@@ -225,19 +251,16 @@ function nextDom(index, $el) {
                     next(checkedIndex[i], result.data);
                     nextDom(checkedIndex[i], $table);
                 }
+            },
+            reload: (data) => { // 从新加载数据
+                $table.find('.row').remove();
+                result.data = data;
+                data.forEach((row) => {
+                    const { checkbox, dragHandle, columns } = opts;
+                    const $li = buildRow(row, { checkbox, columns, dragHandle });
+                    $table.append($li);
+                });
             }
-            // insertItem: (item, index) => {
-            //     const key = opts.unique;
-            //     const { data } = result;
-            //     for (let i = 0; i < data.length; i++) {
-            //         const value = data[i];
-            //         if (value[key] === item[key]) {
-            //             console.warn(`${key}重复不可添加！`);
-            //             return;
-            //         }
-            //     }
-            //     insertItem(item, index, result.data);
-            // }
         };
         const res = $.extend(true, result, methods);
         return res;
