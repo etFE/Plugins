@@ -1,7 +1,16 @@
 ul{
-    display:table;
     font-size:12px;
     border-collapse: collapse;
+    display:inline-block;
+    overflow:auto;
+    padding:0;
+    margin:0;
+}
+
+ul.column{
+    display:block;
+    margin-bottom:-1px;
+    height:27px;
 }
 
 ul li{
@@ -15,7 +24,7 @@ ul li:hover{
 }
 
 ul li.header{
-    font-weight: 800;
+    /* font-weight: 800; */
 }
 
 ul li.header span{

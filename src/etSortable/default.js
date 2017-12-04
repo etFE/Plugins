@@ -6,6 +6,7 @@ const defaultOptions = {
     // store: null,  // @see Store
     animation: 100, // ms, animation speed moving items when sorting, `0` — without animation
     handle: '.handle', //
+    height: 200,
     data: [], // 数据
     columns: [], // 列头
     dragHandle: false, // 是否可拖拽
