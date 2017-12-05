@@ -37,6 +37,10 @@ ul li span{
     vertical-align: middle;
     width:80px;
     border:1px solid #a3c0e8;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 ul li span.handle,.header-handle{
