@@ -319,7 +319,8 @@ const initGridEditor = function (editorObj, ui) {
             position: 'absolute',
             top: cellOffsetTop,
             left: cellOffsetLeft
-        });
+        })
+        .on('mousedown', () => false);
 
 
     let [preValue, curValue] = ['', '']; // 先前值 当前值 初始选择的索引
