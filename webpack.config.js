@@ -16,7 +16,8 @@ const config = {
         etTree: `${__dirname}/src/etTree`,
         etUpload: `${__dirname}/src/etUpload`,
         etForm: `${__dirname}/src/etForm`,
-        etJsonLayout: `${__dirname}/src/etJsonLayout`
+        etJsonLayout: `${__dirname}/src/etJsonLayout`,
+        etSortable: `${__dirname}/src/etSortable`
     },
     output: {
         path: `${__dirname}/public`,

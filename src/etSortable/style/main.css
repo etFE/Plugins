@@ -1,0 +1,64 @@
+ul{
+    font-size:12px;
+    border-collapse: collapse;
+    display:inline-block;
+    overflow:auto;
+    padding:0;
+    margin:0;
+}
+
+ul.column{
+    display:block;
+    margin-bottom:-1px;
+    height:27px;
+}
+
+ul li{
+    display:table-row;
+    user-select: none;
+    height:26px;
+}
+
+ul li:hover{
+    background-color:#e0ecff;
+}
+
+ul li.header{
+    /* font-weight: 800; */
+}
+
+ul li.header span{
+    background:linear-gradient(#e2f0ff,#c1dbfa,#e2f0ff)
+}
+
+ul li span{
+    display:table-cell;
+    text-align: center;
+    vertical-align: middle;
+    width:80px;
+    border:1px solid #a3c0e8;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+ul li span.handle,.header-handle{
+    width:30px;
+}
+
+ul li span.check-box{
+    width:30px;
+}
+
+ul li.checked span{
+    background-color:#dcf8a8;
+}
+
+ul li span input{
+    vertical-align: bottom;
+}
+
+.sortable-chosen{
+    background-color:#EDEDED;
+}
