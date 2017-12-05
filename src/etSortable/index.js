@@ -13,7 +13,7 @@ function buildRow(rowData, { checkbox, columns, dragHandle }) {
 
     // 行数据
     columns.forEach((col) => {
-        const $span = $(`<span style="width:${col.width}px">${rowData[col.name] || ''}</span>`);
+        const $span = $(`<span style="width:${col.width}px;max-width:${col.width}px">${rowData[col.name] || ''}</span>`);
         $li.append($span);
     });
 
@@ -40,7 +40,7 @@ function buildTable({
 
     // 列头数据
     columns.forEach((v) => {
-        const $span = $(`<span style="width:${v.width}px">${v.display}</span>`);
+        const $span = $(`<span style="width:${v.width}px;max-width:${v.width}px">${v.display}</span>`);
         $header.append($span);
     });
 
@@ -150,6 +150,7 @@ function nextDom(index, $el) {
 
 !(function ($) {
     $.fn.etSortable = function (options) {
+        const $this = $(this);
         // 合并参数
         const opts = $.extend(true, {}, defaultOptions, options);
         // 基本数据
@@ -162,12 +163,13 @@ function nextDom(index, $el) {
         // 创建列头
         const $column = buildColumn($table);
         // 填充到主容器
-        $(this).append($column).append($table);
+        $this.append($column).append($table);
         // 创建事件
         initEvent($table);
 
-        $(this).height(opts.height);
+        $this.height(opts.height);
         $table.height(opts.height - 27);
+
         Sortable.create($table.get(0), opts);
         // 函数
         const methods = {
