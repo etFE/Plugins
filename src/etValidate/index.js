@@ -57,6 +57,7 @@ class EtValidate {
 
                 switch (item.type) {
                 case 'number':
+                    // TODO: 判断有问题，，， 需要加NaN的判断
                     if (typeof Number(elValue) !== 'number') {
                         isRightType = false;
                     }
