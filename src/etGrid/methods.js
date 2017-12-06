@@ -38,14 +38,22 @@ function Methods(grid) {
             });
         },
         /**
-         * 末尾添加数据行。
+         * 末尾添加数据行。 update 添加行可以翻滚页面至对应行
          * @param {object} obj      [行数据对象]
+         * @param {bool} isFlip [添加行后，是否自动翻到添加数据的行]
          */
-        addRow(obj = {}) {
-            // obj = obj || {};
-            grid.pqGrid('addRow', {
-                rowData: obj
-            });
+        addRow(obj = {}, isFlip = true) {
+            grid.pqGrid('addRow', { rowData: obj });
+            if (isFlip) {
+                const rowLength = grid.pqGrid('option').dataModel.data.length;
+                const eachPageDataLen = grid.pqGrid('option').pageModel.rPP;
+
+                const rowIndx = obj.rowIndx || rowLength - 1;
+                const rowIndxPage = rowIndx % eachPageDataLen;
+
+                grid.pqGrid('goToPage', { rowIndx: rowIndx });
+                grid.pqGrid('scrollRow', { rowIndxPage: rowIndxPage });
+            }
         },
         /**
          * 选定行，插入数据行。
