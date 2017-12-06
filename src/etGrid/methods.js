@@ -38,7 +38,7 @@ function Methods(grid) {
             });
         },
         /**
-         * 末尾添加数据行。 update 添加行可以翻滚页面至对应行
+         * 末尾添加数据行。 update: 添加行可以翻滚页面至对应行 simon 2017/12/06
          * @param {object} obj      [行数据对象]
          * @param {bool} isFlip [添加行后，是否自动翻到添加数据的行]
          */
@@ -48,7 +48,7 @@ function Methods(grid) {
                 const rowLength = grid.pqGrid('option').dataModel.data.length;
                 const eachPageDataLen = grid.pqGrid('option').pageModel.rPP;
 
-                const rowIndx = obj.rowIndx || rowLength - 1;
+                const rowIndx = rowLength - 1;
                 const rowIndxPage = rowIndx % eachPageDataLen;
 
                 grid.pqGrid('goToPage', { rowIndx: rowIndx });
@@ -56,15 +56,23 @@ function Methods(grid) {
             }
         },
         /**
-         * 选定行，插入数据行。
+         * 选定行，插入数据行。 update: 添加行可以翻滚页面至对应行 simon 2017/12/06
          * @param  {number} rowIndx [行号]
          * @param  {object} obj     [行数据对象]
+         * @param {bool} isFlip [添加行后，是否自动翻到添加数据的行]
          */
-        insertRow(rowIndx, obj) {
+        insertRow(rowIndx, obj, isFlip = true) {
             grid.pqGrid('addRow', {
                 rowData: obj,
                 rowIndx: rowIndx
             });
+            if (isFlip) {
+                const eachPageDataLen = grid.pqGrid('option').pageModel.rPP;
+                const rowIndxPage = rowIndx % eachPageDataLen;
+
+                grid.pqGrid('goToPage', { rowIndx: rowIndx });
+                grid.pqGrid('scrollRow', { rowIndxPage: rowIndxPage });
+            }
         },
         /**
          * 折叠grid ！
