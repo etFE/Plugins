@@ -2662,6 +2662,12 @@ div.pq-filter-dialog * {
     margin: 2px 4px
 }
 
+/*
+ ********************************************************************
+ * 以下是覆盖样式
+ **********************************************************************
+ */
+
 div.pq-grid .ui-widget-header .ui-state-default:not(.ui-state-hover) {
     border-color: 1px solid #000
 }
