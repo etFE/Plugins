@@ -69,6 +69,7 @@ const defaults = {
         strLastPage: '尾页',
         strRefresh: '刷新',
         strRpp: '每页记录: {0}',
+        rPPOptions: [10, 20, 50, 100, 200, 500],
         strDisplay: '显示第 {0} 到 {1} 条，总共 {2} 条数据'
     },
     strLoading: '加载中',
