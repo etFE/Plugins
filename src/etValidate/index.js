@@ -57,7 +57,7 @@ class EtValidate {
 
                 switch (item.type) {
                 case 'number':
-                    if (typeof Number(elValue) !== 'number') {
+                    if (isNaN(Number(elValue)) || typeof Number(elValue) !== 'number') {
                         isRightType = false;
                     }
                     break;
@@ -70,15 +70,17 @@ class EtValidate {
                         isRightType = false;
                     }
                     break;
-                case 'float':
-                    if (typeof Number(elValue) === 'number') {
-                        if (!/^(-|\+)?\d+\.\d*$/.test(elValue)) {
-                            isRightType = false;
-                        }
-                    } else {
-                        isRightType = false;
-                    }
-                    break;
+                
+                // TODO: float判断还有点问题，当是整形的时候回判断false
+                // case 'float':
+                //     if (typeof Number(elValue) === 'number') {
+                //         if (!/^(-|\+)?\d+\.\d*$/.test(elValue)) {
+                //             isRightType = false;
+                //         }
+                //     } else {
+                //         isRightType = false;
+                //     }
+                //     break;
                     // no default
                 }
 
