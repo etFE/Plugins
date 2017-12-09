@@ -617,9 +617,9 @@ function initEditor(editorObj) {
 
 // 替换字段
 const replaceField = (item) => {
-    item.title = item.display;
-    item.dataIndx = item.name;
-    item.sortable = item.isSort;
+    item.title = item.display || item.title;
+    item.dataIndx = item.name || item.dataIndx;
+    item.sortable = item.isSort || item.sortable;
     if (item.totalSummary) {
         item.summary = {};
         item.summary.title = item.totalSummary.display;
