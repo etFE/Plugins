@@ -295,7 +295,6 @@ const initGridEditor = function (editorObj, ui) {
     editorObj.rowClick = (event, ui2 = ui) => {
         event = event || window.event;
         event.stopPropagation();
-
         rechargeValue(ui2.rowData);
         $invGrid.remove();
     };
@@ -320,7 +319,10 @@ const initGridEditor = function (editorObj, ui) {
             top: cellOffsetTop,
             left: cellOffsetLeft
         })
-        .on('mousedown', () => false);
+        .on('mousedown', () => {
+            // 这里的异步还需要再 看看
+            setTimeout(() => false, 10);
+        });
 
 
     let [preValue, curValue] = ['', '']; // 先前值 当前值 初始选择的索引
@@ -654,4 +656,3 @@ function hoverShowTitle($self, opts) {
     });
 }
 export { replaceOption, buildGrid, createCheckBoxColumn, hoverShowTitle };
-
