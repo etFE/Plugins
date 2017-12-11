@@ -54,7 +54,6 @@ class EtValidate {
             // 验证类型
             if (item.type && elValue) {
                 let isRightType = true;
-
                 switch (item.type) {
                 case 'number':
                     if (isNaN(Number(elValue)) || typeof Number(elValue) !== 'number') {
@@ -70,7 +69,7 @@ class EtValidate {
                         isRightType = false;
                     }
                     break;
-                
+
                 // TODO: float判断还有点问题，当是整形的时候回判断false
                 // case 'float':
                 //     if (typeof Number(elValue) === 'number') {
@@ -117,16 +116,21 @@ class EtValidate {
      * 关闭一个表单的验证
      * @param {jquery obj} $closeItem 关闭验证的jq对象
      */
-    closeValidate($closeItem) {
+    closeValidate($closeItem, closeType) {
+        // TODO: 这里的forEach循环需要考虑优化
         this.items.forEach((item, index) => {
             const itemNode = item.el[0];
 
             // 重置为false，关闭验证
             if (itemNode === $closeItem[0]) {
-                if (this.items[index].required) {
+                if (this.items[index].required && (!closeType || closeType === 'required')) {
                     this.items[index].required = false;
                 }
-                if (this.items[index].test) {
+                if (this.items[index].type && (!closeType || closeType === 'type')) {
+                    this.items[index].prevType = this.items[index].type;
+                    this.items[index].type = false;
+                }
+                if (this.items[index].test && (!closeType || closeType === 'test')) {
                     this.items[index].prevTest = this.items[index].test;
                     this.items[index].test = false;
                 }
@@ -144,16 +148,21 @@ class EtValidate {
      * 开启一个表单的验证
      * @param {jquery obj}  $openItem 开启验证的jq对象
      */
-    openValidate($openItem) {
+    openValidate($openItem, openType) {
+        // TODO: 这里的forEach循环需要考虑优化
         this.items.forEach((item, index) => {
             const itemNode = item.el[0];
 
             // 启用为true，开启验证
             if (itemNode === $openItem[0]) {
-                if (!this.items[index].required && typeof this.items[index].required === 'boolean') {
+                if (this.items[index].required === false && (!openType || openType === 'required')) {
                     this.items[index].required = true;
                 }
-                if (this.items[index].prevTest) {
+                if (this.items[index].prevType && (!openType || openType === 'type')) {
+                    this.items[index].type = this.items[index].prevType;
+                    delete this.items[index].prevType;
+                }
+                if (this.items[index].prevTest && (!openType || openType === 'test')) {
                     this.items[index].test = this.items[index].prevTest;
                     delete this.items[index].prevTest;
                 }
