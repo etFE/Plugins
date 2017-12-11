@@ -45,50 +45,6 @@ const initDateEditor = function (dateObj, ui) {
         showMonthAfterYear: true,
         yearSuffix: '年'
     };
-<<<<<<< HEAD
-}
-
-/**
- * @description 构造下拉框编辑框
- * @param {any} obj 传入参数对象
- * @returns
- */
-function autoCompleteEditor(autoCompleteObj) {
-    return function (ui) {
-        const defaultParam = {
-            selectItem: {
-                on: true
-            },
-            highlightText: {
-                on: true
-            },
-            minLength: 0,
-            cacheLength: 20,
-            method: 'POST'
-        };
-        const setting = $.extend(true, {}, defaultParam, autoCompleteObj);
-        if (setting.url) {
-            /**
-             * @description 下拉框数据远程获取
-             * @param {any} request [外部输入的字段(传到ajax data)]
-             * @param {any} Response [ 此参数是回调函数 取到数据后必须执行此参数方法 如下]
-             */
-            setting.source = function (request, Response) {
-                // 处理所传的参数
-                 // 下拉框请求时所依赖的字段集合
-                const relyed = ui.column.relyOn;
-                let paramArr = '';
-                if (relyed) {
-                    paramArr = relyed.map((item) => {
-                        const { key } = item; // 键名
-                        const value = ui.rowData[item.field]; // 键值
-                        const objP = {};
-                        objP[key] = value;
-                        return { name: key, value: value };
-                    });
-                }
-=======
->>>>>>> d89e11dd8b9792895f6f796198e5d78aa466e483
 
     const setting = Object.assign({}, defaultParam, dateObj);
     $inp.datepicker(setting);
@@ -285,33 +241,6 @@ const initGridEditor = function (editorObj, ui) {
     editorObj.stripeRows = false;
     editorObj.editable = false;
     editorObj.resizable = false;
-<<<<<<< HEAD
-    return function (ui) {
-        const $inp = ui.$cell.find('input');
-        const { $cell } = ui;
-        let { rowIndx } = ui;
-        const $this = $(this);
-        // const $self = $(this);
-        const $invGridHTML = $('<div class="et_select_grid"></div>');
-        let $invGrid;
-        // 下拉框请求时所依赖的字段集合
-        const relyed = ui.column.relyOn;
-        let paramArr = '';
-        if (relyed) {
-            paramArr = relyed.map((item) => {
-                const { key } = item; // 键名
-                const value = ui.rowData[item.field]; // 键值
-                const objP = {};
-                objP[key] = value;
-                return { name: key, value: value };
-            });
-        }
-        editorObj.dataModel.getUrl = function () {
-            return {
-                data: paramArr,
-                url: editorObj.dataModel.url
-            };
-=======
 
     const $inp = ui.$cell.find('input');
     const { $cell } = ui;
@@ -335,7 +264,6 @@ const initGridEditor = function (editorObj, ui) {
         return {
             data: paramArr,
             url: editorObj.dataModel.url
->>>>>>> d89e11dd8b9792895f6f796198e5d78aa466e483
         };
     };
     // 回充值。由于部分数据后台未传。
