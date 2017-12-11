@@ -217,7 +217,7 @@
 	var _PR = $.paramquery.cRows.prototype;
 	var fn = $.paramquery._pqGrid.prototype;
 	fn._init = function () {
-		var _pKeyNav = this.iKeyNav.__proto__;
+		var _pKeyNav = this.iKeyNav.__proto__ || Object.getPrototypeOf(this.iKeyNav);
 		_pKeyNav._keyDownInEdit = function (evt) {
 			var that = this.that,
 				o = that.options;
