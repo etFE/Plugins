@@ -3488,6 +3488,7 @@
 					}
 				} else {
 					DM.data = responseObj.Rows; //   之前是data 数据格式给为Rows
+					responseObj.totalRecords = responseObj.Total;
 					if (PM.type && PM.type == "remote") {
 						if (responseObj.curPage) {
 							PM.curPage = responseObj.curPage
