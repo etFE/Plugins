@@ -58,6 +58,4 @@ typings/
 .env
 
 public/*
-src/index.html
-src/for-grid.html
-src/for-validate.html
+src/*.html
