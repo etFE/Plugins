@@ -64,7 +64,7 @@ import {
                 opts.dataModel.getData = function (response, textStatus, jqXHR) {
                     const data = response.Rows;
                     $self.summaryRows = [];
-                    if (!data) {
+                    if (!data.length) {
                         return false;
                     }
                     // 过滤出放在底部冻结行(合计行)的数据
