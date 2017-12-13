@@ -15,7 +15,7 @@ const defaults = {
         type: false,
         page: 1,
         changepage: 1,
-        pageSize: 20
+        pagesize: 20
     }
 };
 
@@ -91,7 +91,7 @@ const init = function () {
     if (pageModel.type) {
         param.page = pageModel.page;
         param.changepage = pageModel.changepage;
-        param.pageSize = pageModel.pageSize;
+        param.pagesize = pageModel.pagesize;
     }
     loadData.call(this);
 };
@@ -122,7 +122,7 @@ const setup = function () {
 
         // TODO: 注意这里的判断
         if (lastItemToTop < wrapHeight && this.scrollFlag) {
-            const totalPage = Math.ceil(this.total / this.pageModel.pageSize);
+            const totalPage = Math.ceil(this.total / this.pageModel.pagesize);
 
             // console.log(totalPage, this.param.page)
             if (totalPage === this.param.page) {
