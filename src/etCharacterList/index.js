@@ -114,8 +114,11 @@ const setup = function () {
 
     this.pageModel.type && $wrap.on('scroll', () => {
         const lastItem = $wrap.children(':last');
-        const lastItemToTop = lastItem.offset().top + lastItem.height();
         const wrapHeight = $wrap.height();
+
+        // 距离顶部高度 + 自身高度 - 外层距离顶部高度
+        let lastItemToTop = lastItem.offset().top + lastItem.height();
+        lastItemToTop -= $wrap.offset().top;
 
         // TODO: 注意这里的判断
         if (lastItemToTop < wrapHeight && this.scrollFlag) {
