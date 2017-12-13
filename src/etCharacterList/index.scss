@@ -76,6 +76,7 @@
 
     .character-loading {
         text-align: center;
+        height: 60px;
 
         svg {
             width: 30px;
@@ -87,6 +88,13 @@
             -webkit-animation: loading .8s linear infinite;
             -o-animation: loading .8s linear infinite;
         }
+    }
+
+    .character-nothing {
+        text-align: center;
+        height: 30px;
+        line-height: 30px;
+        color: #333;
     }
     
     .character-item {

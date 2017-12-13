@@ -2,7 +2,7 @@ import './index.scss';
 
 const defaults = {
     url: '',
-    data: {},
+    param: {},
     onClick: null,
     selectedItem: {},
     // msgData: [
@@ -28,24 +28,41 @@ const loadLoading = function () {
     </li>`;
 
     this.$wrap.append(loadingHtml);
+
+    // scroll height diff
+    const curScrollTop = this.$wrap.scrollTop();
+    if (curScrollTop !== 0) {
+        this.$wrap.scrollTop(curScrollTop + 60);
+    }
 };
 
 const removeLoading = function () {
     this.$wrap.find('li.character-loading').remove();
 };
 
-const loadData = function (url = this.url, data = this.data) {
+const nothingAnymore = function () {
+    const nothingHtml = '<li class="character-nothing">没有了</li>';
+
+    this.$wrap.append(nothingHtml);
+};
+
+const loadData = function (url = this.url, param = this.param) {
     const { $wrap } = this;
 
     loadLoading.call(this);
 
     $.ajax({
         url: url,
-        data: data,
+        data: param,
         type: 'POST',
         dataType: 'json',
-        success: (items) => {
+        success: (res) => {
+            this.total = res.Total || res.Rows.length;
+            const items = res.Rows;
+
             items.forEach((item) => {
+                this.data.push(item);
+
                 const listHtml =
                     `<li class="character-item" character-id="${item.user_code}">
                         <div class="character-avatar">
@@ -61,64 +78,79 @@ const loadData = function (url = this.url, data = this.data) {
                 $wrap.append(listHtml);
             });
             removeLoading.call(this);
+            this.scrollFlag = true;
         }
     });
 };
 
 // init
 const init = function () {
-    const { $wrap, pageModel, data } = this;
+    const { $wrap, pageModel, param } = this;
     $wrap.addClass('character-list');
 
     if (pageModel.type) {
-        data.page = pageModel.page;
-        data.changepage = pageModel.changepage;
-        data.pageSize = pageModel.pageSize;
+        param.page = pageModel.page;
+        param.changepage = pageModel.changepage;
+        param.pageSize = pageModel.pageSize;
     }
     loadData.call(this);
 };
 
 // events
 const setup = function () {
-    const { $wrap, selectedItem, onClick, pageModel } = this;
+    const { $wrap } = this;
 
     // 点击事件
-    $wrap.on('click', '.character-item', function () {
+    $wrap.on('click', '.character-item', (e) => {
+        const theItem = e.currentTarget;
+
         $wrap.children().removeClass('active');
-        $(this).addClass('active');
-        selectedItem.user_code = $(this).attr('character-id');
+        $(theItem).addClass('active');
+        this.selectedItem.user_code = $(theItem).attr('character-id');
 
         // 点击事件钩子
-        onClick && onClick(selectedItem);
+        this.onClick && this.onClick(this.selectedItem);
     });
 
-    pageModel.type && $wrap.on('scroll', function (e) {
-        const lastItem = $(this).children(':last');
+    this.pageModel.type && $wrap.on('scroll', () => {
+        const lastItem = $wrap.children(':last');
         const lastItemToTop = lastItem.offset().top + lastItem.height();
-        const wrapHeight = $(this).height();
+        const wrapHeight = $wrap.height();
 
-        if (lastItemToTop < wrapHeight) {
-            console.log(1)
+        // TODO: 注意这里的判断
+        if (lastItemToTop < wrapHeight && this.scrollFlag) {
+            const totalPage = Math.ceil(this.total / this.pageModel.pageSize);
+
+            // console.log(totalPage, this.param.page)
+            if (totalPage === this.param.page) {
+                nothingAnymore.call(this);
+                return;
+            }
+            this.param.page++;
+            loadData.call(this, this.url, this.param);
         }
-        // console.log(e);
     });
 };
 
 class CharacterList {
     constructor($el, options) {
-        this.VERSION = '1.0.1';
+        this.VERSION = '1.1.0';
         this.$wrap = $el;
+        this.scrollFlag = false;
+        this.data = [];
+        this.total = null;
 
         $.extend(true, this, defaults, options);
 
         init.call(this);
         setup.call(this);
-        console.log(this);
+        // console.log(this)
         return this;
     }
 
     // 重新加载
     reload() {
+        this.scrollFlag = false;
         this.$wrap.children().remove();
         init.call(this);
     }
@@ -127,7 +159,7 @@ class CharacterList {
     getSelectedItem() {
         return this.selectedItem;
     }
-    // 清楚状态
+    // 清除状态
     clearSelected() {
         this.selectedItem = {};
         this.$wrap.find('li.active').removeClass('active');
