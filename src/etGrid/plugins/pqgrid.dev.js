@@ -6619,7 +6619,12 @@
 			EM = thisOptions.editModel,
 			rowIndx, colIndx;
 		var keyCodes = $.ui.keyCode;
-		var dataLastIndx = thisOptions.dataModel.data.length - 1; // 获取数据中最后一个索引值
+		var dataLastIndx ;
+		/* 2017/12/14 cl 解决表格数据为空时报错的问题 */
+		if (thisOptions.dataModel.data && thisOptions.dataModel.data.length) {
+			dataLastIndx = thisOptions.dataModel.data.length - 1; // 获取数据中最后一个索引值
+		}
+		/*     */
 		if (EM.indices) {
 			that.$div_focus.find(".pq-cell-focus").focus();
 			return
