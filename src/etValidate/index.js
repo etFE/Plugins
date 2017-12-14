@@ -62,7 +62,7 @@ class EtValidate {
                     break;
                 case 'int':
                     if (typeof Number(elValue) === 'number') {
-                        if (!/^(-|\+)?\d+$/.test(elValue)) {
+                        if (!/^(-|\+)?\d+$/.test(Number(elValue))) {
                             isRightType = false;
                         }
                     } else {
