@@ -9,6 +9,9 @@ function Methods(datepicker) {
             return range ? result : (result[0] || '');
         },
         setValue: (value) => {
+            if (datepicker.$el.prop('disabled')) {
+                return;
+            }
             let setDate = [];
             if (!value) {
                 return;
@@ -22,8 +25,18 @@ function Methods(datepicker) {
             datepicker.selectDate(setDate);
         },
         clearValue: () => {
+            if (datepicker.$el.prop('disabled')) {
+                return;
+            }
             datepicker.clear();
         },
+        disabled: () => {
+            datepicker.$el.prop('disabled', 'disabled');
+        },
+        enabled: () => {
+            datepicker.$el.prop('disabled', false);
+        },
+
         /**
          * 转换格式化日期
          * @cvtDate {string}

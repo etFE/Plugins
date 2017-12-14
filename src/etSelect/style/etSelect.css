@@ -348,8 +348,8 @@
   margin: 0 4px 0 -2px !important;
 }
 .selectize-control .selectize-input.disabled {
-  opacity: 0.5;
-  background-color: #aba8a8;
+  /* opacity: 0.5; */
+  background-color: #ededed;
 }
 .selectize-control.multi .selectize-input.has-items {
   padding-left: 5px;
