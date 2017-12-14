@@ -21,6 +21,9 @@ function Methods(datepicker) {
             setDate = setDate.map(v => new Date(v));
             datepicker.selectDate(setDate);
         },
+        clearValue: () => {
+            datepicker.clear();
+        },
         /**
          * 转换格式化日期
          * @cvtDate {string}
