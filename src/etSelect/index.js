@@ -51,17 +51,20 @@ import initMethods from './methods';
         // 后台检索
         if (!opts.load) {
             opts.load = function (value, callback) {
-                if (this.para) {
-                    this.para.key = value;
+                if (!this.settings.url) {
+                    return;
+                }
+                if (this.settings.para) {
+                    this.settings.para.key = value;
                 } else {
-                    this.para = {
+                    this.settings.para = {
                         key: value
                     };
                 }
 
                 $.post(
-                    opts.url,
-                    this.para,
+                    this.settings.url,
+                    this.settings.para,
                     (res) => {
                         callback(res);
                     },

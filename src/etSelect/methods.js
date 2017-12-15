@@ -5,7 +5,8 @@
 function Methods(select) {
     const obj = {
         reload: ({ url, type, para }) => {
-            select.para = para;
+            select.settings.para = para;
+            select.settings.url = url;
 
             $.ajax({
                 url: url,
