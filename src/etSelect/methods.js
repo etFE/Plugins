@@ -5,6 +5,8 @@
 function Methods(select) {
     const obj = {
         reload: ({ url, type, para }) => {
+            select.para = para;
+
             $.ajax({
                 url: url,
                 type: type || 'POST',
@@ -63,7 +65,6 @@ function Methods(select) {
             }
             return resultText;
         },
-        getOptions: () => select.options,
         open: () => {
             select.open();
         },
