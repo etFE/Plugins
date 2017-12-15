@@ -26,6 +26,16 @@ function Methods(select) {
         clearItem: () => {
             select.clear();
         },
+        getItem: (separator) => {
+            const result = separator ? select.items.join(separator) : select.items;
+            let resultItem = '';
+            if (result.length < 2) {
+                resultItem = result[0] ? select.options[result[0]] : '';
+            } else {
+                resultItem = result.map(v => select.options[v]);
+            }
+            return resultItem;
+        },
         clearOptions: () => {
             select.clearOptions();
         },
