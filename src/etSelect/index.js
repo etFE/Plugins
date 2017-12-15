@@ -48,6 +48,28 @@ import initMethods from './methods';
             }).then((res) => { opts.options.push(...res); });
         }
 
+        // 后台检索
+        if (!opts.load) {
+            opts.load = function (value, callback) {
+                if (this.para) {
+                    this.para.key = value;
+                } else {
+                    this.para = {
+                        key: value
+                    };
+                }
+
+                $.post(
+                    opts.url,
+                    this.para,
+                    (res) => {
+                        callback(res);
+                    },
+                    'json'
+                );
+            };
+        }
+
         /**
          * 构造组件
          */
