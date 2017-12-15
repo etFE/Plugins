@@ -77,8 +77,7 @@ import {
                         data.splice(Indx, 1);
                     }
                     response.data = data;
-
-                    if (typeof options.dataModel.getData === 'function') {
+                    if (options.dataModel && options.dataModel.getData && typeof options.dataModel.getData === 'function') {
                         return options.dataModel.getData(response, textStatus, jqXHR);
                     }
                     return response;

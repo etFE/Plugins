@@ -3478,6 +3478,8 @@
 				if (typeof DM.getData == "function") {
 					var retObj = DM.getData.call(that.element[0], responseObj, textStatus, jqXHR);
 					DM.data = retObj.data;
+					// 源码修改，页数合计赋值 simon 2017/12/15
+					retObj.totalRecords = retObj.Total;
 					if (PM.type && PM.type == "remote") {
 						if (retObj.curPage) {
 							PM.curPage = retObj.curPage
@@ -3487,6 +3489,7 @@
 						}
 					}
 				} else {
+					// 源码修改， 页数合计赋值， 数据格式改造 cl
 					DM.data = responseObj.Rows; //   之前是data 数据格式给为Rows
 					responseObj.totalRecords = responseObj.Total;
 					if (PM.type && PM.type == "remote") {
