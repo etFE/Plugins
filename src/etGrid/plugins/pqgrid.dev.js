@@ -3479,7 +3479,9 @@
 					var retObj = DM.getData.call(that.element[0], responseObj, textStatus, jqXHR);
 					DM.data = retObj.data;
 					// 源码修改，页数合计赋值 simon 2017/12/15
-					retObj.totalRecords = retObj.Total;
+					if (retObj.Total) {
+						retObj.totalRecords = retObj.Total;
+					}
 					if (PM.type && PM.type == "remote") {
 						if (retObj.curPage) {
 							PM.curPage = retObj.curPage
