@@ -1105,77 +1105,141 @@ function Methods(grid) {
         /**
          * 表格验证
          */
-        // validateTest({
-        //     required = 'all', type, test
-        //     // , simpleTip = true
-        // }) {
-        //     const rowDatas = this.getAllData();
-        //     const colDatas = $.extend(true, [], this.getColumns());
-        //     let isPass = true;
+        validateTest({
+            required = 'all', type, test
+            // , simpleTip = true
+        }) {
+            const rowDatas = this.getAllData();
+            const colDatas = $.extend(true, [], this.getColumns());
+            let isPass = true;
 
-        //     // 判断是否有数据
-        //     if (!rowDatas || rowDatas.length === 0) {
-        //         return isPass;
-        //     }
-        //     // 取出选择框列
-        //     if (colDatas[0].dataIndx === 'et_checkBox') {
-        //         colDatas.shift();
-        //     }
+            // 判断是否有数据
+            if (!rowDatas || rowDatas.length === 0) {
+                return isPass;
+            }
+            // 取出选择框列
+            if (colDatas[0].dataIndx === 'et_checkBox') {
+                colDatas.shift();
+            }
 
-        //     // 类型验证 对象
-        //     const typeValidate = {
-        //         number: function (v) {
-        //             return !isNaN(Number(v)) || typeof Number(v) === 'number';
-        //         },
-        //         int: function (v) {
-        //             return typeof Number(v) === 'number' && /^(-|\+)?\d+$/.test(Number(v));
-        //         }
-        //     };
+            // 类型验证 对象
+            const typeValidate = {
+                number: function (v) {
+                    return !isNaN(Number(v)) && typeof Number(v) === 'number';
+                },
+                int: function (v) {
+                    return typeof Number(v) === 'number' && /^(-|\+)?\d+$/.test(Number(v));
+                }
+            };
 
-        //     rowDatas.forEach((rowData) => {
-        //         colDatas.forEach((colData) => {
-        //             const { dataIndx } = colData;
-        //             const curValue = rowData[dataIndx];
+            // 提示信息
+            const tipMsg = {
+                obj: {
+                    required: {},
+                    type: {},
+                    test: {}
+                },
+                keys: {
+                    required: [],
+                    type: [],
+                    test: []
+                },
+                word: {
+                    required: '',
+                    type: '',
+                    test: ''
+                }
+            };
+            let tipText = '';
 
-        //             // 当require为all， 遍历所有
-        //             if (required === 'all' && !curValue) {
-        //                 isPass = false;
-        //                 console.log('必填', colData.title, isPass);
+            rowDatas.forEach((rowData) => {
+                colDatas.forEach((colData) => {
+                    const { dataIndx } = colData;
+                    const curValue = rowData[dataIndx];
 
-        //             // 只遍历 required里有对应属性， 且为true的
-        //             } else if (required[dataIndx] && !curValue) {
-        //                 isPass = false;
-        //                 console.log('必填', colData.title, isPass);
-        //             }
+                    // 当require为all， 遍历所有
+                    if (required === 'all' && !curValue) {
+                        isPass = false;
+                        tipMsg.obj.required[dataIndx] = colData.title;
+                        // console.log('必填', colData.title, isPass);
 
-        //             // 类型判断
-        //             if (type) {
-        //                 const vldType = type[dataIndx];
-        //                 // 是否有 类型判断 对应类型判断方法 判断是否正确
-        //                 if (vldType && typeValidate[vldType] && !typeValidate[vldType](curValue)) {
-        //                     isPass = false;
-        //                     console.log('类型', colData.title, isPass);
-        //                 }
-        //             }
+                    // 只遍历 required里有对应属性， 且为true的
+                    } else if (required[dataIndx] && !curValue) {
+                        isPass = false;
+                        tipMsg.obj.required[dataIndx] = colData.title;
+                        // console.log('必填', colData.title, isPass);
+                    }
 
-        //             // 正则验证
-        //             if (test) {
-        //                 const vldRegex = test[dataIndx];
+                    // 类型判断
+                    if (type) {
+                        const vldType = type[dataIndx];
+                        // 是否有 类型判断 对应类型判断方法 判断是否正确
+                        if (vldType && typeValidate[vldType] && !typeValidate[vldType](curValue)) {
+                            isPass = false;
+                            tipMsg.obj.type[dataIndx] = colData.title;
+                            // console.log('类型', colData.title, isPass);
+                        }
+                    }
 
-        //                 if (
-        //                     vldRegex &&
-        //                     Object.prototype.toString.apply(vldRegex) === '[object RegExp]' &&
-        //                     !vldRegex.test(curValue)
-        //                 ) {
-        //                     isPass = false;
-        //                     console.log('正则', colData.title, isPass);
-        //                 }
-        //             }
-        //         });
-        //     });
+                    // 正则验证
+                    if (test) {
+                        const vldRegex = test[dataIndx];
 
-        //     return isPass;
-        // }
+                        if (
+                            vldRegex &&
+                            Object.prototype.toString.apply(vldRegex) === '[object RegExp]' &&
+                            !vldRegex.test(curValue)
+                        ) {
+                            isPass = false;
+                            tipMsg.obj.test[dataIndx] = colData.title;
+                            // console.log('正则', colData.title, isPass);
+                        }
+                    }
+                });
+            });
+
+            tipMsg.keys.required = Object.keys(tipMsg.obj.required);
+            tipMsg.keys.type = Object.keys(tipMsg.obj.type);
+            tipMsg.keys.test = Object.keys(tipMsg.obj.test);
+
+            // 组成提示语
+            if (tipMsg.keys.required.length !== 0) {
+                tipMsg.keys.required.forEach((key) => {
+                    const title = tipMsg.obj.required[key];
+                    tipText += `${title}列不能为空;<br/>`;
+                });
+
+                // 判断是否有dialog弹框
+                if ($.etDialog) {
+                    $.etDialog.error(tipText);
+                } else {
+                    alert(tipText);
+                }
+            } else if (tipMsg.keys.type.length !== 0) {
+                tipMsg.keys.type.forEach((key) => {
+                    const title = tipMsg.obj.type[key];
+                    tipText += `${title}列填写类型错误;<br/>`;
+                });
+
+                if ($.etDialog) {
+                    $.etDialog.error(tipText);
+                } else {
+                    alert(tipText);
+                }
+            } else if (tipMsg.keys.test.length !== 0) {
+                tipMsg.keys.test.forEach((key) => {
+                    const title = tipMsg.obj.test[key];
+                    tipText += `${title}列填写格式错误;<br/>`;
+                });
+
+                if ($.etDialog) {
+                    $.etDialog.error(tipText);
+                } else {
+                    alert(tipText);
+                }
+            }
+            return isPass;
+        }
         /**
          * 数据加载完成后事件
          * @param  {function} fn 回调函数function (event, ui) {}
