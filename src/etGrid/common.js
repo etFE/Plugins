@@ -276,7 +276,6 @@ const initGridEditor = function (editorObj, ui) {
         columns.forEach((item) => {
             dataPlhd[item.dataIndx] = '';
         });
-
         $.extend(dataPlhd, rowData);
         dataPlhd.pq_rowselect = false;
         dataPlhd._rowIndx = rowIndx;
@@ -319,9 +318,11 @@ const initGridEditor = function (editorObj, ui) {
             top: cellOffsetTop,
             left: cellOffsetLeft
         })
-        .on('mousedown', () => {
-            // 这里的异步还需要再 看看
-            setTimeout(() => false, 10);
+        .on('mousedown', (e) => {
+            // 当目标为td时，不return false。
+            // 此时，分页可以切换，但是点击分页数select以及分页页数input失效
+            const tag = e.target.tagName.toLowerCase();
+            return tag === 'td';
         });
 
 
