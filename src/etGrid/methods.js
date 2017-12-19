@@ -1153,8 +1153,13 @@ function Methods(grid) {
 
             rowDatas.forEach((rowData) => {
                 colDatas.forEach((colData) => {
-                    const { dataIndx } = colData;
+                    const { dataIndx, hidden } = colData;
                     const curValue = rowData[dataIndx];
+
+                    // 过滤隐藏列
+                    if (hidden) {
+                        return;
+                    }
 
                     // 当require为all， 遍历所有
                     if (required === 'all' && !curValue && curValue !== 0) {

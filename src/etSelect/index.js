@@ -47,7 +47,6 @@ import initMethods from './methods';
                 dataType: 'JSON'
             }).then((res) => { opts.options.push(...res); });
         }
-        console.log(opts)
         // 后台检索
         if (!opts.load && opts.backEndSearch) {
             opts.load = function (value) {
