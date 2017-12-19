@@ -5,6 +5,7 @@ const defaults = {
     valueField: 'id',
     labelField: 'text',
     searchField: ['text'],
+    backEndSearch: true, // 是否后台检索
     url: '',
     type: 'POST',
     defaultValue: '',

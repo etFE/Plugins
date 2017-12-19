@@ -47,10 +47,10 @@ import initMethods from './methods';
                 dataType: 'JSON'
             }).then((res) => { opts.options.push(...res); });
         }
-
+        console.log(opts)
         // 后台检索
-        if (!opts.load) {
-            opts.load = function (value, callback) {
+        if (!opts.load && opts.backEndSearch) {
+            opts.load = function (value) {
                 if (!this.settings.url) {
                     return;
                 }
@@ -61,16 +61,19 @@ import initMethods from './methods';
                         key: value
                     };
                 }
-
                 $.post(
                     this.settings.url,
                     this.settings.para,
                     (res) => {
-                        callback(res);
+                        this.clearOptions();
+                        this.addOption(res);
+                        this.refreshOptions(true);
                     },
                     'json'
                 );
             };
+            // 取消了前台检索
+            opts.score = () => () => 1;
         }
 
         /**
