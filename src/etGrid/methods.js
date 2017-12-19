@@ -1105,10 +1105,9 @@ function Methods(grid) {
         /**
          * 表格验证
          */
-        validateTest({
-            required = 'all', type, test
+        validateTest(param = {}) {
             // , simpleTip = true
-        }) {
+            const { required = 'all', type, test } = param;
             const rowDatas = this.getAllData();
             const colDatas = $.extend(true, [], this.getColumns());
             let isPass = true;
@@ -1158,13 +1157,13 @@ function Methods(grid) {
                     const curValue = rowData[dataIndx];
 
                     // 当require为all， 遍历所有
-                    if (required === 'all' && !curValue) {
+                    if (required === 'all' && !curValue && curValue !== 0) {
                         isPass = false;
                         tipMsg.obj.required[dataIndx] = colData.title;
                         // console.log('必填', colData.title, isPass);
 
                     // 只遍历 required里有对应属性， 且为true的
-                    } else if (required[dataIndx] && !curValue) {
+                    } else if (required[dataIndx] && !curValue && curValue !== 0) {
                         isPass = false;
                         tipMsg.obj.required[dataIndx] = colData.title;
                         // console.log('必填', colData.title, isPass);
