@@ -24,7 +24,9 @@ import {
         opts.fieldItems.forEach((item, index) => {
             const $field = $(buildElement(item.type))
                 .attr('id', item.id)
-                .css({ width: item.width });
+                .css({ width: item.width })
+                .prop({ disabled: item.disabled });
+
             // place 不可大于colNum 如果大于则按照colNum计算
             const place = (item.place || 1) > opts.colNum ? opts.colNum : item.place;
             const colSpan = (place * 2) - 1; // input所在td占colspan 计算方式: place * 2 - 1
