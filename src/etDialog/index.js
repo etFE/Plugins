@@ -16,60 +16,72 @@ $.etDialog = {
     },
 
     open: function (opts) {
+        /**
+         * 预处理
+         */
+        if (opts.btnAlign) {
+            if (opts.btnAlign === 'left') {
+                opts.btnAlign = 'l';
+            } else if (opts.btnAlign === 'center') {
+                opts.btnAlign = 'c';
+            } else if (opts.btnAlign === 'right') {
+                opts.btnAlign = 'r';
+            }
+        }
+        if (opts.width) {
+            if (typeof opts.width === 'number') {
+                opts.width += 'px';
+            } else if (typeof opts.width === 'string' && opts.width !== 'auto' && opts.width.indexOf('px') === -1) {
+                opts.width += 'px';
+            }
+        }
+        if (opts.height) {
+            if (typeof opts.height === 'number') {
+                opts.height += 'px';
+            } else if (typeof opts.height === 'string' && opts.height !== 'auto' && opts.height.indexOf('px') === -1) {
+                opts.height += 'px';
+            }
+        }
+
+        const defOpt = {
+            title: ' ',
+            resize: false,
+            area: [opts.width, opts.height]
+        };
+
+        // iframe层
         if (opts.url) {
             opts.content = opts.url;
             opts.type = 2;
 
-            if (opts.btnAlign) {
-                if (opts.btnAlign === 'left') {
-                    opts.btnAlign = 'l';
-                } else if (opts.btnAlign === 'center') {
-                    opts.btnAlign = 'c';
-                } else if (opts.btnAlign === 'right') {
-                    opts.btnAlign = 'r';
-                }
-            }
+        // 普通页面层
+        } else if (opts.content) {
+            opts.type = 1;
+        }
+        /**
+         * 构建
+         */
+        const options = $.extend({}, defOpt, opts);
+        const index = layer.open(options);
 
-            if (opts.width) {
-                if (typeof opts.width === 'number') {
-                    opts.width += 'px';
-                } else if (typeof opts.width === 'string' && opts.width !== 'auto' && opts.width.indexOf('px') === -1) {
-                    opts.width += 'px';
-                }
-            }
-            if (opts.height) {
-                if (typeof opts.height === 'number') {
-                    opts.height += 'px';
-                } else if (typeof opts.height === 'string' && opts.height !== 'auto' && opts.height.indexOf('px') === -1) {
-                    opts.height += 'px';
-                }
-            }
-
-            const defOpt = {
-                title: 'iFrame层',
-                resize: false,
-                area: [opts.width, opts.height]
-            };
-            const options = $.extend({}, defOpt, opts);
-            const index = layer.open(options);
-
-            if (opts.isMax) {
-                layer.full(index);
-            }
-            // 获取设置的windows name
-            if (opts.frameName) {
-                this.parentFrameName = opts.frameName;
-            }
-            // 获取设置的windows name的对象
-            if (opts.frameNameObj && typeof opts.frameNameObj === 'object') {
-                const key = Object.keys(opts.frameNameObj)[0];
-                this.parentFrameNameObj[key] = opts.frameNameObj[key];
-                this.parentFrameName = opts.frameNameObj[key];
-            }
-            return index;
+        /**
+         * 后处理
+         */
+        if (opts.isMax) {
+            layer.full(index);
+        }
+        // 获取设置的windows name
+        if (opts.frameName) {
+            this.parentFrameName = opts.frameName;
+        }
+        // 获取设置的windows name的对象
+        if (opts.frameNameObj && typeof opts.frameNameObj === 'object') {
+            const key = Object.keys(opts.frameNameObj)[0];
+            this.parentFrameNameObj[key] = opts.frameNameObj[key];
+            this.parentFrameName = opts.frameNameObj[key];
         }
 
-        return false;
+        return index;
     },
 
     alert: function (...prams) {
