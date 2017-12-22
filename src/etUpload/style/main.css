@@ -73,6 +73,13 @@
     width:100%
 }
 
+.view-item.view-image i{
+    font-style:normal;
+    font-family: '微软雅黑';
+    font-size:20px;
+    color:yellow;
+}
+
 .upload-file{
     display:none;
 }
@@ -100,7 +107,11 @@
 }
 
 .mask .delete:hover{
-color:red;
+    color:red;
+}
+
+.mask .download:hover{
+    color:red;
 }
 .view-image:hover .mask{
     display: block;
