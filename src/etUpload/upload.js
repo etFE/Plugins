@@ -50,12 +50,18 @@ function insertView({ file, index, $ulView }) {
  * @param {object}
  */
 function insertViewList({
-    $ulView, $ulFile, srcList, fileList
+    $ulView, $ulFile, srcList, fileList, multiple
 }) {
     $ulView.html('');
     $ulFile.html('');
     fileList.length = 0;
     srcList.forEach((v, i) => {
+        if (v === 'undefined') {
+            if ($ulView.find('li').length < 1) {
+                insertFile({ $ulView, $ulFile });
+            }
+            return;
+        }
         fileList.push(v);
         const $image = $(`<img src="${v}"/>`);
         const $li = $('<li class="view-item view-image"></li>');
@@ -64,7 +70,7 @@ function insertViewList({
         $ulView.append($li);
         $ulFile.append('<li></li>');
     });
-    insertFile({ $ulView, $ulFile });
+    multiple && insertFile({ $ulView, $ulFile });
 }
 
 
@@ -79,7 +85,7 @@ function initPreView() {
 
 function render($main, options) {
     const fileList = [];
-    const { height, width } = options;
+    const { height, width, multiple } = options;
     $main.addClass('etUpload-multiple');
     const $ulView = $('<ul class="upload-preView"></ul>');
     const $ulFile = $('<ul class="upload-file"></ul>');
@@ -99,7 +105,7 @@ function render($main, options) {
         // 填充待上传图片
         insertView({ file, index, $ulView });
         // 添加新的空文件
-        insertFile({ $ulView, $ulFile });
+        multiple && insertFile({ $ulView, $ulFile });
     });
 
     $ulView.on('click', '.default', (e) => {
@@ -118,6 +124,10 @@ function render($main, options) {
             $ulView.find('li').eq(index).remove();
             $ulFile.find('li').eq(index).remove();
             fileList.splice(index, 1);
+            // 如果没有空视图 则添加一条
+            if ($ulView.find('li').length < 1) {
+                insertFile({ $ulView, $ulFile });
+            }
         }
     });
 
@@ -131,9 +141,18 @@ function render($main, options) {
         getValues: function () {
             return fileList;
         },
+        getValue: function () {
+            return fileList[0];
+        },
         setValues: function (srcList) {
             insertViewList({
-                $ulView, $ulFile, srcList, fileList
+                $ulView, $ulFile, srcList, fileList, multiple
+            });
+        },
+        setValue: function (src) {
+            const srcList = [src];
+            insertViewList({
+                $ulView, $ulFile, srcList, fileList, multiple
             });
         }
     };
