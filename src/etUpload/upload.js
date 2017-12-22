@@ -26,23 +26,46 @@ function insertFile({ $ulView, $ulFile }) {
  * @index 位置索引
  * @$ulView 预览容器
  */
-function insertView({ file, index, $ulView }) {
-    const $image = $('<img src=""/>');
+function insertView({ file, index, $ulView, fileSrc }) {
+    const $image = $(`<img src="${fileSrc || ''}"/>`);
     const $li = $ulView.find('li').eq(index).html('');
     $li.addClass('view-image');
     $li.append($image);
     $li.append('<div class="mask"><span class="show">查看</span><span class="delete">移除</span></div>');
-    const reader = new FileReader();
-    reader.onloadend = function () {
-        $image.attr('src', reader.result);
-    };
-
     if (file) {
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            $image.attr('src', reader.result);
+        };
         reader.readAsDataURL(file);
-    } else {
-        $image.attr('src', '');
     }
-    return $image;
+}
+
+
+function insertOtherFile({ file, index, $ulView, fileSrc }) {
+    const fileName = fileSrc || file.name;
+    const nameIndex = fileName.lastIndexOf('/');
+    const typeIndex = fileName.lastIndexOf('.');
+    const fileType = fileName.substr(typeIndex + 1);
+    const title = fileName.substr(nameIndex + 1);
+    const $i = $(`<i>${fileType}</i>`);
+    const $li = $ulView.find('li').eq(index).html('');
+    $li.css({ 'background-color': '#47a447' });
+    $li.addClass('view-image');
+    $li.append($i);
+    $li.append(`<div class="mask"><span class="download" title="${title}">下载</span><span class="delete">移除</span></div>`);
+}
+
+function insertCommon({ index, $ulView, fileSrc, type }) {
+    if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(fileSrc)) {
+        if (type !== 'file') {
+            return;
+        }
+        // 填充待上传文件
+        insertOtherFile({ fileSrc, index, $ulView });
+    } else {
+        insertView({ fileSrc, index, $ulView });
+    }
 }
 
 /**
@@ -50,29 +73,26 @@ function insertView({ file, index, $ulView }) {
  * @param {object}
  */
 function insertViewList({
-    $ulView, $ulFile, srcList, fileList, multiple
+    $ulView, $ulFile, srcList, fileList, multiple, type
 }) {
     $ulView.html('');
     $ulFile.html('');
     fileList.length = 0;
     srcList.forEach((v, i) => {
-        if (v === 'undefined') {
+        if (!v || v === 'undefined') {
             if ($ulView.find('li').length < 1) {
                 insertFile({ $ulView, $ulFile });
             }
             return;
         }
-        fileList.push(v);
-        const $image = $(`<img src="${v}"/>`);
         const $li = $('<li class="view-item view-image"></li>');
-        $li.append($image);
-        $li.append('<div class="mask"><span class="show">查看</span><span class="delete">移除</span></div>');
         $ulView.append($li);
         $ulFile.append('<li></li>');
+        insertCommon({ index: i, $ulView, fileSrc: v, type });
+        fileList.push(v);
     });
     multiple && insertFile({ $ulView, $ulFile });
 }
-
 
 function initPreView() {
     const $div = $('<div style="display:none"></div>');
@@ -85,27 +105,33 @@ function initPreView() {
 
 function render($main, options) {
     const fileList = [];
-    const { height, width, multiple } = options;
+    const { multiple, type } = options;
     $main.addClass('etUpload-multiple');
     const $ulView = $('<ul class="upload-preView"></ul>');
     const $ulFile = $('<ul class="upload-file"></ul>');
     const $preView = initPreView();
-
 
     insertFile({ $ulView, $ulFile });
 
     $ulFile.on('change', 'input:file', (e) => {
         const file = e.target.files[0];
         if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(e.target.value)) {
-            alert('文件类型必须是图片！');
-            return;
+            if (type !== 'file') {
+                alert('文件类型必须是图片');
+                return;
+            }
+            const index = $ulFile.find('li').index(e.target.parentNode);
+            // 填充待上传文件
+            insertOtherFile({ file, index, $ulView });
+        } else {
+            const index = $ulFile.find('li').index(e.target.parentNode);
+            // 填充待上传图片
+            insertView({ file, index, $ulView });
         }
-        fileList.push(file);
-        const index = $ulFile.find('li').index(e.target.parentNode);
-        // 填充待上传图片
-        insertView({ file, index, $ulView });
         // 添加新的空文件
         multiple && insertFile({ $ulView, $ulFile });
+        // 将文件添加到文件对象中 便于获取
+        fileList.push(file);
     });
 
     $ulView.on('click', '.default', (e) => {
@@ -128,6 +154,13 @@ function render($main, options) {
             if ($ulView.find('li').length < 1) {
                 insertFile({ $ulView, $ulFile });
             }
+        } else if ($(e.target).attr('class') === 'download') {
+            const src = $(curLi).find('img').attr('src');
+            if (typeof fileList[index] === 'string') {
+                window.location.href = fileList[index];
+            } else {
+                alert('该文件暂未上传到服务端');
+            }
         }
     });
 
@@ -146,13 +179,13 @@ function render($main, options) {
         },
         setValues: function (srcList) {
             insertViewList({
-                $ulView, $ulFile, srcList, fileList, multiple
+                $ulView, $ulFile, srcList, fileList, multiple, type
             });
         },
         setValue: function (src) {
             const srcList = [src];
             insertViewList({
-                $ulView, $ulFile, srcList, fileList, multiple
+                $ulView, $ulFile, srcList, fileList, multiple, type
             });
         }
     };

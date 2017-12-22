@@ -5,6 +5,7 @@ const defaultOptions = {
     height: 190,
     width: 130,
     multiple: false,
+    type: 'img',
     onUpload: () => {
 
     },
@@ -18,8 +19,7 @@ const defaultOptions = {
         // 合并参数
         const opts = $.extend(true, {}, defaultOptions, options);
         // 构建组件
-        // const { height, width } = opts;
-        const resultMulti = render($main, opts);
-        return resultMulti;
+        const result = render($main, opts);
+        return result;
     };
 }(jQuery));
