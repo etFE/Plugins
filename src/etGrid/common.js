@@ -517,12 +517,15 @@ function dynamicEditor(editorObj) {
         switch (dynamic) {
         case 'select':
             initSelectEditor.call(this, editorObj, ui);
+            editorObj.editorType = 'select';
             break;
         case 'date':
             initDateEditor.call(this, editorObj, ui);
+            editorObj.editorType = 'date';
             break;
         case 'grid':
             initGridEditor.call(this, editorObj, ui);
+            editorObj.editorType = 'grid';
             break;
         default:
             break;
@@ -536,12 +539,16 @@ function initEditor(editorObj) {
         editorObj.init = dynamicEditor(editorObj);
     } else if (editorObj.type === 'select') {
         editorObj.init = autoCompleteEditor(editorObj);
+        editorObj.editorType = 'select';
     } else if (editorObj.type === 'date') {
         editorObj.init = dateEditor(editorObj);
+        editorObj.editorType = 'date';
     } else if (editorObj.type === 'grid') {
         editorObj.init = gridEditor(editorObj);
+        editorObj.editorType = 'grid';
     } else {
         initDefaultEditor(editorObj);
+        editorObj.editorType = 'textbox';
     }
     editorObj.type = 'textbox'; // 给PGgrid传值type为'textbox'
 }

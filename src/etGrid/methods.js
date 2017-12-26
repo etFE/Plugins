@@ -1102,6 +1102,73 @@ function Methods(grid) {
             return result;
         },
 
+        addRowByDefault: (rowData) => {
+            // 根据列信息中的is_default default_value defualt_text，添加行的时候附加默认值
+            // 当只有is_default date默认选当天 select默认选第一个
+            // 注意这里的判断，当有keyField, keyField为default_value，否则name为default_value
+            const colData = this.getColumns();
+            const newRowData = {};
+            colData.forEach((col) => {
+                const {
+                    is_default,
+                    defult_value,
+                    defualt_text,
+                    dataIndx,
+                    editor
+                } = col;
+                const key = editor ? editor.keyField : null;
+                if (!is_default) {
+                    return;
+                }
+                // 当传了默认值的时候
+                if (defult_value || defualt_text) {
+                    if (defult_value) {
+                        if (key) {
+                            newRowData[key] = defult_value;
+                        } else {
+                            newRowData[dataIndx] = defult_value;
+                        }
+                    }
+                    if (defualt_text) {
+                        newRowData[dataIndx] = defualt_text;
+                    }
+
+                    // 当没有传默认值
+                } else {
+                    switch (editor.editorType) {
+                    case 'date': {
+                        const now = new Date();
+                        const nowYear = now.getFullYear().toString();
+                        let nowMonth = now.getMonth() + 1;
+                        nowMonth = nowMonth < 10 ? `0${nowMonth}` : nowMonth.toString();
+                        let nowDate = now.getDate();
+                        nowDate = nowDate < 10 ? `0${nowDate}` : nowDate.toString();
+
+                        newRowData[dataIndx] = `${nowYear}-${nowMonth}-${nowDate}`;
+                        break;
+                    }
+                    case 'select': {
+                        const { source } = editor;
+                        let selectId;
+                        let selectText;
+
+                        if (source) {
+                            selectId = source[0].id;
+                            selectText = source[0].text || source[0].label;
+                        }
+
+                        newRowData[dataIndx] = selectText;
+                        newRowData[key] = selectId;
+                        break;
+                    }
+                    default:
+                        break;
+                    }
+                }
+            });
+            $.extend(newRowData, rowData);
+            this.addRow(newRowData);
+        },
         /**
          * 表格验证
          */
@@ -1167,7 +1234,7 @@ function Methods(grid) {
                         tipMsg.obj.required[dataIndx] = colData.title;
                         // console.log('必填', colData.title, isPass);
 
-                    // 只遍历 required里有对应属性， 且为true的
+                        // 只遍历 required里有对应属性， 且为true的
                     } else if (required[dataIndx] && !curValue && curValue !== 0) {
                         isPass = false;
                         tipMsg.obj.required[dataIndx] = colData.title;
