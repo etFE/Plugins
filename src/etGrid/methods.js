@@ -1102,7 +1102,7 @@ function Methods(grid) {
             return result;
         },
 
-        addRowByDefault: (rowData) => {
+        addRowByDefault(rowData) {
             // 根据列信息中的is_default default_value defualt_text，添加行的时候附加默认值
             // 当只有is_default date默认选当天 select默认选第一个
             // 注意这里的判断，当有keyField, keyField为default_value，否则name为default_value
