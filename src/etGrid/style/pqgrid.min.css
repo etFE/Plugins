@@ -2896,6 +2896,31 @@ div.pq-loading-mask div {
     top: 0
 }
 
+/* 表格中单元格文件上传的样式 simon 2018/1/4 */
+#gridImgUpload {
+    width: 230px;
+    height: 230px;
+    margin: 15px auto;
+    border: none;
+}
+#gridImgUpload .upload-preView {
+    box-sizing: border-box;
+}
+#gridImgUpload .upload-preView .view-item {
+    width: 200px;
+    height: 200px;
+    box-sizing: border-box;
+}
+#gridImgUpload .upload-preView .view-item .default {
+    line-height: 190px;
+    font-size: 46px;
+}
+#gridImgUpload .upload-preView .view-item .mask {
+    line-height: 190px;
+    font-size: 18px;
+}
+/* -- end -- */
+
 .ui-state-active .ui-icon {
     color: #333;
     background-image: url(../images/ui-icons_777777_256x240.png)
