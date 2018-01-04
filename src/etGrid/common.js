@@ -349,75 +349,75 @@ const initGridEditor = function (editorObj, ui) {
 
             // 操作下拉表格 选择行
             switch (event.keyCode) {
-            case 37:
-                return;
-            case 38:
-                // up
-                selectIndex--;
-                if (selectIndex < 0) {
-                    selectIndex = 0;
-                }
-                $invGrid.setSelection(null);
-                $invGrid.setSelection(selectIndex, false, true);
-                return;
-            case 39:
-                return;
-            case 40:
-            {
-                // down
-                selectIndex++;
-                const rowDataLength = $invGrid.getAllData().length;
-
-                if (selectIndex > rowDataLength - 1) {
-                    selectIndex = rowDataLength - 1;
-                }
-                $invGrid.setSelection(null);
-                $invGrid.setSelection(selectIndex, false, true);
-                return;
-            }
-            case 13:
-            {
-                // 判断是否有行未被选中
-                if (!$invGrid.selectGet()[0]) {
-                    break;
-                }
-                const { rowData } = $invGrid.selectGet()[0];
-                rechargeValue(rowData, () => {
-                    /** *********控制回车键跳单元格****** */
-                    const { iKeyNav } = $this.pqGrid('getInstance').grid;
-                    const { rowIndxPage } = ui;
-                    const offset = $this.pqGrid('getInstance').grid.rowIndxOffset;
-                    const colIndx = $this.pqGrid('getColIndx', {
-                        dataIndx: ui.dataIndx
-                    });
-                    let obj2;
-                    if (event.shiftKey) {
-                        obj2 = iKeyNav._decrEditIndx(rowIndxPage, colIndx);
-                    } else {
-                        obj2 = iKeyNav._incrEditIndx(rowIndxPage, colIndx);
+                case 37:
+                    return;
+                case 38:
+                    // up
+                    selectIndex--;
+                    if (selectIndex < 0) {
+                        selectIndex = 0;
                     }
-                    if (obj2) {
-                        rowIndx = obj2.rowIndxPage + offset;
-                        iKeyNav.select({
-                            rowIndx: rowIndx,
-                            colIndx: obj2.colIndx,
-                            evt: event
+                    $invGrid.setSelection(null);
+                    $invGrid.setSelection(selectIndex, false, true);
+                    return;
+                case 39:
+                    return;
+                case 40:
+                    {
+                        // down
+                        selectIndex++;
+                        const rowDataLength = $invGrid.getAllData().length;
+
+                        if (selectIndex > rowDataLength - 1) {
+                            selectIndex = rowDataLength - 1;
+                        }
+                        $invGrid.setSelection(null);
+                        $invGrid.setSelection(selectIndex, false, true);
+                        return;
+                    }
+                case 13:
+                    {
+                        // 判断是否有行未被选中
+                        if (!$invGrid.selectGet()[0]) {
+                            break;
+                        }
+                        const { rowData } = $invGrid.selectGet()[0];
+                        rechargeValue(rowData, () => {
+                            /** *********控制回车键跳单元格****** */
+                            const { iKeyNav } = $this.pqGrid('getInstance').grid;
+                            const { rowIndxPage } = ui;
+                            const offset = $this.pqGrid('getInstance').grid.rowIndxOffset;
+                            const colIndx = $this.pqGrid('getColIndx', {
+                                dataIndx: ui.dataIndx
+                            });
+                            let obj2;
+                            if (event.shiftKey) {
+                                obj2 = iKeyNav._decrEditIndx(rowIndxPage, colIndx);
+                            } else {
+                                obj2 = iKeyNav._incrEditIndx(rowIndxPage, colIndx);
+                            }
+                            if (obj2) {
+                                rowIndx = obj2.rowIndxPage + offset;
+                                iKeyNav.select({
+                                    rowIndx: rowIndx,
+                                    colIndx: obj2.colIndx,
+                                    evt: event
+                                });
+                            }
+                            event.preventDefault();
                         });
-                    }
-                    event.preventDefault();
-                });
 
-                return;
-            }
-            case 9:
-            {
-                // 如果tab，赋值并开始编辑下一个单元格。
-                const { rowData } = $invGrid.selectGet()[0];
-                rechargeValue(rowData);
-                break;
-            }
-            default:
-                break;
+                        return;
+                    }
+                case 9:
+                    {
+                        // 如果tab，赋值并开始编辑下一个单元格。
+                        const { rowData } = $invGrid.selectGet()[0];
+                        rechargeValue(rowData);
+                        break;
+                    }
+                default:
+                    break;
             }
             if (event.shiftKey) {
                 return;
@@ -515,20 +515,20 @@ function dynamicEditor(editorObj) {
         const { dynamic } = editorObj;
 
         switch (dynamic) {
-        case 'select':
-            initSelectEditor.call(this, editorObj, ui);
-            editorObj.editorType = 'select';
-            break;
-        case 'date':
-            initDateEditor.call(this, editorObj, ui);
-            editorObj.editorType = 'date';
-            break;
-        case 'grid':
-            initGridEditor.call(this, editorObj, ui);
-            editorObj.editorType = 'grid';
-            break;
-        default:
-            break;
+            case 'select':
+                initSelectEditor.call(this, editorObj, ui);
+                editorObj.editorType = 'select';
+                break;
+            case 'date':
+                initDateEditor.call(this, editorObj, ui);
+                editorObj.editorType = 'date';
+                break;
+            case 'grid':
+                initGridEditor.call(this, editorObj, ui);
+                editorObj.editorType = 'grid';
+                break;
+            default:
+                break;
         }
     };
 }
@@ -569,6 +569,93 @@ const replaceField = (item) => {
     delete item.totalSummary;
 };
 
+/**
+ * 文件上传 单元格配置
+ * fileModel: {
+ *     url, // 上传的路径
+ *     keyField, // 上传的传递字段
+ *     ----, // 用于默认显示的 '上传'
+ * }
+ * @param {*} col 列对象
+ */
+const setFileCell = function (col) {
+    const { fileModel, name } = col;
+
+    col.editable = false;
+    col.render = function (ui) {
+        const { cellData, rowIndx } = ui;
+
+        return `<a class="grid-file-link" rowindex="${rowIndx}">${cellData || '上传'}</a>`;
+    };
+
+    // 过程中未执行buildGrid， 之后才执行
+    setTimeout(() => {
+        if (!$.etDialog) {
+            console.error('使用表格文件上传功能，必须引用etDialog组件！');
+            return;
+        }
+        if (typeof ajaxPostFormData === 'undefined') {
+            console.error('使用表格文件上传功能，必须引用公共文件！');
+            return;
+        }
+        if (!$.fn.etUpload) {
+            console.error('使用表格文件上传功能，必须引用etUpload组件！');
+            return;
+        }
+
+        grid.on('click', '.grid-file-link', function () {
+            const rowIndex = $(this).attr('rowindex');
+            const rowData = grid.pqGrid('getRowData', { rowIndx: rowIndex });
+            let imgUpload;
+
+            const dialogIndex = $.etDialog.open({
+                content: '<div id="gridImgUpload"></div>',
+                title: '文件上传',
+                width: 400,
+                height: 350,
+                btn: ['上传'],
+                btn1: function () {
+                    const formData = new FormData();
+                    const imgValue = imgUpload.getValue();
+                    if (!imgValue) {
+                        $.etDialog.warn('请先添加图片');
+                        return;
+                    }
+                    if (typeof imgValue === 'string') {
+                        $.etDialog.close(dialogIndex);
+                        $.etDialog.success('上传成功');
+                        return;
+                    }
+
+                    formData.append('file', imgValue);
+                    ajaxPostFormData({
+                        url: fileModel.url,
+                        data: formData,
+                        success: function (res) {
+                            grid.pqGrid('updateRow', {
+                                rowIndx: rowIndex,
+                                row: {
+                                    [name]: res.url,
+                                    [fileModel.keyField]: imgValue
+                                }
+                            });
+                            $.etDialog.close(dialogIndex);
+                            $.etDialog.success('上传成功');
+                        }
+                    });
+                },
+                success: function () {
+                    imgUpload = $('#gridImgUpload').etUpload();
+
+                    if (rowData[name]) {
+                        imgUpload.setValue(rowData[name]);
+                    }
+                }
+            });
+        });
+    }, 200);
+};
+
 // 替换选项
 function replaceOption(obj) {
     const result = obj.columns.map((item) => {
@@ -579,6 +666,11 @@ function replaceOption(obj) {
         if (item.columns) {
             item.colModel = replaceOption(item);
         }
+
+        if (item.fileModel) {
+            setFileCell(item);
+        }
+
         replaceField(item);
 
         return item;
