@@ -19,6 +19,7 @@ function Methods(grid) {
          * @param  {String} cls     [**判断的class]
          */
         addRowClass(rowIndx, cls) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             grid.pqGrid('addClass', {
                 rowIndx: rowIndx,
                 cls: cls
@@ -31,6 +32,7 @@ function Methods(grid) {
          * @param  {String} cls     [**判断的class]
          */
         addCellClass(rowIndx, dataIndx, cls) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             grid.pqGrid('addClass', {
                 rowIndx: rowIndx,
                 dataIndx: dataIndx,
@@ -62,6 +64,7 @@ function Methods(grid) {
          * @param {bool} isFlip [添加行后，是否自动翻到添加数据的行]
          */
         insertRow(rowIndx, obj, isFlip = true) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             grid.pqGrid('addRow', {
                 rowData: obj,
                 rowIndx: rowIndx
@@ -110,6 +113,7 @@ function Methods(grid) {
          * @param  {object} obj [**rowIndx: 行索引]
          */
         deleteRow(rowIndx) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             grid.pqGrid('deleteRow', {
                 rowIndx: rowIndx
             });
@@ -149,6 +153,7 @@ function Methods(grid) {
          * @param  {boolean} isInAll    [如果isInAll，name在变成所有数据的行索引]
          */
         editCell(rowIndxPage, dataIndx, isInAll) {
+            typeof rowIndxPage === 'string' ? rowIndxPage *= 1 : rowIndxPage;
             const paraObj = {};
             isInAll ? paraObj.rowIndx = rowIndxPage : paraObj.rowIndxPage = rowIndxPage;
 
@@ -164,6 +169,7 @@ function Methods(grid) {
          * @param  {number} rowIndx [**行索引]
          */
         editFirstCellInRow(rowIndx) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             grid.pqGrid('editFirstCellInRow', {
                 rowIndx: rowIndx
             });
@@ -207,6 +213,7 @@ function Methods(grid) {
          * @param  {boolean} isInAll    [如果isInAll，name在变成所有数据的行索引]
          */
         getCell(rowIndx, dataIndx, isInAll) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             const paraObj = {};
 
             isInAll ? paraObj.rowIndx = rowIndx : paraObj.rowIndxPage = rowIndx;
@@ -309,6 +316,7 @@ function Methods(grid) {
          * @return {$tr}         [行节点]
          */
         getRowNode(rowIndxPage) {
+            typeof rowIndxPage === 'string' ? rowIndxPage *= 1 : rowIndxPage;
             return grid.pqGrid('getRow', {
                 rowIndxPage: rowIndxPage
             });
@@ -321,7 +329,7 @@ function Methods(grid) {
          */
         getRowData(rowindx, isInAll) {
             const paraObj = {};
-
+            typeof rowindx === 'string' ? rowindx *= 1 : rowindx;
             isInAll ? paraObj.rowIndx = rowindx : paraObj.rowIndxPage = rowindx;
 
             return grid.pqGrid('getRowData', paraObj);
@@ -360,6 +368,7 @@ function Methods(grid) {
          * @param  {String} cls     [判断的class]
          */
         hasRowClass(rowIndx, cls) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             return grid.pqGrid('hasClass', {
                 rowIndx: rowIndx,
                 cls: cls
@@ -372,6 +381,7 @@ function Methods(grid) {
          * @param  {String} cls     [判断的class]
          */
         hasCellClass(rowIndx, dataIndx, cls) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             return grid.pqGrid('hasClass', {
                 rowIndx: rowIndx,
                 dataIndx: dataIndx,
@@ -424,6 +434,7 @@ function Methods(grid) {
          * @return {Boolean}          [description]
          */
         isEditableCell(rowIndx, dataIndx) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             return grid.pqGrid('isEditableCell', {
                 rowIndx: rowIndx,
                 dataIndx: dataIndx
@@ -434,6 +445,7 @@ function Methods(grid) {
          * @param  {Number}  rowIndx [行索引]
          */
         isEditableRow(rowIndx) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             return grid.pqGrid('isEditableRow', {
                 rowIndx: rowIndx
             });
@@ -475,6 +487,7 @@ function Methods(grid) {
          * @param  {Boolean}  allowInvalid []
          */
         isCellValid(rowIndx, dataIndx, allowInvalid) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             return grid.pqGrid('isValid', {
                 rowIndx: rowIndx,
                 dataIndx: dataIndx,
@@ -554,6 +567,7 @@ function Methods(grid) {
          * @param  {Boolean} isInAll  [为true时，所有数据索引]
          */
         refreshCell(rowIndx, dataIndx, isInAll) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             const paraObj = {
                 dataIndx: dataIndx
             };
@@ -587,6 +601,7 @@ function Methods(grid) {
          * @param  {boolean} isInAll [填入并true时，所有数据行索引]
          */
         refreshRow(rowIndx, isInAll) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             const paraObj = {};
 
             isInAll ? paraObj.rowIndx = rowIndx : paraObj.rowIndxPage = rowIndx;
@@ -604,6 +619,7 @@ function Methods(grid) {
          * @param  {String} cls     [**删除的class，可以空格分割来删除多个class]
          */
         removeRowClass(rowIndx, cls) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             grid.pqGrid('removeClass', {
                 rowIndx: rowIndx,
                 cls: cls
@@ -615,6 +631,7 @@ function Methods(grid) {
          * @param  {Number/String} dataIndx [**键名或数组索引]
          */
         removeCellClass(rowIndx, dataIndx, cls) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             grid.pqGrid('removeClass', {
                 rowIndx: rowIndx,
                 dataIndx: dataIndx,
@@ -637,6 +654,7 @@ function Methods(grid) {
          */
         rowCollapse(rowIndx, isInAll) {
             const paraObj = {};
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             isInAll ? paraObj.rowIndx = rowIndx : paraObj.rowIndxPage = rowIndx;
             grid.pqGrid('rowCollapse', paraObj);
         },
@@ -647,7 +665,7 @@ function Methods(grid) {
          */
         rowExpand(rowIndx, isInAll) {
             const paraObj = {};
-
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             isInAll ? paraObj.rowIndx = rowIndx : paraObj.rowIndxPage = rowIndx;
             grid.pqGrid('rowExpand', paraObj);
         },
@@ -683,6 +701,7 @@ function Methods(grid) {
          * @param  {Number} rowIndxPage [当前页行索引]
          */
         scrollRow(rowIndxPage) {
+            typeof rowIndxPage === 'string' ? rowIndxPage *= 1 : rowIndxPage;
             grid.pqGrid('scrollRow', {
                 rowIndxPage: rowIndxPage
             });
@@ -703,6 +722,7 @@ function Methods(grid) {
          * selection中抽离，从选择集中移除指定行数据
          */
         selectRemove(rowIndx) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             grid.pqGrid('selection', {
                 method: 'remove',
                 type: 'row',
@@ -722,6 +742,7 @@ function Methods(grid) {
          * selection中抽离，从选择集中添加指定行数据
          */
         selectAdd(rowIndx, dataIndx) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             if (dataIndx) {
                 grid.pqGrid('selection', {
                     method: 'add',
@@ -767,6 +788,7 @@ function Methods(grid) {
          * @param {boolean} isInAll [true时，所有数据行索引。]
          */
         setSelection(rowIndx, focus, isInAll) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             let paraObj = {};
 
             if (rowIndx === null) {
@@ -797,6 +819,7 @@ function Methods(grid) {
          * @param  {object} rowdata [行数据]
          */
         updateRow(rowIndx, rowdata) {
+            typeof rowIndx === 'string' ? rowIndx *= 1 : rowIndx;
             grid.pqGrid('updateRow', {
                 rowIndx: rowIndx,
                 row: rowdata
