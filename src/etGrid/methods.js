@@ -1333,6 +1333,23 @@ function Methods(grid) {
                 }
             }
             return isPass;
+        },
+        /**
+         * @description 更新grid表头指定列的列名
+         * @param {number/string} dataIndx
+         * @param {string} title
+         */
+        changeHeaderText(dataIndx, title) {
+            const CM = this.option('colModel');
+            let colIndx;
+            if (typeof dataIndx === 'string') {
+                colIndx = this.getColIndx(dataIndx);
+            } else if (typeof dataIndx === 'number') {
+                colIndx = dataIndx;
+            }
+            CM[colIndx].title = title;
+            this.option('colModel', CM);
+            this.refreshHeader();
         }
         /**
          * 数据加载完成后事件
