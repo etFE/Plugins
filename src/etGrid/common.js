@@ -250,14 +250,14 @@ const initGridEditor = function (editorObj, ui) {
     const $invGridHTML = $('<div class="et_select_grid"></div>');
     let $invGrid;
     const relyed = ui.column.relyOn;
-    let paramArr = '';
+    const paramArr = [];
     if (relyed) {
-        paramArr = relyed.map((item) => {
+        relyed.forEach((item) => {
             const { key } = item; // 键名
             const value = ui.rowData[item.field]; // 键值
             const objP = {};
             objP[key] = value;
-            return { name: key, value: value };
+            paramArr.push({ name: key, value: value });
         });
     }
     editorObj.dataModel.getUrl = function () {
@@ -431,13 +431,10 @@ const initGridEditor = function (editorObj, ui) {
 
                 if (curValue !== preValue) {
                     $invGrid.pqGrid('option', 'dataModel.getUrl', () => {
-                        const param = {
-                            key: curValue
-                        };
-
+                        paramArr.push({ name: 'key', value: curValue });
                         return {
                             url: editorObj.dataModel.url,
-                            data: param
+                            data: paramArr
                         };
                     });
                     $invGrid.pqGrid('refreshDataAndView');
