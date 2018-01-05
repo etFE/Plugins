@@ -250,7 +250,7 @@ const initGridEditor = function (editorObj, ui) {
     const $invGridHTML = $('<div class="et_select_grid"></div>');
     let $invGrid;
     const relyed = ui.column.relyOn;
-    const paramArr = [];
+    let paramArr = [];
     if (relyed) {
         relyed.forEach((item) => {
             const { key } = item; // 键名
@@ -431,6 +431,15 @@ const initGridEditor = function (editorObj, ui) {
 
                 if (curValue !== preValue) {
                     $invGrid.pqGrid('option', 'dataModel.getUrl', () => {
+                        paramArr = [];
+                        // TODO: 这里写了重复的 代码。。需要考虑重构 simon
+                        if (relyed) {
+                            relyed.forEach((item) => {
+                                const { key } = item; // 键名
+                                const value = ui.rowData[item.field]; // 键值
+                                paramArr.push({ name: key, value: value });
+                            });
+                        }
                         paramArr.push({ name: 'key', value: curValue });
                         return {
                             url: editorObj.dataModel.url,
