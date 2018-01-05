@@ -609,6 +609,8 @@ const setFileCell = function (col) {
             return;
         }
 
+        // 为了避免表格未销毁，但是执行多次绑定，所以先解绑
+        grid.off('click', '.grid-file-link');
         grid.on('click', '.grid-file-link', function () {
             const rowIndex = $(this).attr('rowindex');
             const rowData = grid.pqGrid('getRowData', { rowIndx: rowIndex });
