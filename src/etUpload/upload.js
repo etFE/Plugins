@@ -105,7 +105,7 @@ function initPreView() {
 
 function render($main, options) {
     const fileList = [];
-    const { multiple, type } = options;
+    const { multiple, type, onShow } = options;
     $main.addClass('etUpload-multiple');
     const $ulView = $('<ul class="upload-preView"></ul>');
     const $ulFile = $('<ul class="upload-file"></ul>');
@@ -144,6 +144,10 @@ function render($main, options) {
         const curLi = e.target.parentNode.parentNode;
         const index = $ulView.find('li').index(e.target.parentNode.parentNode);
         if ($(e.target).attr('class') === 'show') {
+            if (typeof onShow === "function") {
+                onShow(fileList);
+                return;
+            }
             const src = $(curLi).find('img').attr('src');
             $preView.show().find('img').attr('src', src);
         } else if ($(e.target).attr('class') === 'delete') {
