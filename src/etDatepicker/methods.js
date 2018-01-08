@@ -53,10 +53,9 @@ function Methods(datepicker) {
             const cvtDateArr = cvtDate.split(separator);
 
             cvtDateArr[2] = cvtDateArr[2].replace(/fd/i, '01');
-            cvtDateArr[2] = cvtDateArr[2]
-                .replace(/ed/i, moment(`${cvtDateArr[0]}-${cvtDateArr[1]}`).endOf('month').date());
+            cvtDateArr[2] = cvtDateArr[2].replace(/ed/i, new Date(cvtDateArr[0], cvtDateArr[1], 0).getDate());
 
-            return moment(cvtDateArr.join(separator)).format('YYYY-MM-DD');
+            return moment(cvtDateArr.join(separator), 'YYYY-MM-DD').format('YYYY-MM-DD');
         }
     };
 
