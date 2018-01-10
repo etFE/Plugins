@@ -15,6 +15,32 @@ const plugins = function (thisRef, options) {
                 '</div>');
             self.$clear_button.on('click', () => {
                 self.clear();
+
+                // 当后台查询时，点击clear按钮后，需要将key重置为空，并再获取原来数据
+                const {
+                    backEndSearch,
+                    url,
+                    type
+                } = self.settings;
+                let { para } = self.settings;
+
+                if (backEndSearch) {
+                    if (para) {
+                        para.key = '';
+                    } else {
+                        para = { key: '' };
+                    }
+                    $.ajax({
+                        type: type,
+                        data: para,
+                        url: url,
+                        dataType: 'json',
+                        success: function (res) {
+                            self.clearOptions();
+                            self.addOption(res);
+                        }
+                    });
+                }
             });
 
             self.$control.after(self.$clear_button);
