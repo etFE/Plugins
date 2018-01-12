@@ -653,7 +653,10 @@ const setFileCell = function (col) {
                     });
                 },
                 success: function () {
-                    imgUpload = $('#gridImgUpload').etUpload();
+                    const type = fileModel.type || 'img';
+                    imgUpload = $('#gridImgUpload').etUpload({
+                        type: type
+                    });
 
                     if (rowData[name]) {
                         imgUpload.setValue(rowData[name]);
