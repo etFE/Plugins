@@ -43,8 +43,12 @@ const initDateEditor = function (dateObj, ui) {
         firstDay: 1,
         isRTL: false,
         showMonthAfterYear: true,
-        yearSuffix: '年'
+        yearSuffix: '年',
+        onClose: function () {
+            $inp.focus();
+        }
     };
+
 
     const setting = Object.assign({}, defaultParam, dateObj);
     $inp.datepicker(setting);
