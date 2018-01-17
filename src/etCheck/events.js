@@ -48,8 +48,8 @@ function Events($self, opts) {
     });
     // 被禁用时
     $self.on('ifDisabled', () => {
-        if (typeof opts.ifDisabled === 'function') {
-            opts.ifDisabled();
+        if (typeof opts.onDisable === 'function') {
+            opts.onDisable();
         }
     });
     // 被启用时
