@@ -1,4 +1,4 @@
-# etFrom
+# etForm
 ## 参数
 #### colNum:3 表单列数
 ```
