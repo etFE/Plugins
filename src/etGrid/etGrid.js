@@ -69,7 +69,7 @@ import {
                     }
                     // 过滤出放在底部冻结行(合计行)的数据
                     for (let i = 0; i < opts.summaryRowIndx.length; i++) {
-                        const Indx = opts.summaryRowIndx[i];
+                        const Indx = opts.summaryRowIndx[i] - i;
                         if (typeof Indx !== 'number') {
                             return false;
                         }
