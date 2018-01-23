@@ -63,18 +63,22 @@ import {
             if (opts.summaryRowIndx) {
                 opts.dataModel.getData = function (response, textStatus, jqXHR) {
                     const data = response.Rows;
-                    $self.summaryRows = [];
                     if (!data.length) {
                         return false;
                     }
-                    // 过滤出放在底部冻结行(合计行)的数据
-                    for (let i = 0; i < opts.summaryRowIndx.length; i++) {
-                        const Indx = opts.summaryRowIndx[i] - i;
-                        if (typeof Indx !== 'number') {
-                            return false;
+                    // 如果当前是第一页，那么去获取数据覆盖summary，否则保留原有被覆盖数据
+                    if ($self.pqGrid('option', 'pageModel.curPage') === 1) {
+                        $self.summaryRows = [];
+
+                        // 过滤出放在底部冻结行(合计行)的数据
+                        for (let i = 0; i < opts.summaryRowIndx.length; i++) {
+                            const Indx = opts.summaryRowIndx[i] - i;
+                            if (typeof Indx !== 'number') {
+                                return false;
+                            }
+                            $self.summaryRows.push(data[Indx]);
+                            data.splice(Indx, 1);
                         }
-                        $self.summaryRows.push(data[Indx]);
-                        data.splice(Indx, 1);
                     }
                     response.data = data;
                     if (options.dataModel && options.dataModel.getData && typeof options.dataModel.getData === 'function') {
