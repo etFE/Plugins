@@ -27,6 +27,12 @@ function buildElement(type) {
     if (type === 'checkbox') {
         return '<input type="checkbox">';
     }
+
+    if (type === 'range') {
+        return `<div>
+            <input type="text" style="width:44%">至<input type="text" style="width:44%">
+        </div> `;
+    }
     return '<input>';
 }
 
@@ -93,6 +99,21 @@ function initWidget($el, onInitWidget) {
         // TODO:
         return $item.$el;
     }
+
+    function initRange($item) {
+        const { OPTIONS, value, rangeId } = $item;
+        const [id0, id1] = OPTIONS.rangeId;
+        const value0 = value ? value[0] : '';
+        const value1 = value ? value[1] : '';
+        $item.$el.find('input').eq(0)
+            .attr('id', id0)
+            .val(value0);
+        $item.$el.find('input').eq(1)
+            .attr('id', id1)
+            .val(value1);
+        return $item.$el;
+    }
+
     $el.forEach((element, index) => {
         const {
             $field,
@@ -115,6 +136,8 @@ function initWidget($el, onInitWidget) {
             element.widget = initInt({ $el: $field, OPTIONS: OPTIONS, value: value });
         } else if (element.type === 'float') {
             element.widget = initFloat({ $el: $field, OPTIONS: OPTIONS, value: value });
+        } else if (element.type === 'range') {
+            element.widget = initRange({ $el: $field, OPTIONS: OPTIONS, value: value });
         }
     });
 
@@ -190,6 +213,9 @@ function getFormData() {
             return widget.getValue();
         } else if (type === 'checkbox') {
             return widget.checked;
+        } else if (type === 'range') {
+            const array = [$field.find('input').eq(0).val(), $field.find('input').eq(1).val()];
+            return array;
         }
         return $field.val();
     }
@@ -201,7 +227,14 @@ function getFormData() {
     }
 
     widgetArray.forEach((v, i) => {
-        formData.append(v.id, getValue(v));
+        if (v.type === 'range') {
+            const el0 = v.$field.find('input').eq(0);
+            const el1 = v.$field.find('input').eq(1);
+            formData.append(el0.attr('id'), el0.val());
+            formData.append(el1.attr('id'), el1.val());
+        } else {
+            formData.append(v.id, getValue(v));
+        }
     });
     return formData;
 }
