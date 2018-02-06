@@ -40,19 +40,67 @@ function Methods(grid) {
             });
         },
         /**
-         * 末尾添加数据行。 update: 添加行可以翻滚页面至对应行 simon 2017/12/06
+         * 末尾添加数据行。 update: 添加行可以翻滚页面至对应行，针对后台分页增加代码 simon 2018/2/6
          * @param {object} obj      [行数据对象]
          * @param {bool} isFlip [添加行后，是否自动翻到添加数据的行]
          */
         addRow(obj = {}, isFlip = true) {
+            const rowLength = grid.pqGrid('option').dataModel.data.length;
+            const rowIndx = rowLength - 1;
+            const { curPage, totalPages, rPP } = grid.pqGrid('option').pageModel;
+            const rowIndxPage = rowIndx % rPP;
+
+            // 后台分页时的处理
+            if (grid.pqGrid('option').pageModel.type === 'remote') {
+                if (curPage < totalPages) {
+                    grid.pqGrid('goToPage', { page: totalPages });
+                    grid.pqGrid('option', 'cbModel.loadCbs').push({
+                        func: () => {
+                            grid.pqGrid('addRow', { rowData: obj });
+                        },
+                        isOnce: true
+                    });
+                } else {
+                    grid.pqGrid('addRow', { rowData: obj });
+                    grid.pqGrid('scrollRow', { rowIndxPage: rowIndx });
+
+                    // 由于后台分页，这里需要再次判断之后
+                    // 添加行后判断是否当页数据填满了，已经要翻页了
+                    const thenCurPage = grid.pqGrid('option').pageModel.curPage;
+                    const thenTotalPages = grid.pqGrid('option').pageModel.totalPages;
+
+                    if (thenCurPage < thenTotalPages) {
+                        if (!$.etDialog) {
+                            console.warn('必须要引用etDialog组件！');
+                            return;
+                        }
+                        const confirmIndex = $.etDialog.confirm(
+                            '请先保存当前增加的数据，<br>否则可能丢失，是否已经保存？',
+                            () => {
+                                $.etDialog.close(confirmIndex);
+
+                                grid.pqGrid('goToPage', { page: thenTotalPages });
+                                grid.pqGrid('option', 'cbModel.getDataCbs').push({
+                                    func: (response) => {
+                                        // 这里push空对象，是为了能正确计算分页数，并增加一行
+                                        response.Rows.push(obj);
+                                        return response;
+                                    },
+                                    isOnce: true
+                                });
+                            },
+                            () => {
+                                // 取消后，删除之前增加的行
+                                this.deleteRow(rPP + 1);
+                            }
+                        );
+                    }
+                }
+                return;
+            }
+
             grid.pqGrid('addRow', { rowData: obj });
             if (isFlip) {
-                const rowLength = grid.pqGrid('option').dataModel.data.length;
-                const eachPageDataLen = grid.pqGrid('option').pageModel.rPP;
-
-                const rowIndx = rowLength - 1;
-                const rowIndxPage = rowIndx % eachPageDataLen;
-
                 grid.pqGrid('goToPage', { rowIndx: rowIndx });
                 grid.pqGrid('scrollRow', { rowIndxPage: rowIndxPage });
             }

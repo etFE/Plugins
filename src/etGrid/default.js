@@ -81,8 +81,24 @@ const defaults = {
     strNoRows: '暂无结果',
     strSelectedmatches: '选择{0}{1}匹配',
     strPrevResult: '上一结果',
-    strNextResult: '下一结果'
+    strNextResult: '下一结果',
+    loadCallbacks: [],
 
+    // 组件内部使用属性 事件中的回调函数数组，再组件其他地方使用时，必须用push！ simon 2018/2/6
+    // cbModel: {
+    //     loadCbs: [
+    //         {
+    //             func: () => {
+    //                 // 这里是回调函数
+    //             },
+    //             isOnce: true, // 是否只执行一次
+    //         }
+    //     ]
+    // }
+    cbModel: {
+        loadCbs: [], // 加载时的
+        getDataCbs: [] // 获取数据的中间函数的
+    }
 };
 
 export default defaults;
