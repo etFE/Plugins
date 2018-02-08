@@ -45,8 +45,10 @@ function Methods(grid) {
          * @param {bool} isFlip [添加行后，是否自动翻到添加数据的行]
          */
         addRow(obj = {}, isFlip = true) {
-            const rowLength = grid.pqGrid('option').dataModel.data.length;
-            const rowIndx = rowLength - 1;
+            const gridData = grid.pqGrid('option').dataModel.data;
+            const rowLength = gridData ? gridData.length : 0;
+            // 这里的rowIndex计算可能会用问题，还需要测试看看
+            const rowIndx = rowLength;
             const { curPage, totalPages, rPP } = grid.pqGrid('option').pageModel;
             const rowIndxPage = rowIndx % rPP;
 
