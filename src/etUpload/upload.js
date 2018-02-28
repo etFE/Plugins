@@ -26,7 +26,9 @@ function insertFile({ $ulView, $ulFile }) {
  * @index 位置索引
  * @$ulView 预览容器
  */
-function insertView({ file, index, $ulView, fileSrc }) {
+function insertView({
+    file, index, $ulView, fileSrc
+}) {
     const $image = $(`<img src="${fileSrc || ''}"/>`);
     const $li = $ulView.find('li').eq(index).html('');
     $li.addClass('view-image');
@@ -42,7 +44,9 @@ function insertView({ file, index, $ulView, fileSrc }) {
 }
 
 
-function insertOtherFile({ file, index, $ulView, fileSrc }) {
+function insertOtherFile({
+    file, index, $ulView, fileSrc
+}) {
     const fileName = fileSrc || file.name;
     const nameIndex = fileName.lastIndexOf('/');
     const typeIndex = fileName.lastIndexOf('.');
@@ -56,7 +60,9 @@ function insertOtherFile({ file, index, $ulView, fileSrc }) {
     $li.append(`<div class="mask"><span class="download" title="${title}">下载</span><span class="delete">移除</span></div>`);
 }
 
-function insertCommon({ index, $ulView, fileSrc, type }) {
+function insertCommon({
+    index, $ulView, fileSrc, type
+}) {
     if (!/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(fileSrc)) {
         if (type !== 'file') {
             return;
@@ -88,7 +94,9 @@ function insertViewList({
         const $li = $('<li class="view-item view-image"></li>');
         $ulView.append($li);
         $ulFile.append('<li></li>');
-        insertCommon({ index: i, $ulView, fileSrc: v, type });
+        insertCommon({
+            index: i, $ulView, fileSrc: v, type
+        });
         fileList.push(v);
     });
     multiple && insertFile({ $ulView, $ulFile });
@@ -144,7 +152,7 @@ function render($main, options) {
         const curLi = e.target.parentNode.parentNode;
         const index = $ulView.find('li').index(e.target.parentNode.parentNode);
         if ($(e.target).attr('class') === 'show') {
-            if (typeof onShow === "function") {
+            if (typeof onShow === 'function') {
                 onShow(fileList);
                 return;
             }
