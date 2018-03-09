@@ -353,75 +353,75 @@ const initGridEditor = function (editorObj, ui) {
 
             // 操作下拉表格 选择行
             switch (event.keyCode) {
-                case 37:
-                    return;
-                case 38:
-                    // up
-                    selectIndex--;
-                    if (selectIndex < 0) {
-                        selectIndex = 0;
+            case 37:
+                return;
+            case 38:
+                // up
+                selectIndex--;
+                if (selectIndex < 0) {
+                    selectIndex = 0;
+                }
+                $invGrid.setSelection(null);
+                $invGrid.setSelection(selectIndex, false, true);
+                return;
+            case 39:
+                return;
+            case 40:
+                {
+                    // down
+                    selectIndex++;
+                    const rowDataLength = $invGrid.getAllData().length;
+
+                    if (selectIndex > rowDataLength - 1) {
+                        selectIndex = rowDataLength - 1;
                     }
                     $invGrid.setSelection(null);
                     $invGrid.setSelection(selectIndex, false, true);
                     return;
-                case 39:
-                    return;
-                case 40:
-                    {
-                        // down
-                        selectIndex++;
-                        const rowDataLength = $invGrid.getAllData().length;
-
-                        if (selectIndex > rowDataLength - 1) {
-                            selectIndex = rowDataLength - 1;
-                        }
-                        $invGrid.setSelection(null);
-                        $invGrid.setSelection(selectIndex, false, true);
-                        return;
-                    }
-                case 13:
-                    {
-                        // 判断是否有行未被选中
-                        if (!$invGrid.selectGet()[0]) {
-                            break;
-                        }
-                        const { rowData } = $invGrid.selectGet()[0];
-                        rechargeValue(rowData, () => {
-                            /** *********控制回车键跳单元格****** */
-                            const { iKeyNav } = $this.pqGrid('getInstance').grid;
-                            const { rowIndxPage } = ui;
-                            const offset = $this.pqGrid('getInstance').grid.rowIndxOffset;
-                            const colIndx = $this.pqGrid('getColIndx', {
-                                dataIndx: ui.dataIndx
-                            });
-                            let obj2;
-                            if (event.shiftKey) {
-                                obj2 = iKeyNav._decrEditIndx(rowIndxPage, colIndx);
-                            } else {
-                                obj2 = iKeyNav._incrEditIndx(rowIndxPage, colIndx);
-                            }
-                            if (obj2) {
-                                rowIndx = obj2.rowIndxPage + offset;
-                                iKeyNav.select({
-                                    rowIndx: rowIndx,
-                                    colIndx: obj2.colIndx,
-                                    evt: event
-                                });
-                            }
-                            event.preventDefault();
-                        });
-
-                        return;
-                    }
-                case 9:
-                    {
-                        // 如果tab，赋值并开始编辑下一个单元格。
-                        const { rowData } = $invGrid.selectGet()[0];
-                        rechargeValue(rowData);
+                }
+            case 13:
+                {
+                    // 判断是否有行未被选中
+                    if (!$invGrid.selectGet()[0]) {
                         break;
                     }
-                default:
+                    const { rowData } = $invGrid.selectGet()[0];
+                    rechargeValue(rowData, () => {
+                        /** *********控制回车键跳单元格****** */
+                        const { iKeyNav } = $this.pqGrid('getInstance').grid;
+                        const { rowIndxPage } = ui;
+                        const offset = $this.pqGrid('getInstance').grid.rowIndxOffset;
+                        const colIndx = $this.pqGrid('getColIndx', {
+                            dataIndx: ui.dataIndx
+                        });
+                        let obj2;
+                        if (event.shiftKey) {
+                            obj2 = iKeyNav._decrEditIndx(rowIndxPage, colIndx);
+                        } else {
+                            obj2 = iKeyNav._incrEditIndx(rowIndxPage, colIndx);
+                        }
+                        if (obj2) {
+                            rowIndx = obj2.rowIndxPage + offset;
+                            iKeyNav.select({
+                                rowIndx: rowIndx,
+                                colIndx: obj2.colIndx,
+                                evt: event
+                            });
+                        }
+                        event.preventDefault();
+                    });
+
+                    return;
+                }
+            case 9:
+                {
+                    // 如果tab，赋值并开始编辑下一个单元格。
+                    const { rowData } = $invGrid.selectGet()[0];
+                    rechargeValue(rowData);
                     break;
+                }
+            default:
+                break;
             }
             if (event.shiftKey) {
                 return;
@@ -525,20 +525,20 @@ function dynamicEditor(editorObj) {
         const { dynamic } = editorObj;
 
         switch (dynamic) {
-            case 'select':
-                initSelectEditor.call(this, editorObj, ui);
-                editorObj.editorType = 'select';
-                break;
-            case 'date':
-                initDateEditor.call(this, editorObj, ui);
-                editorObj.editorType = 'date';
-                break;
-            case 'grid':
-                initGridEditor.call(this, editorObj, ui);
-                editorObj.editorType = 'grid';
-                break;
-            default:
-                break;
+        case 'select':
+            initSelectEditor.call(this, editorObj, ui);
+            editorObj.editorType = 'select';
+            break;
+        case 'date':
+            initDateEditor.call(this, editorObj, ui);
+            editorObj.editorType = 'date';
+            break;
+        case 'grid':
+            initGridEditor.call(this, editorObj, ui);
+            editorObj.editorType = 'grid';
+            break;
+        default:
+            break;
         }
     };
 }
@@ -770,4 +770,220 @@ function hoverShowTitle($self, opts) {
         }
     });
 }
-export { replaceOption, buildGrid, createCheckBoxColumn, hoverShowTitle };
+
+/**
+ * @description 计算指定列的合计数据
+ * @param {array} columns 列名
+ * @returns 合计数据的对象
+ */
+function getTotalSummary($self, columns) {
+    const summary = {};
+    const arrayData = $self.pqGrid('option', 'dataModel.data');
+    for (let n = 0; n < columns.length; n++) {
+        let total = 0;
+        const key = columns[n];
+        if (arrayData) {
+            for (let i = 0, lgh = arrayData.length; i < lgh; i++) {
+                let data = arrayData[i][key];
+                if (!data) {
+                    data = 0;
+                }
+                total += parseFloat(data);
+            }
+        }
+        summary[key] = total.toFixed(2);
+    }
+    return summary;
+}
+/**
+ * @description 计算平均数据
+ * @param {Array} cols 列名 数组
+ * @returns  各个不同列名值为平均数据的对象
+ */
+function getAverageSummary($self, cols) {
+    const totals = getTotalSummary($self, cols);
+    let arrayData = $self.pqGrid('option', 'dataModel.data');
+    const averages = {};
+    if (!arrayData) {
+        arrayData = [];
+    }
+    //  产生平均数据
+    Object.keys(totals).forEach((i) => {
+        if (!arrayData.length) {
+            averages[i] = 0;
+        } else {
+            averages[i] = (totals[i] / arrayData.length).toFixed(2);
+        }
+    });
+    return averages;
+}
+/**
+ * @description 计算数据指定列的最大值或最小值
+ * @param {Array} cols 列名
+ * @param {any} type 'min'/'max'
+ * @returns 返回计算出的数据指定列的最大值或最小值 对象
+ */
+function getMaxAndMinSummary($self, cols, type) {
+    const maxSummary = {};
+    const minSummary = {};
+    const arrayData = $self.pqGrid('option', 'dataModel.data');
+    for (let n = 0, len = cols.length; n < len; n++) {
+        const key = cols[n];
+        const arr = [];
+        if (arrayData) {
+            for (let i = 0, len2 = arrayData.length; i < len2; i++) {
+                let data = arrayData[i][key];
+                if (!data) {
+                    data = 0;
+                }
+                arr.push(data);
+            }
+        }
+        if (arr.length) {
+            maxSummary[key] = Math.max.apply(null, arr);
+            minSummary[key] = Math.min.apply(null, arr);
+        } else {
+            maxSummary[key] = 0;
+            minSummary[key] = 0;
+        }
+    }
+    if (type === 'max') {
+        return maxSummary;
+    } else if (type === 'min') {
+        return minSummary;
+    }
+    return false;
+}
+/**
+ * @description 给Summary行集合填充值
+ * @returns   Summary行集合的数组
+ */
+function fillSummaryData($self, opts) {
+    const summaryRows = [];
+    const keyWord = opts.summary.keyWordCol; // 获取关键字所在列的列名
+    const optSummary = opts.summary;
+    if (!keyWord) {
+        return false;
+    }
+    if (optSummary.totalColumns instanceof Array && optSummary.totalColumns.length) {
+        const total = getTotalSummary($self, optSummary.totalColumns);
+        total[keyWord] = '<b>合计:</b>';
+        total.pq_rowcls = 'green';
+        summaryRows.push(total);
+    }
+    if (optSummary.averageColumns instanceof Array && optSummary.averageColumns.length) {
+        const average = getAverageSummary($self, optSummary.averageColumns);
+        average[keyWord] = '<b>平均值:</b>';
+        average.pq_rowcls = 'yellow';
+        summaryRows.push(average);
+    }
+    if (optSummary.maxColumns instanceof Array && optSummary.maxColumns.length) {
+        const maxData = getMaxAndMinSummary($self, optSummary.maxColumns, 'max');
+        maxData[keyWord] = '<b>最大值:</b>';
+        summaryRows.push(maxData);
+    }
+    if (optSummary.minColumns instanceof Array && optSummary.minColumns.length) {
+        const minData = getMaxAndMinSummary($self, optSummary.minColumns, 'min');
+        minData[keyWord] = '<b>最小值:</b>';
+        summaryRows.push(minData);
+    }
+    return summaryRows;
+}
+
+/**
+ * @description  内部生成生成合计行的函数
+ */
+const createSummaryRows = ($self, opts, options) => {
+    $self.$summary;
+    $self.summaryRows = []; //   摘要合计行节点、 摘要行数据   (全局变量)
+    opts.render = function (event, ui) {
+        // 生成合计行的节点 储存到$summary里
+        $self.$summary = $('<div class="pq-grid-summary"></div>')
+            .prependTo($('.pq-grid-bottom', this));
+        if (typeof options.render === 'function') {
+            options.render(event, ui);
+        }
+    };
+    // 页面初始化、添加、删除时刷新合计
+    opts.beforeTableView = function () {
+        $grid.refreshSummary();
+        if (typeof options.beforeTableView === 'function') {
+            options.beforeTableView();
+        }
+    };
+    if (opts.summary) {
+        // 编辑单元格时刷新合计
+        opts.refreshCell = function (evt, ui) {
+            let cd = ui.newVal;
+            const col = ui.dataIndx;
+            const smyArr = opts.summary;
+            // 当编辑格 所在列名在 summary的数组中 执行下面 判断
+            if (col !== smyArr.keyWordCol && new RegExp(col).test(JSON.stringify(smyArr))) {
+                if (cd === '') {
+                    cd = 0;
+                }
+            }
+            if (typeof options.refreshCell === 'function') {
+                options.refreshCell(evt, ui);
+            }
+            $grid.refreshSummary();
+        };
+    }
+    /**
+     * @description 远程请求数据中包含合计数据时 渲染合计行
+     * @returns
+     */
+    if (opts.summaryRowIndx) {
+        opts.cbModel.getDataCbs.push({
+            func: (response) => {
+                const data = response.Rows;
+                if (!data.length) {
+                    // 保证response格式的正确返回
+                    response.Rows = [];
+                    return response;
+                }
+                // 如果当前是第一页，那么去获取数据覆盖summary，否则保留原有被覆盖数据
+                if ($self.pqGrid('option', 'pageModel.curPage') === 1) {
+                    $self.summaryRows = [];
+
+                    // 过滤出放在底部冻结行(合计行)的数据
+                    for (let i = 0; i < opts.summaryRowIndx.length; i++) {
+                        const Indx = opts.summaryRowIndx[i] - i;
+                        if (typeof Indx !== 'number') {
+                            return false;
+                        }
+                        $self.summaryRows.push(data[Indx]);
+                        data.splice(Indx, 1);
+                    }
+                }
+                return response;
+            }
+        });
+        // opts.dataModel.getData = function (response, textStatus, jqXHR) {
+        //     const data = response.Rows;
+        //     if (!data.length) {
+        //         return false;
+        //     }
+        //     // 如果当前是第一页，那么去获取数据覆盖summary，否则保留原有被覆盖数据
+        //     if ($self.pqGrid('option', 'pageModel.curPage') === 1) {
+        //         $self.summaryRows = [];
+
+        //         // 过滤出放在底部冻结行(合计行)的数据
+        //         for (let i = 0; i < opts.summaryRowIndx.length; i++) {
+        //             const Indx = opts.summaryRowIndx[i] - i;
+        //             if (typeof Indx !== 'number') {
+        //                 return false;
+        //             }
+        //             $self.summaryRows.push(data[Indx]);
+        //             data.splice(Indx, 1);
+        //         }
+        //     }
+        //     response.data = data;
+        //     if (options.dataModel && options.dataModel.getData && typeof options.dataModel.getData === 'function') {
+        //         return options.dataModel.getData(response, textStatus, jqXHR);
+        //     }
+        //     return response;
+        // };
+    }
+};
+export { replaceOption, buildGrid, createCheckBoxColumn, hoverShowTitle, getTotalSummary, fillSummaryData, createSummaryRows };

@@ -1,5 +1,4 @@
-import { fillSummaryData, getTotalSummary } from './summaryMethods';
-import { replaceOption } from './common';
+import { replaceOption, fillSummaryData, getTotalSummary } from './privateMethods';
 
 function Methods(grid) {
     const methods = {
@@ -874,6 +873,9 @@ function Methods(grid) {
                 rowIndx: rowIndx,
                 row: rowdata
             });
+            if (grid.$summary) {
+                this.refreshSummary();
+            }
         },
         /**
          * 返回包含表格的jquery对象
@@ -1056,7 +1058,6 @@ function Methods(grid) {
             grid.pqGrid('createTable', {
                 $cont: grid.$summary,
                 data: grid.summaryRows
-
             });
         },
         /**
