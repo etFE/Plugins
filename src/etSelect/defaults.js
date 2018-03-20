@@ -14,7 +14,7 @@ const defaults = {
     mode: '',
     showClear: true,
     checkboxMode: false,
-    plugins: ['clear_button']
+    plugins: ['clear_button', 'option_title']
 };
 
 export default defaults;
