@@ -46,17 +46,31 @@ function Methods(datepicker) {
          */
         convertDate: (cvtDate, separator) => {
             separator = separator || '-';
-            cvtDate = cvtDate.replace(/yyyy/i, moment().year());
-            cvtDate = cvtDate.replace(/mm/i, moment().month() + 1);
-            cvtDate = cvtDate.replace(/dd/i, moment().date());
+            const year = moment().year();
+            const month = moment().month() + 1;
+            const date = moment().date();
 
-            const cvtDateArr = cvtDate.split(separator);
+            cvtDate = cvtDate.replace(/yyyy/i, year);
+            cvtDate = cvtDate.replace(/mm/i, month);
+            cvtDate = cvtDate.replace(/dd/i, date);
+            cvtDate = cvtDate.replace(/fd/i, '01');
+            cvtDate = cvtDate.replace(/ed/i, new Date(cvtDate.split(separator)[0], cvtDate.split(separator)[1], 0).getDate());
 
-            cvtDateArr[2] = cvtDateArr[2].replace(/fd/i, '01');
-            cvtDateArr[2] = cvtDateArr[2].replace(/ed/i, new Date(cvtDateArr[0], cvtDateArr[1], 0).getDate());
-
-            return moment(cvtDateArr.join(separator), 'YYYY-MM-DD').format('YYYY-MM-DD');
+            return moment(cvtDate, 'YYYY-MM-DD').format('YYYY-MM-DD');
         }
+        // convertDate: (cvtDate, separator) => {
+        //     separator = separator || '-';
+        //     cvtDate = cvtDate.replace(/yyyy/i, moment().year());
+        //     cvtDate = cvtDate.replace(/mm/i, moment().month() + 1);
+        //     cvtDate = cvtDate.replace(/dd/i, moment().date());
+
+        //     const cvtDateArr = cvtDate.split(separator);
+
+        //     cvtDateArr[2] = cvtDateArr[2].replace(/fd/i, '01');
+        //     cvtDateArr[2] = cvtDateArr[2].replace(/ed/i, new Date(cvtDateArr[0], cvtDateArr[1], 0).getDate());
+
+        //     return moment(cvtDateArr.join(separator), 'YYYY-MM-DD').format('YYYY-MM-DD');
+        // }
     };
 
     return obj;
