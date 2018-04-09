@@ -1384,6 +1384,51 @@ function Methods(grid) {
             }
             return isPass;
         },
+
+        /**
+         * 表格数据查重
+         * data为表格数据
+         * repeatFields为需要查重的列name
+         */
+        checkRepeat(data, repeatFields) {
+            const reapeatObj = {};
+            const reapeatNames = [];
+
+            if (Object.prototype.toString.call(data).toLocaleLowerCase() === '[object array]' &&
+            Object.prototype.toString.call(repeatFields).toLocaleLowerCase() === '[object array]') {
+                for (let i = 0; i < repeatFields.length; i++) {
+                    const name = repeatFields[i];
+                    reapeatObj[name] = [];
+
+                    // 将要查重的字段的所有数据放到数组中
+                    for (let j = 0; j < data.length; j++) {
+                        const item = data[j];
+                        reapeatObj[name].push(item[name]);
+                    }
+                    // 判断数组长度 与 去重后的长度是否一致
+                    if (reapeatObj[name].length !== [...new Set(reapeatObj[name])].length) {
+                        reapeatNames.push(name);
+                    }
+                }
+            }
+            let tipMsg = '';
+            reapeatNames.forEach((name) => {
+                const colMsg = this.getColumn(name);
+
+                tipMsg += `${colMsg.title} `;
+            });
+
+            if (tipMsg) {
+                tipMsg += '列，数据不能重复！';
+                if ($.etDialog) {
+                    $.etDialog.error(tipMsg);
+                } else {
+                    alert(tipMsg);
+                }
+                return false;
+            }
+            return true;
+        },
         /**
          * @description 更新grid表头指定列的列名
          * @param {number/string} dataIndx
