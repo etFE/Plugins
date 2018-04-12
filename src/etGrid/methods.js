@@ -1403,7 +1403,7 @@ function Methods(grid) {
 
                     // 将要查重的字段的所有数据放到数组中
                     for (let j = 0; j < data.length; j++) {
-                        const item = data[j];
+                        const item = data[j].rowData ? data[j].rowData : data[j];
                         reapeatObj[name].push(item[name]);
                     }
                     // 判断数组长度 与 去重后的长度是否一致
