@@ -1226,13 +1226,14 @@ function Methods(grid) {
                         let selectId;
                         let selectText;
 
-                        if (source) {
+                        if (source && source.length > 0) {
                             selectId = source[0].id;
                             selectText = source[0].text || source[0].label;
+
+                            newRowData[dataIndx] = selectText;
+                            newRowData[key] = selectId;
                         }
 
-                        newRowData[dataIndx] = selectText;
-                        newRowData[key] = selectId;
                         break;
                     }
                     default:
