@@ -904,14 +904,14 @@ const createSummaryRows = ($self, opts, options) => {
             options.render(event, ui);
         }
     };
-    // 页面初始化、添加、删除时刷新合计
-    opts.beforeTableView = function () {
-        $grid.refreshSummary();
-        if (typeof options.beforeTableView === 'function') {
-            options.beforeTableView();
-        }
-    };
     if (opts.summary) {
+        // 页面初始化、添加、删除时刷新合计
+        opts.beforeTableView = function () {
+            $grid.refreshSummary();
+            if (typeof options.beforeTableView === 'function') {
+                options.beforeTableView();
+            }
+        };
         // 编辑单元格时刷新合计
         opts.refreshCell = function (evt, ui) {
             let cd = ui.newVal;
@@ -959,6 +959,12 @@ const createSummaryRows = ($self, opts, options) => {
                 return response;
             }
         });
+        opts.beforeTableView = function () {
+            grid.pqGrid('createTable', {
+                $cont: grid.$summary,
+                data: grid.summaryRows
+            });
+        };
         // opts.dataModel.getData = function (response, textStatus, jqXHR) {
         //     const data = response.Rows;
         //     if (!data.length) {
