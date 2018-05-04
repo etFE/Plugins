@@ -24,15 +24,15 @@ import initMethod from './methods';
             $self.get(0).style.width = `${opts.width}px`;
         }
 
-
         if (typeof opts.onChange === 'function') {
-            opts.onSelect = function (formattedDate, date, inst) {
-                if (opts.range) {
-                    date = date.map(v => moment(v).format(opts.dateFormat.toUpperCase()));
+            opts.onSelect = function (fd, d, inst) {
+                let date;
+                if (opts.range && d) {
+                    date = d.map(v => moment(v).format(opts.dateFormat.toUpperCase()));
                 } else {
-                    date = formattedDate;
+                    date = fd;
                 }
-                opts.onChange(date);
+                opts.onChange(date, d, inst);
             };
         }
 
