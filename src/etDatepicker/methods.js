@@ -3,9 +3,18 @@ import moment from 'moment';
 function Methods(datepicker) {
     const obj = {
         getValue: (format) => {
-            const { range, dateFormat } = datepicker.opts;
-            const FORMAT = format || dateFormat;
-            const result = datepicker.selectedDates.map(value => moment(value).format(FORMAT.toUpperCase()));
+            const { range, dateFormat, timepicker } = datepicker.opts;
+            let FORMAT = format || dateFormat;
+            FORMAT = FORMAT.toUpperCase();
+
+            if (timepicker && format) {
+                if (format.indexOf('hh') > -1 || format.indexOf('mm') > -1) {
+                    FORMAT = format;
+                }
+            }
+
+            const result = datepicker.selectedDates.map(value => moment(value).format(FORMAT));
+
             return range ? result : (result[0] || '');
         },
         setValue: (value) => {
