@@ -199,6 +199,12 @@ function render($main, options) {
             insertViewList({
                 $ulView, $ulFile, srcList, fileList, multiple, type
             });
+        },
+        setDisable: function () {
+            $main.addClass('disable');
+        },
+        setEnable: function () {
+            $main.removeClass('disable');
         }
     };
     return result;

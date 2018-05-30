@@ -3,6 +3,19 @@
     text-align:center
 }
 
+.etUpload-multiple.disable .view-item:after{
+    content: '';
+    display: block;
+    width: 105%;
+    background-color: black;
+    height: 105%;
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    opacity: 0.5;
+    border-radius: 5px;
+}
+
 .etUpload .image{
     display:block;
     background: url('./empty.jpg') no-repeat center center #f3f3f3; ;
@@ -51,7 +64,7 @@
     line-height: 72px;
     margin:6px;
     display:inline-block;
-   
+    position: relative;
     font-size:30px;
     color:#acb9c7;
     text-align: center;
