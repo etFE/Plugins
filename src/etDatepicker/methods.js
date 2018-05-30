@@ -25,9 +25,9 @@ function Methods(datepicker) {
             if (!value) {
                 return;
             }
-            if (value instanceof Array) {
+            if (Object.prototype.toString.call(value).toLowerCase() === '[object array]') {
                 setDate = value;
-            } else {
+            } else if (typeof value === 'string') {
                 setDate.push(value);
             }
             setDate = setDate.map(v => new Date(v));
