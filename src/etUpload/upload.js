@@ -200,10 +200,10 @@ function render($main, options) {
                 $ulView, $ulFile, srcList, fileList, multiple, type
             });
         },
-        setDisable: function () {
+        disabled: function () {
             $main.addClass('disable');
         },
-        setEnable: function () {
+        enabled: function () {
             $main.removeClass('disable');
         }
     };
