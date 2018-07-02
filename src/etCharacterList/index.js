@@ -4,6 +4,7 @@ const defaults = {
     url: '',
     param: {},
     onClick: null,
+    onInit: null,
     selectedItem: {},
     // msgData: [
     //     { id: 'id' },
@@ -47,40 +48,43 @@ const nothingAnymore = function () {
 };
 
 const loadData = function (url = this.url, param = this.param) {
-    const { $wrap } = this;
-
-    loadLoading.call(this);
-
-    $.ajax({
-        url: url,
-        data: param,
-        type: 'POST',
-        dataType: 'json',
-        success: (res) => {
-            this.total = res.Total || res.Rows.length;
-            const items = res.Rows;
-
-            items.forEach((item) => {
-                this.data.push(item);
-
-                const listHtml =
-                    `<li class="character-item" character-id="${item.user_code}">
-                        <div class="character-avatar">
-                            <img src="${item.photo}" alt="${item.emp_name}" />
-                        </div>
-                        <ul class="character-msg">
-                            <li>姓名：${item.emp_name}</li>
-                            <li>职务：${item.duty_name}</li>
-                            <li>微信：${item.mobile}</li>
-                        </ul>
-                    </li>`;
-
-                $wrap.append(listHtml);
-            });
-            removeLoading.call(this);
-            this.scrollFlag = true;
-        }
-    });
+    return new Promise((resolve, reject) => {
+        const { $wrap } = this;
+    
+        loadLoading.call(this);
+    
+        $.ajax({
+            url: url,
+            data: param,
+            type: 'POST',
+            dataType: 'json',
+            success: (res) => {
+                this.total = res.Total || res.Rows.length;
+                const items = res.Rows;
+    
+                items.forEach((item) => {
+                    this.data.push(item);
+    
+                    const listHtml =
+                        `<li class="character-item" character-id="${item.user_code}">
+                            <div class="character-avatar">
+                                <img src="${item.photo}" alt="${item.emp_name}" />
+                            </div>
+                            <ul class="character-msg">
+                                <li>姓名：${item.emp_name}</li>
+                                <li>职务：${item.duty_name}</li>
+                                <li>微信：${item.mobile}</li>
+                            </ul>
+                        </li>`;
+    
+                    $wrap.append(listHtml);
+                });
+                removeLoading.call(this);
+                this.scrollFlag = true;
+                resolve(res)
+            }
+        });
+    })
 };
 
 // init
@@ -93,7 +97,9 @@ const init = function () {
         param.changepage = pageModel.changepage;
         param.pagesize = pageModel.pagesize;
     }
-    loadData.call(this);
+    loadData.call(this).then((res) => {
+        this.onInit && this.onInit(res)
+    });
 };
 
 // events
@@ -158,6 +164,15 @@ class CharacterList {
         init.call(this);
     }
 
+    // 获取状态
+    setSelectedItem(id) {
+        const theSelectItem = this.$wrap.find(`li[character-id=${id}]`)
+        if (theSelectItem.get(0)) {
+            this.clearSelected()
+            theSelectItem.addClass('active')
+            this.selectedItem.user_code = id
+        }
+    }
     // 获取状态
     getSelectedItem() {
         return this.selectedItem;
